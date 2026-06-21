@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Club des Périgourdins - Top Baignades & Recherche Dordogne</title>
+    <!-- Liens CSS Leaflet pour la carte -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        :root {
+            --primary: #2d6a4f;
+            --secondary: #1b4332;
+            --accent: #52b788;
+            --bg: #f8f9fa;
+            --text: #212529;
+            --favorite: #d90429;
+            --public-db: #00539c;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg);
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        header {
+            background-color: var(--secondary);
+            color: white;
+            padding: 15px 20px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        header h1 { margin: 0; font-size: 1.5rem; }
+        header p { margin: 5px 0 0 0; font-style: italic; color: var(--accent); }
+
+        .main-container {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        /* Barre latérale gauche */
+        .sidebar {
+            width: 360px;
+            background: white;
+            border-right: 1px solid #dee2e6;
+            display: flex;
+            flex-direction: column;
+            z-index: 10;
+        }
+
+        .sidebar-section {
+            padding: 15px 10px;
+            overflow-y: auto;
+        }
+        
+        #general-list {
+            flex: 1.5;
+            border-bottom: 2px dashed #dee2e6;
+        }
+
+        #notebook-list {
+            flex: 1.5;
+            background-color: #fdfdfd;
+        }
+
+        .sidebar h2 {
+            font-size: 1.1rem;
+            margin: 0 0 10px 5px;
+            color: var(--secondary);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .spot-item {
+            padding: 12px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            background: #f1f5f3;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-left: 5px solid var(--accent);
+            position: relative;
+        }
+
+        .spot-item.custom-spot {
+            border-left: 5px solid var(--public-db);
+            background: #f0f4f8;
+        }
+
+        .spot-item:hover {
+            background: #e2ece9;
+            transform: translateX(5px);
+        }
+        .spot-item.custom-spot:hover {
+            background: #e1e9f0;
+        }
+
+        .spot-item h3 { margin: 0 0 5px 0; font-size: 1rem; color: var(--secondary); }
+        .spot-item p { margin: 0; font-size: 0.85rem; color: #6c757d; }
+        
+        /* Badge favori */
+        .badge-fav {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            color: var(--favorite);
+            font-size: 1rem;
+            display: none;
+        }
+        .spot-item.is-fav .badge-fav { display: block; }
+
+        /* Conteneur Carte et Recherche */
+        .map-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            background-color: #e5e3df;
+        }
+
+        /* Barre de recherche au-dessus de la carte */
+        .search-container {
+            position: absolute;
+            top: 15px;
+            left: 50px;
+            z-index: 1100;
+            width: 340px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 10px 15px;
+            border-radius: 25px;
+            border: 1px solid #ccc;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            font-size: 0.9rem;
+            outline: none;
+            box-sizing: border-box;
+        }
+
+        .search-input:focus {
+            border-color: var(--accent);
+        }
+
+        .search-results {
+            position: absolute;
+            top: 42px;
+            left: 0;
+            width: 100%;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            max-height: 250px;
+            overflow-y: auto;
+            display: none;
+        }
+
+        .search-result-item {
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .search-result-item:last-child { border-bottom: none; }
+        .search-result-item:hover { background-color: #f1f5f3; color: var(--primary); }
+        
+        .search-result-item.public-db-item {
+            background-color: #f9fbfd;
+            border-left: 3px solid var(--public-db);
+        }
+        .search-result-item.public-db-item:hover {
+            background-color: #f0f4f8;
+        }
+
+        .search-divider {
+            background: #eee;
+            padding: 5px 15px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            color: #666;
+            text-transform: uppercase;
+        }
+
+        #map {
+            flex: 1;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Style bulle de la carte (Popup Leaflet) */
+        .popup-bubble-content {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+            padding: 5px;
+        }
+        .popup-bubble-content h4 { 
+            margin: 0 0 8px 0; 
+            color: var(--secondary);
+            font-size: 0.95rem;
+        }
+        .popup-btn {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+        .popup-btn.active { background: var(--favorite); }
+
+        /* Panneau de détails bas */
+        .details-panel {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.15);
+            padding: 20px;
+            z-index: 1000;
+            display: none;
+            max-height: 45%;
+            overflow-y: auto;
+            animation: slideUp 0.3s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .details-content { display: flex; gap: 20px; }
+        .details-img { width: 200px; height: 130px; object-fit: cover; border-radius: 8px; background: #ddd; }
+        .details-info { flex: 1; }
+        .details-info h2 { margin: 0 0 10px 0; color: var(--primary); }
+        .details-info ul { margin: 0 0 15px 0; padding-left: 20px; font-size: 0.95rem;}
+        
+        .btn-container { display: flex; gap: 10px; flex-wrap: wrap; }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 8px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            font-size: 0.85rem;
+            transition: background 0.2s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-google { background-color: #4285F4; }
+        .btn-google:hover { background-color: #357ae8; }
+        .btn-images { background-color: #fbbc05; color: #1a1a1a; }
+        .btn-images:hover { background-color: #eaac04; }
+        .btn-notebook { background-color: #6c757d; }
+        .btn-notebook:hover { background-color: #5a6268; }
+        .btn-notebook.active { background-color: var(--favorite); }
+        .btn-notebook.active:hover { background-color: #b3031e; }
+        
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #aaa;
+        }
+
+        .empty-notebook { font-style: italic; color: #888; font-size: 0.9rem; padding-left: 5px; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>🌿 RECHERCHE SPOTS Baignade EN DORDOGNE  (TP 06/2026)</h1>
+        <p>Recherche OpenStreetMap (Dordogne)</p>
+    </header>
+
+    <div class="main-container">
+        <div class="sidebar">
+            <div class="sidebar-section" id="general-list">
+                <h2>🗺️ TOP 10 des SPOTS</h2>
+            </div>
+            <div class="sidebar-section" id="notebook-list">
+                <h2>📖 Mon Carnet Virtuel (<span id="nb-count">0</span>)</h2>
+                <div id="notebook-items"></div>
+            </div>
+        </div>
+
+        <div class="map-section">
+            <!-- Barre de Recherche Hybride -->
+            <div class="search-container">
+                <input type="text" id="search-input" class="search-input" placeholder="🔍 Taper un lieu (ex: Sarlat, Chateau de Beynac...)" oninput="handleSearch()">
+                <div id="search-results" class="search-results"></div>
+            </div>
+
+            <div id="map"></div>
+
+            <div class="details-panel" id="details-panel">
+                <button class="close-btn" onclick="closeDetails()">×</button>
+                <div class="details-content" id="details-content"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script Leaflet JS pour la carte -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        const initialSpots = [
+            { id: 1, title: "1. Saint-Julien-de-Lampon (Plage discrète)", lat: 44.8645, lng: 1.3532, desc: ["Le vrai spot 'tranquille'", "Petite plage naturelle, très peu de monde.", "Eau large et agréable."], img: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=500&auto=format&fit=crop&q=60", isCustom: false },
+            { id: 2, title: "2. Carsac-Aillac – Rocher de la Cave", lat: 44.8398, lng: 1.2995, desc: ["Zone connue... mais cachée si tu t'éloignes", "Criques naturelles", "Coins ombragés sous les arbres."], img: "https://images.unsplash.com/photo-1610123598147-f632aa18b275?w=500&auto=format&fit=crop&q=60", isCustom: false },
+            { id: 3, title: "3. Vitrac (Amont / Aval)", lat: 44.8302, lng: 1.2315, desc: ["À 200m de la plage principale = calme total", "Bancs de sable isolés", "Le secret bien gardé des locaux."], img: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=500&auto=format&fit=crop&q=60", isCustom: false },
+            { id: 4, title: "4. La Roque-Gageac (Criques sous falaise)", lat: 44.8252, lng: 1.1838, desc: ["Petites plages caches sous les falaises", "Ambiance magique le soir."], img: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=500&auto=format&fit=crop&q=60", isCustom: false },
+            { id: 5, title: "5. Beynac – Berges secondaires", lat: 44.8385, lng: 1.1442, desc: ["Accès rivière discret", "Zones calmes derrière les embarcadères."], img: "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?w=500&auto=format&fit=crop&q=60", isCustom: false },
+            { id: 6, title: "6. Limeuil (Côté Vézère)", lat: 44.8833, lng: 0.8936, desc: ["La confluence magique", "Côté Vézère = beaucoup plus calme."], img: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=500&auto=format&fit=crop&q=60", isCustom: false },
+            { id: 7, title: "7. Tamniès (Hors plage principale)", lat: 44.9658, lng: 1.1511, desc: ["Plan d'eau connu mais berges secondaires tranquilles."], img: "https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=500&auto=format&fit=crop&q=60", isCustom: false },
+            { id: 8, title: "8. Groléjac (Contours du lac)", lat: 44.8211, lng: 1.2915, desc: ["Le spot familial... mais stratégique", "Contour gauche = beaucoup moins de monde."], img: "https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=500&auto=format&fit=crop&q=60", isCustom: false },
+            { id: 9, title: "9. Castelnaud – Aval du pont", lat: 44.8315, lng: 1.1482, desc: ["Moins connu des touristes", "Petites plages naturelles."], img: "https://images.unsplash.com/photo-1434064511983-18c6dae20ed5?w=500&auto=format&fit=crop&q=60", isCustom: false },
+            { id: 10, title: "10. Coux-et-Bigaroque (Berges sauvages)", lat: 44.8342, lng: 0.9739, desc: ["Un des coins les plus 'nature'", "Parfait pour une baignade 100% sauvage."], img: "https://images.unsplash.com/photo-1473448912268-2022ce9509d8?w=500&auto=format&fit=crop&q=60", isCustom: false }
+        ];
+
+        let savedSpotIds = JSON.parse(localStorage.getItem('perigourdins_notebook_ids')) || [];
+        let customSpots = JSON.parse(localStorage.getItem('perigourdins_custom_spots')) || [];
+        let allSpots = [...initialSpots, ...customSpots];
+        
+        let map;
+        const markers = {};
+        let searchTimeout;
+
+        // Génération de la liste fixe des 10 secrets à gauche
+        const generalList = document.getElementById('general-list');
+        initialSpots.forEach(spot => {
+            const item = document.createElement('div');
+            item.className = 'spot-item';
+            item.id = `spot-item-${spot.id}`;
+            if (savedSpotIds.includes(spot.id)) item.classList.add('is-fav');
+
+            item.innerHTML = `
+                <span class="badge-fav">❤️</span>
+                <h3>${spot.title}</h3>
+                <p>${spot.desc[0]}</p>
+            `;
+            item.onclick = () => selectSpot(spot);
+            generalList.appendChild(item);
+        });
+
+        // Initialisation de la Carte Leaflet
+        try {
+            map = L.map('map').setView([44.88, 1.15], 10);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap'
+            }).addTo(map);
+
+            allSpots.forEach(spot => createMarker(spot));
+        } catch (e) {
+            console.error("Erreur de carte :", e);
+        }
+
+        function createMarker(spot) {
+            if (!map || markers[spot.id]) return;
+            const marker = L.marker([spot.lat, spot.lng]).addTo(map);
+            marker.bindPopup(() => createPopupContent(spot));
+            marker.on('click', () => selectSpot(spot, false));
+            markers[spot.id] = marker;
+        }
+
+        // RECHERCHE AU FUR ET À MESURE DE LA FRAPPE (Debounce dynamique)
+        function handleSearch() {
+            clearTimeout(searchTimeout);
+            const query = document.getElementById('search-input').value.trim();
+            const resultsContainer = document.getElementById('search-results');
+            
+            if (query === '' || query.length < 3) {
+                resultsContainer.innerHTML = (query.length > 0 && query.length < 3) ? 
+                    '<div class="search-result-item" style="color:#888; cursor:default;">Tapez au moins 3 caractères...</div>' : '';
+                resultsContainer.style.display = query.length > 0 ? 'block' : 'none';
+                return;
+            }
+
+            // 1. Filtrage en direct dans la base locale (les 10 + vos ajouts passés)
+            const localFiltered = allSpots.filter(spot => 
+                spot.title.toLowerCase().includes(query.toLowerCase())
+            );
+
+            // Rendu immédiat des données locales pour garantir la réactivité de la frappe
+            renderSearchResults(localFiltered, [], resultsContainer);
+
+            // 2. Requête API OpenStreetMap (Photon) limitée géographiquement à la boîte de la Dordogne
+            // Bounding box approximative Dordogne : lon_min=0.0, lat_min=44.5, lon_max=1.8, lat_max=45.7
+            searchTimeout = setTimeout(async () => {
+                try {
+                    const url = `https://photon.komoot.io/api/?q=${encodeURIComponent(query)}&lang=fr&limit=6&bbox=0.0,44.5,1.8,45.7`;
+                    const response = await fetch(url);
+                    const data = await response.json();
+                    
+                    if (data.features) {
+                        const publicResults = data.features.map(feat => {
+                            const props = feat.properties;
+                            // Construire un titre propre selon les infos dispos
+                            let name = props.name || props.street || "Lieu sans nom";
+                            let context = [props.postcode, props.city].filter(Boolean).join(' ');
+                            
+                            return {
+                                id: 'public-' + (props.osm_id || Math.random()),
+                                title: name + (context ? ` (${context})` : ''),
+                                lat: feat.geometry.coordinates[1],
+                                lng: feat.geometry.coordinates[0],
+                                desc: [`Catégorie : ${props.type || 'Lieu-dit'}`, `Trouvé via OpenStreetMap.`, `Coordonnées : ${feat.geometry.coordinates[1].toFixed(4)}, ${feat.geometry.coordinates[0].toFixed(4)}`],
+                                img: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=500&auto=format&fit=crop&q=60",
+                                isCustom: true
+                            };
+                        });
+                        
+                        // Fusionner l'affichage
+                        renderSearchResults(localFiltered, publicResults, resultsContainer);
+                    }
+                } catch (err) {
+                    console.error("Erreur de recherche externe Photon :", err);
+                }
+            }, 300); // 300ms de délai après l'arrêt de la frappe pour ne pas surcharger l'API
+        }
+
+        function renderSearchResults(localItems, publicItems, container) {
+            container.innerHTML = '';
+
+            if (localItems.length === 0 && publicItems.length === 0) {
+                container.innerHTML = '<div class="search-result-item" style="color:#888; cursor:default;">Aucun résultat en Dordogne...</div>';
+                container.style.display = 'block';
+                return;
+            }
+
+            // Spots existants
+            if (localItems.length > 0) {
+                const divSep = document.createElement('div');
+                divSep.className = 'search-divider';
+                divSep.innerText = '✨ Vos spots & Secrets';
+                container.appendChild(divSep);
+
+                localItems.forEach(spot => {
+                    const div = document.createElement('div');
+                    div.className = 'search-result-item';
+                    div.innerHTML = `📍 <b>${spot.title}</b>`;
+                    div.onclick = () => triggerSelection(spot);
+                    container.appendChild(div);
+                });
+            }
+
+            // Nouveaux sites d'OpenStreetMap (Filtre les doublons de noms déjà ajoutés)
+            const filteredPublic = publicItems.filter(p => !allSpots.some(l => l.title.split(' (')[0] === p.title.split(' (')[0]));
+
+            if (filteredPublic.length > 0) {
+                const divSep = document.createElement('div');
+                divSep.className = 'search-divider';
+                divSep.innerText = '🌐 Base Publique OpenStreetMap';
+                container.appendChild(divSep);
+
+                filteredPublic.forEach(spot => {
+                    const div = document.createElement('div');
+                    div.className = 'search-result-item public-db-item';
+                    div.innerHTML = `➕ <b>${spot.title}</b> <small style="display:block;color:#555">Ajouter, localiser et inscrire</small>`;
+                    div.onclick = () => {
+                        spot.id = "custom-" + Date.now(); // Génération ID unique permanent
+                        allSpots.push(spot);
+                        createMarker(spot);
+                        triggerSelection(spot);
+                    };
+                    container.appendChild(div);
+                });
+            }
+            container.style.display = 'block';
+        }
+
+        function triggerSelection(spot) {
+            selectSpot(spot, true);
+            document.getElementById('search-input').value = '';
+            document.getElementById('search-results').style.display = 'none';
+        }
+
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.search-container')) {
+                document.getElementById('search-results').style.display = 'none';
+            }
+        });
+
+        function createPopupContent(spot) {
+            const isFavorite = savedSpotIds.includes(spot.id);
+            const div = document.createElement('div');
+            div.className = 'popup-bubble-content';
+            div.innerHTML = `
+                <h4>${spot.title}</h4>
+                <button class="popup-btn ${isFavorite ? 'active' : ''}" onclick="toggleNotebook('${spot.id}'); refreshPopup('${spot.id}'); event.stopPropagation();">
+                    ${isFavorite ? '❤️ Retirer' : '📖 Inscrire au carnet'}
+                </button>
+            `;
+            return div;
+        }
+
+        function refreshPopup(spotId) {
+            const marker = markers[spotId];
+            if (marker && map && marker.isPopupOpen()) {
+                marker.setPopupContent(createPopupContent(allSpots.find(s => s.id == spotId)));
+            }
+        }
+
+        function selectSpot(spot, repositionMap = true) {
+            if (map && markers[spot.id]) {
+                if (repositionMap) map.setView([spot.lat, spot.lng], 14);
+                markers[spot.id].openPopup();
+            }
+
+            const googleMapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${spot.lat},${spot.lng}`;
+            const googleImagesUrl = `https://www.google.com/search?tbm=isch&q=${encodeURIComponent(spot.title)}`;
+            const isFavorite = savedSpotIds.includes(spot.id);
+
+            const detailsContent = document.getElementById('details-content');
+            let descListHtml = spot.desc.map(line => `<li>${line}</li>`).join('');
+
+            detailsContent.innerHTML = `
+                <img src="${spot.img}" alt="${spot.title}" class="details-img">
+                <div class="details-info">
+                    <h2>${spot.title} <small style="font-size:0.8rem; color:${spot.isCustom ? 'var(--public-db)':'var(--accent)'}">${spot.isCustom ? '[Nouveau Site Externe]' : '[Secret Local]'}</small></h2>
+                    <ul>${descListHtml}</ul>
+                    <div class="btn-container">
+                        <a href="${googleMapsUrl}" target="_blank" class="btn btn-google">🗺️ Itinéraire</a>
+                        <a href="${googleImagesUrl}" target="_blank" class="btn btn-images">📸 Photos</a>
+                        <button id="notebook-toggle-btn" class="btn btn-notebook ${isFavorite ? 'active' : ''}" onclick="toggleNotebook('${spot.id}'); refreshPopup('${spot.id}');">
+                            ${isFavorite ? '❤️ Inscrit dans mon Carnet' : '📖 Inscrire dans mon Carnet'}
+                        </button>
+                    </div>
+                </div>
+            `;
+            document.getElementById('details-panel').style.display = 'block';
+        }
+
+        function toggleNotebook(spotId) {
+            const index = savedSpotIds.indexOf(spotId);
+            const mainListItem = document.getElementById(`spot-item-${spotId}`);
+            const detailBtn = document.getElementById('notebook-toggle-btn');
+            const targetSpot = allSpots.find(s => s.id == spotId);
+
+            if (index > -1) {
+                savedSpotIds.splice(index, 1);
+                if (mainListItem) mainListItem.classList.remove('is-fav');
+                if (detailBtn) {
+                    detailBtn.classList.remove('active');
+                    detailBtn.innerText = '📖 Inscrire dans mon Carnet';
+                }
+                
+                if (targetSpot && targetSpot.isCustom) {
+                    customSpots = customSpots.filter(s => s.id != spotId);
+                    localStorage.setItem('perigourdins_custom_spots', JSON.stringify(customSpots));
+                }
+            } else {
+                savedSpotIds.push(spotId);
+                if (mainListItem) mainListItem.classList.add('is-fav');
+                if (detailBtn) {
+                    detailBtn.classList.add('active');
+                    detailBtn.innerText = '❤️ Inscrit dans mon Carnet';
+                }
+
+                if (targetSpot && targetSpot.isCustom && !customSpots.some(s => s.id == spotId)) {
+                    customSpots.push(targetSpot);
+                    localStorage.setItem('perigourdins_custom_spots', JSON.stringify(customSpots));
+                }
+            }
+
+            localStorage.setItem('perigourdins_notebook_ids', JSON.stringify(savedSpotIds));
+            updateNotebookUI();
+        }
+
+        function updateNotebookUI() {
+            const container = document.getElementById('notebook-items');
+            container.innerHTML = '';
+            document.getElementById('nb-count').innerText = savedSpotIds.length;
+
+            if (savedSpotIds.length === 0) {
+                container.innerHTML = '<span class="empty-notebook">Votre carnet est vide. Tapez un nom de lieu dans la barre au-dessus de la carte pour l\'ajouter.</span>';
+                return;
+            }
+
+            allSpots.forEach(spot => {
+                if (savedSpotIds.includes(spot.id.toString()) || savedSpotIds.includes(spot.id)) {
+                    const item = document.createElement('div');
+                    item.className = `spot-item is-fav ${spot.isCustom ? 'custom-spot' : ''}`;
+                    item.innerHTML = `
+                        <span class="badge-fav">❤️</span>
+                        <h3>${spot.title}</h3>
+                        <p>${spot.isCustom ? '🌐 Base OpenStreetMap' : '📍 Secret initial'}</p>
+                    `;
+                    item.onclick = () => selectSpot(spot);
+                    container.appendChild(item);
+                }
+            });
+        }
+
+        function closeDetails() {
+            document.getElementById('details-panel').style.display = 'none';
+        }
+
+        updateNotebookUI();
+    </script>
+</body>
+</html>
