@@ -17,7 +17,114 @@
       "desc": "Base nautique de Brive.",
       "img": null,
       "isCustom": true
+    },
+    {
+      "id": 1,
+      "title": "1. Saint-Julien-de-Lampon (Plage discrète)",
+      "lat": 44.8645,
+      "lng": 1.3532,
+      "desc": "Le vrai spot 'tranquille', Petite plage naturelle, très peu de monde., Eau large et agréable.",
+      "img": null,
+      "isCustom": false
+    },
+    {
+      "id": 2,
+      "title": "2. Carsac-Aillac – Rocher de la Cave",
+      "lat": 44.8398,
+      "lng": 1.2995,
+      "desc": "Zone connue... mais cachée si tu t'éloignes, Criques naturelles, Coins ombragés sous les arbres.",
+      "img": null,
+      "isCustom": false
+    },
+    {
+      "id": 3,
+      "title": "3. Vitrac (Amont / Aval)",
+      "lat": 44.8302,
+      "lng": 1.2315,
+      "desc": "À 200m de la plage principale = calme total, Bancs de sable isolés, Le secret bien gardé des locaux.",
+      "img": null,
+      "isCustom": false
+    },
+    {
+      "id": 4,
+      "title": "4. La Roque-Gageac (Criques sous falaise)",
+      "lat": 44.8252,
+      "lng": 1.1838,
+      "desc": "Petites plages caches sous les falaises, Ambiance magique le soir.",
+      "img": null,
+      "isCustom": false
+    },
+    {
+      "id": 5,
+      "title": "5. Beynac – Berges secondaires",
+      "lat": 44.8385,
+      "lng": 1.1442,
+      "desc": "Accès rivière discret, Zones calmes derrière les embarcadères.",
+      "img": null,
+      "isCustom": false
+    },
+    {
+      "id": 6,
+      "title": "6. Limeuil (Côté Vézère)",
+      "lat": 44.8833,
+      "lng": 0.8936,
+      "desc": "La confluence magique, Côté Vézère = beaucoup plus calme.",
+      "img": null,
+      "isCustom": false
+    },
+    {
+      "id": 7,
+      "title": "7. Tamniès (Hors plage principale)",
+      "lat": 44.9658,
+      "lng": 1.1511,
+      "desc": "Plan d'eau connu mais berges secondaires tranquilles.",
+      "img": null,
+      "isCustom": false
+    },
+    {
+      "id": 8,
+      "title": "8. Groléjac (Contours du lac)",
+      "lat": 44.8211,
+      "lng": 1.2915,
+      "desc": "Le spot familial... mais stratégique, Contour gauche = beaucoup moins de monde.",
+      "img": null,
+      "isCustom": false
+    },
+    {
+      "id": 9,
+      "title": "9. Castelnaud – Aval du pont",
+      "lat": 44.8192,
+      "lng": 1.1485,
+      "desc": "Juste après la zone de canoës, Plage de galets agréables, Vue imprenable sur le château.",
+      "img": null,
+      "isCustom": false
+    },
+    {
+      "id": 10,
+      "title": "10. Saint-Cyprien (Le Garrit)",
+      "lat": 44.8588,
+      "lng": 1.0125,
+      "desc": "Près du vieux pont métallique, Un grand classique mais spacieux.",
+      "img": null,
+      "isCustom": false
+    },
+    {
+      "id": 11,
+      "title": "11. Siorac-en-Périgord (Plage du pont)",
+      "lat": 44.8202,
+      "lng": 0.9885,
+      "desc": "Très accessible, Idéal en fin de journée.",
+      "img": null,
+      "isCustom": false
+    },
+    {
+      "id": 12,
+      "title": "12. Le Buisson (Plage du Pont de Vicq)",
+      "lat": 44.8435,
+      "lng": 0.9232,
+      "desc": "Superbe étendue, Très agréable, Facile pour se garer.",
+      "img": null,
+      "isCustom": false
     }
-    
   ]
 }
