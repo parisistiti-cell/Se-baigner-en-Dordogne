@@ -9,5 +9,15 @@
       "img": null,
       "isCustom": true
     }
+    {
+      "id": "admin-2",
+      "title": "Lac du Causse (Lissac 19))",
+      "lat": 45.0957372,
+      "lng": 1.4488694,
+      "desc": "Base nautique de Brive.",
+      "img": null,
+      "isCustom": true
+    }
+    
   ]
 }
