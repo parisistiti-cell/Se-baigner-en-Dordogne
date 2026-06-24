@@ -1,0 +1,13 @@
+{
+  "lieux": [
+    {
+      "id": "admin-1",
+      "title": "Lieu exemple",
+      "lat": 44.123456,
+      "lng": 1.234567,
+      "desc": "Courte description.",
+      "img": null,
+      "isCustom": true
+    }
+  ]
+}
