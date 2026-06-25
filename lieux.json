@@ -165,6 +165,14 @@
       "lng": 1.0239386558532717,
       "desc": "Un coin de pré juste fauché près de La Loue.",
       "img": null
+    },
+    {
+      "id": "40314a10-db82-4c55-b90a-080caf5ff660",
+      "title": "HPN",
+      "lat": 45.20884640674488,
+      "lng": 0.7171583175659181,
+      "desc": "Au milieu des pins.",
+      "img": null
     }
   ]
 }
