@@ -157,6 +157,14 @@
       "lng": 0.9276098012924195,
       "desc": "Un coin de pré au bord de La Loue.",
       "img": null
+    },
+    {
+      "id": "ee67c9ea-2c07-425e-aba8-f2bf4cf76713",
+      "title": "B AM",
+      "lat": 45.31691093604066,
+      "lng": 1.0239386558532717,
+      "desc": "Un coin de pré juste fauché près de La Loue.",
+      "img": null
     }
   ]
 }
