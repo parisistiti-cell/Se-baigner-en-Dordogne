@@ -125,6 +125,14 @@
       "desc": "Superbe étendue, Très agréable, Facile pour se garer.",
       "img": null,
       "isCustom": false
+    },
+    {
+      "id": 1782369523832,
+      "title": "test",
+      "lat": 44.992980024508974,
+      "lng": 1.7303466796875002,
+      "desc": "",
+      "img": null
     }
   ]
 }
