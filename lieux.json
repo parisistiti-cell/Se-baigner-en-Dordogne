@@ -100,6 +100,14 @@
       "lng": -2.376475451463998,
       "desc": "Plage des Sabias",
       "img": null
+    },
+    {
+      "id": "ca16a296-6f34-4d2f-b3d8-b8afab7deb66",
+      "title": "Ile de ré",
+      "lat": 46.24609845037506,
+      "lng": -1.533216789656198,
+      "desc": "Plage des Baleines",
+      "img": null
     }
   ]
 }
