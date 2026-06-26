@@ -364,6 +364,14 @@
       "lng": -9.044157346623768,
       "desc": "la ville",
       "img": null
+    },
+    {
+      "id": "0c3c0540-6bc3-4a58-b17a-dcfba345d423",
+      "title": "RVB",
+      "lat": 45.1872430850933,
+      "lng": 0.741029579411019,
+      "desc": "Pique-nique",
+      "img": null
     }
   ]
 }
