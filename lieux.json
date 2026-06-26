@@ -556,6 +556,14 @@
       "lng": 2.1523761749267583,
       "desc": "Parc Güell, Sagrada Família",
       "img": null
+    },
+    {
+      "id": "5a10a7a7-8578-405d-b83d-c775afa306eb",
+      "title": "Amsterdam",
+      "lat": 52.3710465081037,
+      "lng": 4.8925209045410165,
+      "desc": "Ville",
+      "img": null
     }
   ]
 }
