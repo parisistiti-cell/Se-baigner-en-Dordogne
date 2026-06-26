@@ -236,6 +236,14 @@
       "lng": 2.818796926745071,
       "desc": "Sources de la Dordogne",
       "img": null
+    },
+    {
+      "id": "b59cb798-f750-4843-bc53-6d8a851e0edd",
+      "title": "Lurs (04700)",
+      "lat": 43.9639068410488,
+      "lng": 5.865904669571149,
+      "desc": "Cascade de Lauzon",
+      "img": null
     }
   ]
 }
