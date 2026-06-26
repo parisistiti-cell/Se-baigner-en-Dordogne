@@ -20,7 +20,7 @@
     },
     {
       "id": 10,
-      "title": "10. Saint-Cyprien (Le Garrit)",
+      "title": "Saint-Cyprien (Le Garrit)",
       "lat": 44.8588,
       "lng": 1.0125,
       "desc": "Près du vieux pont métallique, Un grand classique mais spacieux.",
@@ -29,7 +29,7 @@
     },
     {
       "id": 11,
-      "title": "11. Siorac-en-Périgord (Plage du pont)",
+      "title": "Siorac-en-Périgord (Plage du pont)",
       "lat": 44.8202,
       "lng": 0.9885,
       "desc": "Très accessible, Idéal en fin de journée.",
@@ -38,7 +38,7 @@
     },
     {
       "id": 12,
-      "title": "12. Le Buisson (Plage du Pont de Vicq)",
+      "title": "Le Buisson (Plage du Pont de Vicq)",
       "lat": 44.8435,
       "lng": 0.9232,
       "desc": "Superbe étendue, Très agréable, Facile pour se garer.",
@@ -47,7 +47,7 @@
     },
     {
       "id": "0e81b8f1-721a-41ec-85ed-73a1c120a4a0",
-      "title": "dcb",
+      "title": "DCB",
       "lat": 45.302776639208,
       "lng": 0.9313058853149415,
       "desc": "Chemin de terre dans les bois , dernier lieu.",
@@ -55,7 +55,7 @@
     },
     {
       "id": "ee67c9ea-2c07-425e-aba8-f2bf4cf76713",
-      "title": "B AM",
+      "title": "BAM",
       "lat": 45.31691093604066,
       "lng": 1.0239386558532717,
       "desc": "Un coin de pré juste fauché près de La Loue.",
