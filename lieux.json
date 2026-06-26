@@ -628,6 +628,14 @@
       "lng": 2.5680541992187504,
       "desc": "Musée Soulages",
       "img": null
+    },
+    {
+      "id": "6111b7f7-521a-46d5-9a17-39856b1c6f3c",
+      "title": "Albi",
+      "lat": 43.924305793877586,
+      "lng": 2.1427631378173833,
+      "desc": "Cathédrale Sainte-Cécile d'Albi",
+      "img": null
     }
   ]
 }
