@@ -596,6 +596,14 @@
       "lng": 5.447502136230469,
       "desc": "La ville et autour",
       "img": null
+    },
+    {
+      "id": "994897fc-32bb-4df6-9805-bc5c29a89e77",
+      "title": "(75001 Paris)",
+      "lat": 48.857721591631446,
+      "lng": 2.341117858886719,
+      "desc": "Louvre - Rivoli",
+      "img": null
     }
   ]
 }
