@@ -172,6 +172,14 @@
       "lng": 4.101612265460899,
       "desc": "Au bord du Chassezac",
       "img": null
+    },
+    {
+      "id": "41f3f40b-3c13-4df1-8524-3f37da09ebf9",
+      "title": "Cirque de Navacelle",
+      "lat": 43.89539906499918,
+      "lng": 3.5101259417267414,
+      "desc": "Au bord de la Vis",
+      "img": null
     }
   ]
 }
