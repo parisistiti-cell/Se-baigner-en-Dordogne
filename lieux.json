@@ -156,6 +156,14 @@
       "lng": -3.8539923415279724,
       "desc": "Chemin de l'océan",
       "img": null
+    },
+    {
+      "id": "6b4128bb-e959-4622-ac00-c198366f6177",
+      "title": "Perros-Guirec",
+      "lat": 48.81983458614065,
+      "lng": -3.460652600746049,
+      "desc": "Sentier des douaniers",
+      "img": null
     }
   ]
 }
