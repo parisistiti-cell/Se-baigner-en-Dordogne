@@ -132,6 +132,14 @@
       "lng": -1.2236480636379723,
       "desc": "En face du Banc d'Arguin",
       "img": null
+    },
+    {
+      "id": "831e05b8-b82b-4da4-93d0-7e2f867db613",
+      "title": "Le Porge",
+      "lat": 44.89607217843527,
+      "lng": -1.2176803716328324,
+      "desc": "Plage Le Porge Océan",
+      "img": null
     }
   ]
 }
