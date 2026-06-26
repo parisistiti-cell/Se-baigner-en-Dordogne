@@ -19,15 +19,6 @@
       "isCustom": true
     },
     {
-      "id": 1,
-      "title": "1. Saint-Julien-de-Lampon (Plage discrète)",
-      "lat": 44.8645,
-      "lng": 1.3532,
-      "desc": "Le vrai spot 'tranquille', Petite plage naturelle, très peu de monde., Eau large et agréable.",
-      "img": null,
-      "isCustom": false
-    },
-    {
       "id": 2,
       "title": "2. Carsac-Aillac – Rocher de la Cave",
       "lat": 44.8398,
