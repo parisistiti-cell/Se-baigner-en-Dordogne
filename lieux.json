@@ -92,6 +92,14 @@
       "lng": 1.2641561605528562,
       "desc": "Au bord du ruisseau.",
       "img": null
+    },
+    {
+      "id": "ac73264a-119d-44ed-9aad-fbd0f3b98739",
+      "title": "Ile d'Yeu",
+      "lat": 46.70290064112498,
+      "lng": -2.376475451463998,
+      "desc": "Plage des Sabias",
+      "img": null
     }
   ]
 }
