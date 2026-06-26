@@ -532,6 +532,14 @@
       "lng": -9.040911197662355,
       "desc": "La ville",
       "img": null
+    },
+    {
+      "id": "ea167b20-4149-451d-a902-2ca74181a7a1",
+      "title": "Cork",
+      "lat": 51.894606762184814,
+      "lng": -8.474407196044924,
+      "desc": "English Market",
+      "img": null
     }
   ]
 }
