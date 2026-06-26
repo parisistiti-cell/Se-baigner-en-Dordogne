@@ -412,6 +412,14 @@
       "lng": -1.1764439799453787,
       "desc": "Dans les pins.",
       "img": null
+    },
+    {
+      "id": "6b22633f-5313-4356-b6a5-db3f6355002c",
+      "title": "Pessac",
+      "lat": 44.806605990118754,
+      "lng": -0.6298481223348262,
+      "desc": "Cénéma Jean Eustache",
+      "img": null
     }
   ]
 }
