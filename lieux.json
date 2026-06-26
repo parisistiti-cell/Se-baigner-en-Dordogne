@@ -308,6 +308,14 @@
       "lng": -2.9469754334930736,
       "desc": "Le Bosque de Oma",
       "img": null
+    },
+    {
+      "id": "324a7b42-ba9f-4e36-9cb8-f7315b3b9b30",
+      "title": "Clifden",
+      "lat": 53.48613796923429,
+      "lng": -10.018766149185959,
+      "desc": "Le Connemara.",
+      "img": null
     }
   ]
 }
