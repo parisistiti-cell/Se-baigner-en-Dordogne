@@ -84,6 +84,14 @@
       "lng": 2.905293157643008,
       "desc": "Costa Brava, hors saison!",
       "img": null
+    },
+    {
+      "id": "1e094655-3001-495d-bf57-8dc3a2c4a704",
+      "title": "Le Coly",
+      "lat": 45.0991397094158,
+      "lng": 1.2641561605528562,
+      "desc": "Au bord du ruisseau.",
+      "img": null
     }
   ]
 }
