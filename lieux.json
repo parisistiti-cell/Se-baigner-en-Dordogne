@@ -324,6 +324,14 @@
       "lng": -6.511552331390455,
       "desc": "La Chaussée des Géants. whiskey nord-irlandais",
       "img": null
+    },
+    {
+      "id": "46b4f579-b418-4d4b-b874-e70e4a78e51f",
+      "title": "Derry/Londonderry",
+      "lat": 54.9928591934509,
+      "lng": -7.322738026348182,
+      "desc": "La ville, l'histoire.",
+      "img": null
     }
   ]
 }
