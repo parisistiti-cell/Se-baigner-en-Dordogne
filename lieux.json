@@ -108,6 +108,14 @@
       "lng": -1.533216789656198,
       "desc": "Plage des Baleines",
       "img": null
+    },
+    {
+      "id": "60399b0a-1e22-4fe3-be75-b770255a2f94",
+      "title": "Ile d'Aix",
+      "lat": 46.010941963281255,
+      "lng": -1.17720113437809,
+      "desc": "Plage de l'anse de la Croix",
+      "img": null
     }
   ]
 }
