@@ -652,6 +652,14 @@
       "lng": 0.11432647705078126,
       "desc": "Neouvielle",
       "img": null
+    },
+    {
+      "id": "2e9d3b42-06ac-47d6-9cdc-aa2cdafbfbdf",
+      "title": "Bagnères-de-Bigorre",
+      "lat": 43.06123167087659,
+      "lng": 0.15320777893066406,
+      "desc": "La ville",
+      "img": null
     }
   ]
 }
