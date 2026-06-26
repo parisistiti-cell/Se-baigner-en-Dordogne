@@ -284,6 +284,14 @@
       "lng": 4.22045940525115,
       "desc": "Le mont, source de la Loire.",
       "img": null
+    },
+    {
+      "id": "01a7dfea-262f-46ad-9827-794eba27bf26",
+      "title": "Chaumont sur Loire",
+      "lat": 47.474624717094486,
+      "lng": 1.1745863890227959,
+      "desc": "Festival des jardin. Et les châteaux...",
+      "img": null
     }
   ]
 }
