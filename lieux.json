@@ -356,6 +356,14 @@
       "lng": -9.044157346623768,
       "desc": "la ville",
       "img": null
+    },
+    {
+      "id": "8e3ebf3a-23d7-4a31-b58a-7ec8bbe0eec4",
+      "title": "Galway",
+      "lat": 53.27048073485768,
+      "lng": -9.044157346623768,
+      "desc": "la ville",
+      "img": null
     }
   ]
 }
