@@ -19,15 +19,6 @@
       "isCustom": true
     },
     {
-      "id": 2,
-      "title": "2. Carsac-Aillac – Rocher de la Cave",
-      "lat": 44.8398,
-      "lng": 1.2995,
-      "desc": "Zone connue... mais cachée si tu t'éloignes, Criques naturelles, Coins ombragés sous les arbres.",
-      "img": null,
-      "isCustom": false
-    },
-    {
       "id": 3,
       "title": "3. Vitrac (Amont / Aval)",
       "lat": 44.8302,
