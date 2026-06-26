@@ -19,15 +19,6 @@
       "isCustom": true
     },
     {
-      "id": 7,
-      "title": "7. Tamniès (Hors plage principale)",
-      "lat": 44.9658,
-      "lng": 1.1511,
-      "desc": "Plan d'eau connu mais berges secondaires tranquilles.",
-      "img": null,
-      "isCustom": false
-    },
-    {
       "id": 8,
       "title": "8. Groléjac (Contours du lac)",
       "lat": 44.8211,
