@@ -140,6 +140,14 @@
       "lng": -1.2176803716328324,
       "desc": "Plage Le Porge Océan",
       "img": null
+    },
+    {
+      "id": "689cf3dd-78f2-4472-a70b-ba5ebbb4564a",
+      "title": "Lekeitio",
+      "lat": 43.363276357083876,
+      "lng": -2.5012790384430894,
+      "desc": "Le port",
+      "img": null
     }
   ]
 }
