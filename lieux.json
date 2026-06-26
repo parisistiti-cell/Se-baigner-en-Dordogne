@@ -116,6 +116,14 @@
       "lng": -1.17720113437809,
       "desc": "Plage de l'anse de la Croix",
       "img": null
+    },
+    {
+      "id": "68e8e44d-b5fc-435a-b4bd-47db41885f29",
+      "title": "Ajaccio",
+      "lat": 41.91021228336454,
+      "lng": 8.643707699272213,
+      "desc": "Plage des Sanguinaires",
+      "img": null
     }
   ]
 }
