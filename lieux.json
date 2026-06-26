@@ -244,6 +244,14 @@
       "lng": 5.865904669571149,
       "desc": "Cascade de Lauzon",
       "img": null
+    },
+    {
+      "id": "53186b3b-0a48-421f-bfd4-9af5f8c938bd",
+      "title": "Mont Ventoux",
+      "lat": 44.15230977006409,
+      "lng": 5.319011897741347,
+      "desc": "Signal",
+      "img": null
     }
   ]
 }
