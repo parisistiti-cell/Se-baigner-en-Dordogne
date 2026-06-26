@@ -76,6 +76,14 @@
       "lng": 3.140855549433926,
       "desc": "Pour la vue! Marcher sur le sentier escarpé après le phare.",
       "img": null
+    },
+    {
+      "id": "a01c2437-fabb-47c6-ae27-7e6073b459ee",
+      "title": "Plage de Cala Llevado",
+      "lat": 41.7106696519,
+      "lng": 2.905293157643008,
+      "desc": "Costa Brava, hors saison!",
+      "img": null
     }
   ]
 }
