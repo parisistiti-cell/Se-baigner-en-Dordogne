@@ -516,6 +516,14 @@
       "lng": -8.609204292297365,
       "desc": "le douro, Porto , Dom Luis Bridge",
       "img": null
+    },
+    {
+      "id": "1092b68c-6e9d-41c5-ae8e-974122d59f9a",
+      "title": "Braga",
+      "lat": 41.551081161971744,
+      "lng": -8.427929878234865,
+      "desc": "ville étudiante",
+      "img": null
     }
   ]
 }
