@@ -212,6 +212,14 @@
       "lng": 0.3593406866129145,
       "desc": "Au bord de la Neste du Louron",
       "img": null
+    },
+    {
+      "id": "46782e1d-d03b-4494-8ca1-9ba546547442",
+      "title": "Estavar",
+      "lat": 42.474436876417606,
+      "lng": 1.996331319431697,
+      "desc": "Route de Font Romeu",
+      "img": null
     }
   ]
 }
