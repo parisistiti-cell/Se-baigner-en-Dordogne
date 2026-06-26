@@ -604,6 +604,14 @@
       "lng": 2.341117858886719,
       "desc": "Louvre - Rivoli",
       "img": null
+    },
+    {
+      "id": "61d9531b-3e10-443f-beec-c81e5af51dc1",
+      "title": "Brive-la-Gaillarde (19100)",
+      "lat": 45.15722108779763,
+      "lng": 1.5332365036010744,
+      "desc": "La Corrèze",
+      "img": null
     }
   ]
 }
