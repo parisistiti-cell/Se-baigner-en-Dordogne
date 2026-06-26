@@ -660,6 +660,14 @@
       "lng": 0.15320777893066406,
       "desc": "La ville",
       "img": null
+    },
+    {
+      "id": "f23924d3-5604-4dcf-b197-be5a4f81b10d",
+      "title": "Bagnères-de-Bigorre",
+      "lat": 42.93355846709384,
+      "lng": 0.1415348052978516,
+      "desc": "Pic du Midi de Bigorre",
+      "img": null
     }
   ]
 }
