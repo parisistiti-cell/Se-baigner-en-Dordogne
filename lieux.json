@@ -340,6 +340,14 @@
       "lng": -6.262042378154822,
       "desc": "La ville",
       "img": null
+    },
+    {
+      "id": "cf18d530-1cc8-4b6f-be1b-bc952f355b76",
+      "title": "Belfast",
+      "lat": 54.594427424187764,
+      "lng": -5.930478545374547,
+      "desc": "La ville",
+      "img": null
     }
   ]
 }
