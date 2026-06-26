@@ -372,6 +372,14 @@
       "lng": 0.741029579411019,
       "desc": "Pique-nique",
       "img": null
+    },
+    {
+      "id": "17f15948-b6ee-4817-bb07-c093e91728ce",
+      "title": "BdP",
+      "lat": 44.99727116791613,
+      "lng": 1.2205491479382016,
+      "desc": "Bain de pieds, lavoir sur la Beune, Centre la Pelvezy",
+      "img": null
     }
   ]
 }
