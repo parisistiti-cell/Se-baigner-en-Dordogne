@@ -332,6 +332,14 @@
       "lng": -7.322738026348182,
       "desc": "La ville, l'histoire.",
       "img": null
+    },
+    {
+      "id": "31e7759f-eb27-4ee5-8904-215574feb7bf",
+      "title": "Dublin",
+      "lat": 53.346117136612385,
+      "lng": -6.262042378154822,
+      "desc": "La ville",
+      "img": null
     }
   ]
 }
