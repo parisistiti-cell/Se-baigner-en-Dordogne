@@ -228,6 +228,14 @@
       "lng": 2.12447404271265,
       "desc": "Tour panoramique",
       "img": null
+    },
+    {
+      "id": "0456fb85-5d6c-447e-81fb-75bd805f0d35",
+      "title": "Puy de Sancy",
+      "lat": 45.53805387655154,
+      "lng": 2.818796926745071,
+      "desc": "Sources de la Dordogne",
+      "img": null
     }
   ]
 }
