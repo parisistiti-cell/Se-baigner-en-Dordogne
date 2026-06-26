@@ -564,6 +564,14 @@
       "lng": 4.8925209045410165,
       "desc": "Ville",
       "img": null
+    },
+    {
+      "id": "d5e973f4-ec73-43fc-b8c2-e2cff2f26d39",
+      "title": "Soulac-sur-Mer",
+      "lat": 45.508983531700395,
+      "lng": -1.1226654052734377,
+      "desc": "La ville",
+      "img": null
     }
   ]
 }
