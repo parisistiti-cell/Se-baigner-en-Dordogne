@@ -620,6 +620,14 @@
       "lng": 2.6035881042480473,
       "desc": "Aveyron",
       "img": null
+    },
+    {
+      "id": "ef77fbef-a4cd-4c4a-9a9f-14c8061eacc8",
+      "title": "Rodez",
+      "lat": 44.34790464108206,
+      "lng": 2.5680541992187504,
+      "desc": "Musée Soulages",
+      "img": null
     }
   ]
 }
