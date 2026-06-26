@@ -668,6 +668,14 @@
       "lng": 0.1415348052978516,
       "desc": "Pic du Midi de Bigorre",
       "img": null
+    },
+    {
+      "id": "4d2f4241-a653-4a5c-b523-985a4eae3bed",
+      "title": "Bagnères-de-Bigorre",
+      "lat": 42.92179996001419,
+      "lng": 0.20453453063964844,
+      "desc": "Vertiges de l’Adour via ferrata",
+      "img": null
     }
   ]
 }
