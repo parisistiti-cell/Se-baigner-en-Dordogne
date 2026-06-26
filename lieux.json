@@ -204,6 +204,14 @@
       "lng": 1.662151064824067,
       "desc": "Ex base aérienne.",
       "img": null
+    },
+    {
+      "id": "525c757e-411f-4793-a9cf-c21e5b56d40b",
+      "title": "Arreau",
+      "lat": 42.905389803521686,
+      "lng": 0.3593406866129145,
+      "desc": "Au bord de la Neste du Louron",
+      "img": null
     }
   ]
 }
