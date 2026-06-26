@@ -124,6 +124,14 @@
       "lng": 8.643707699272213,
       "desc": "Plage des Sanguinaires",
       "img": null
+    },
+    {
+      "id": "7f2a84d8-006d-48f6-bd40-0622130dd78c",
+      "title": "Dune du pilat",
+      "lat": 44.578972557807774,
+      "lng": -1.2236480636379723,
+      "desc": "En face du Banc d'Arguin",
+      "img": null
     }
   ]
 }
