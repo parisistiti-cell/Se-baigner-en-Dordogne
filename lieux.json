@@ -644,6 +644,14 @@
       "lng": 5.140914916992188,
       "desc": "Olives",
       "img": null
+    },
+    {
+      "id": "e12d1acc-9fb6-4383-aec9-7ccc4087f83a",
+      "title": "Saint-Lary-Soulan",
+      "lat": 42.83141892815419,
+      "lng": 0.11432647705078126,
+      "desc": "Neouvielle",
+      "img": null
     }
   ]
 }
