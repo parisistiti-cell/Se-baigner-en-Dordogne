@@ -164,6 +164,14 @@
       "lng": -3.460652600746049,
       "desc": "Sentier des douaniers",
       "img": null
+    },
+    {
+      "id": "1d12055d-cb9c-4415-9a08-6ee771682641",
+      "title": "Les Vans",
+      "lat": 44.415835437308665,
+      "lng": 4.101612265460899,
+      "desc": "Au bord du Chassezac",
+      "img": null
     }
   ]
 }
