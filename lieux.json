@@ -180,6 +180,14 @@
       "lng": 3.5101259417267414,
       "desc": "Au bord de la Vis",
       "img": null
+    },
+    {
+      "id": "2e3be325-ec3b-47ca-9bea-31cff021498b",
+      "title": "Baume les messieurs",
+      "lat": 46.63858575785364,
+      "lng": 5.574512032105143,
+      "desc": "Cascades",
+      "img": null
     }
   ]
 }
