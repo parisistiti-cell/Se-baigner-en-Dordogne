@@ -580,6 +580,14 @@
       "lng": -1.2489223480224612,
       "desc": "Phare",
       "img": null
+    },
+    {
+      "id": "e1d9422f-7095-4ae0-800c-56faa2aa0cd9",
+      "title": "Bahía de la Concha (Saint-Sébastien)",
+      "lat": 43.31582291591369,
+      "lng": -1.995220184326172,
+      "desc": "Yes!",
+      "img": null
     }
   ]
 }
