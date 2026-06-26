@@ -252,6 +252,14 @@
       "lng": 5.319011897741347,
       "desc": "Signal",
       "img": null
+    },
+    {
+      "id": "f68f6ea0-a6a9-4dd8-89d5-391716a34234",
+      "title": "Saint Michel l'observatoire",
+      "lat": 43.90889580821207,
+      "lng": 5.716922264518952,
+      "desc": "L'observatoire",
+      "img": null
     }
   ]
 }
