@@ -524,6 +524,14 @@
       "lng": -8.427929878234865,
       "desc": "ville étudiante",
       "img": null
+    },
+    {
+      "id": "942d55c8-df2d-468f-bbb0-a77e1e6fcf19",
+      "title": "Galway",
+      "lat": 53.268973695922924,
+      "lng": -9.040911197662355,
+      "desc": "La ville",
+      "img": null
     }
   ]
 }
