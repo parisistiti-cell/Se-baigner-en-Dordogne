@@ -260,6 +260,14 @@
       "lng": 5.716922264518952,
       "desc": "L'observatoire",
       "img": null
+    },
+    {
+      "id": "3caa4490-86b2-495d-96d4-cc4cdc43b331",
+      "title": "Lac Sainte Croix (04120)",
+      "lat": 43.7370828171869,
+      "lng": 6.1401523548410015,
+      "desc": "Le lac et les gorges du Verdon (hors saison)",
+      "img": null
     }
   ]
 }
