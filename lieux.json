@@ -636,6 +636,14 @@
       "lng": 2.1427631378173833,
       "desc": "Cathédrale Sainte-Cécile d'Albi",
       "img": null
+    },
+    {
+      "id": "6c31010b-1e65-4fa4-a599-607348a28fca",
+      "title": "Nyons",
+      "lat": 44.35902067622133,
+      "lng": 5.140914916992188,
+      "desc": "Olives",
+      "img": null
     }
   ]
 }
