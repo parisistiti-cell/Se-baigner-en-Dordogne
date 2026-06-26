@@ -220,6 +220,14 @@
       "lng": 1.996331319431697,
       "desc": "Route de Font Romeu",
       "img": null
+    },
+    {
+      "id": "a56735f5-99d7-4938-b686-0eb8eb1feeff",
+      "title": "Meymac 19250",
+      "lat": 45.56554210182614,
+      "lng": 2.12447404271265,
+      "desc": "Tour panoramique",
+      "img": null
     }
   ]
 }
