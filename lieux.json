@@ -572,6 +572,14 @@
       "lng": -1.1226654052734377,
       "desc": "La ville",
       "img": null
+    },
+    {
+      "id": "09185201-7e9e-4173-993d-70e5198358bb",
+      "title": "Cap-Ferret (33970 Lège-Cap-Ferret)",
+      "lat": 44.643010797770785,
+      "lng": -1.2489223480224612,
+      "desc": "Phare",
+      "img": null
     }
   ]
 }
