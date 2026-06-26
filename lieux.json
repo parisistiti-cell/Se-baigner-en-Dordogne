@@ -588,6 +588,14 @@
       "lng": -1.995220184326172,
       "desc": "Yes!",
       "img": null
+    },
+    {
+      "id": "9b66a814-4105-49f5-916d-1ba79e61e0cd",
+      "title": "Aix-en-Provence",
+      "lat": 43.528082574103415,
+      "lng": 5.447502136230469,
+      "desc": "La ville et autour",
+      "img": null
     }
   ]
 }
