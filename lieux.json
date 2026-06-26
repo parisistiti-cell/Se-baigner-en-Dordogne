@@ -540,6 +540,14 @@
       "lng": -8.474407196044924,
       "desc": "English Market",
       "img": null
+    },
+    {
+      "id": "3c850f0c-bb93-4df1-8fc1-7c8b26d394c6",
+      "title": "Santander",
+      "lat": 43.47105341614297,
+      "lng": -3.7879657745361333,
+      "desc": "El Sardinero",
+      "img": null
     }
   ]
 }
