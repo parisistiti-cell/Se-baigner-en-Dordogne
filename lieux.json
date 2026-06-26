@@ -676,6 +676,14 @@
       "lng": 0.20453453063964844,
       "desc": "Vertiges de l’Adour via ferrata",
       "img": null
+    },
+    {
+      "id": "d7af5395-f8aa-4b0b-adf6-7e32472c6f60",
+      "title": "marmande",
+      "lat": 44.457302569062634,
+      "lng": 0.16891479492187503,
+      "desc": "à l'eau",
+      "img": null
     }
   ]
 }
