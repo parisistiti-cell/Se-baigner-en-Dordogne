@@ -19,15 +19,6 @@
       "isCustom": true
     },
     {
-      "id": 3,
-      "title": "3. Vitrac (Amont / Aval)",
-      "lat": 44.8302,
-      "lng": 1.2315,
-      "desc": "À 200m de la plage principale = calme total, Bancs de sable isolés, Le secret bien gardé des locaux.",
-      "img": null,
-      "isCustom": false
-    },
-    {
       "id": 4,
       "title": "4. La Roque-Gageac (Criques sous falaise)",
       "lat": 44.8252,
