@@ -404,6 +404,14 @@
       "lng": 1.0947261916925124,
       "desc": "Pause en face du château de Commarque",
       "img": null
+    },
+    {
+      "id": "95a605ff-8605-4135-95c3-472a56718103",
+      "title": "AdB2",
+      "lat": 44.88886718625255,
+      "lng": -1.1764439799453787,
+      "desc": "Dans les pins.",
+      "img": null
     }
   ]
 }
