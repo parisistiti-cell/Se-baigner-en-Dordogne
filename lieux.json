@@ -612,6 +612,14 @@
       "lng": 1.5332365036010744,
       "desc": "La Corrèze",
       "img": null
+    },
+    {
+      "id": "2fa1d903-edbd-4c9b-8f22-0b72159dc265",
+      "title": "Saint-Sernin-sur-Rance (12380)",
+      "lat": 43.88050036912974,
+      "lng": 2.6035881042480473,
+      "desc": "Aveyron",
+      "img": null
     }
   ]
 }
