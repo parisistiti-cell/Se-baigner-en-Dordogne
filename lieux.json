@@ -196,6 +196,14 @@
       "lng": 2.92638969793039,
       "desc": "Le tour du lac.",
       "img": null
+    },
+    {
+      "id": "bf5e8c4f-d718-4610-85f8-3fbea6120c71",
+      "title": "BA 265",
+      "lat": 44.84004830481993,
+      "lng": 1.662151064824067,
+      "desc": "Ex base aérienne.",
+      "img": null
     }
   ]
 }
