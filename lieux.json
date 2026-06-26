@@ -300,6 +300,14 @@
       "lng": -2.934252270804723,
       "desc": "Musée Guggenheim",
       "img": null
+    },
+    {
+      "id": "31d643c6-09f0-4565-acd6-b05193b9849a",
+      "title": "Kortezubi",
+      "lat": 43.26776355578317,
+      "lng": -2.9469754334930736,
+      "desc": "Le Bosque de Oma",
+      "img": null
     }
   ]
 }
