@@ -276,6 +276,14 @@
       "lng": 4.430137236136381,
       "desc": "Vallon Pont d'Arc (07150) - L'ardèche.",
       "img": null
+    },
+    {
+      "id": "61bd8b16-fb32-4e16-81c9-790cd3b9aee3",
+      "title": "Mont Gerbier de Jonc (07310)",
+      "lat": 44.83850396628617,
+      "lng": 4.22045940525115,
+      "desc": "Le mont, source de la Loire.",
+      "img": null
     }
   ]
 }
