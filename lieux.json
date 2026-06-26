@@ -148,6 +148,14 @@
       "lng": -2.5012790384430894,
       "desc": "Le port",
       "img": null
+    },
+    {
+      "id": "71711a12-970a-4642-9c1d-d7e6cd660244",
+      "title": "Pointe de Tévignon",
+      "lat": 47.79271583844678,
+      "lng": -3.8539923415279724,
+      "desc": "Chemin de l'océan",
+      "img": null
     }
   ]
 }
