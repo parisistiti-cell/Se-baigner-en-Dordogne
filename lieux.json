@@ -452,6 +452,14 @@
       "lng": 1.2379252910614014,
       "desc": "Fabrication de citernes en béton pour récupération de l'eau de pluie.",
       "img": null
+    },
+    {
+      "id": "8c7074e8-a8be-46e7-bf91-c0079c2f38da",
+      "title": "Jet d'eau de Genève",
+      "lat": 46.207405941060195,
+      "lng": 6.155911087989808,
+      "desc": "Bonne douche!",
+      "img": null
     }
   ]
 }
