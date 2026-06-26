@@ -268,6 +268,14 @@
       "lng": 6.1401523548410015,
       "desc": "Le lac et les gorges du Verdon (hors saison)",
       "img": null
+    },
+    {
+      "id": "62cba51f-357d-47fc-a537-9d9096837cf4",
+      "title": "Chames",
+      "lat": 44.378068418794356,
+      "lng": 4.430137236136381,
+      "desc": "Vallon Pont d'Arc (07150) - L'ardèche.",
+      "img": null
     }
   ]
 }
