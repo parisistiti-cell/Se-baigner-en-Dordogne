@@ -548,6 +548,14 @@
       "lng": -3.7879657745361333,
       "desc": "El Sardinero",
       "img": null
+    },
+    {
+      "id": "b03bfc55-7c1c-46fa-a70f-aebfe84b1cc9",
+      "title": "Barcelone",
+      "lat": 41.40977099088393,
+      "lng": 2.1523761749267583,
+      "desc": "Parc Güell, Sagrada Família",
+      "img": null
     }
   ]
 }
