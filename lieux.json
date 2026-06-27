@@ -916,6 +916,14 @@
       "lng": 0.4718863964080811,
       "desc": "NPO",
       "img": null
+    },
+    {
+      "id": "44001dae-9464-4d06-914a-7a340c0ef73d",
+      "title": "Campsegret",
+      "lat": 44.93958154685605,
+      "lng": 0.5664396286010743,
+      "desc": "NPO fontaine",
+      "img": null
     }
   ]
 }
