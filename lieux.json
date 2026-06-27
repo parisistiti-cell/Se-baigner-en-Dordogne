@@ -804,6 +804,14 @@
       "lng": -1.2333011627197266,
       "desc": "Le village",
       "img": null
+    },
+    {
+      "id": "e76a1c63-8173-4e2b-8902-3d2eb315c182",
+      "title": "San Juan de Gaztelugatxe (48130 Bakio)",
+      "lat": 43.44612224039256,
+      "lng": -2.7848625183105473,
+      "desc": "Le site",
+      "img": null
     }
   ]
 }
