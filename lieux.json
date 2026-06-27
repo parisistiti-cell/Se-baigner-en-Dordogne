@@ -724,6 +724,14 @@
       "lng": 0.9346961975097657,
       "desc": "Gouffre de Proumeyssac",
       "img": null
+    },
+    {
+      "id": "4bf70bfb-46e7-4a8c-9883-46a9b0e2a8e4",
+      "title": "Carnac",
+      "lat": 47.59210341365692,
+      "lng": -3.0877590179443364,
+      "desc": "Menhir du Menec",
+      "img": null
     }
   ]
 }
