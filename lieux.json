@@ -948,6 +948,14 @@
       "lng": 2.558623552322388,
       "desc": "Château de Peyrepertuse, Cathare",
       "img": null
+    },
+    {
+      "id": "c7d389a4-5ae3-47a5-86df-20d7fb43f823",
+      "title": "Villerouge-Termenès",
+      "lat": 43.00601250859759,
+      "lng": 2.626762390136719,
+      "desc": "Château de Villerouge-Termenès, Cathare",
+      "img": null
     }
   ]
 }
