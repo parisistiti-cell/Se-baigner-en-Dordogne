@@ -676,6 +676,14 @@
       "lng": 0.20453453063964844,
       "desc": "Vertiges de l’Adour via ferrata",
       "img": null
+    },
+    {
+      "id": "06be2753-0fc2-4f04-8ac4-63ea481e421d",
+      "title": "Amboise",
+      "lat": 47.41005580853205,
+      "lng": 0.992116928100586,
+      "desc": "Château du Clos Lucé, dernière demeure de Léonard de Vinci.",
+      "img": null
     }
   ]
 }
