@@ -860,6 +860,14 @@
       "lng": -2.305841445922852,
       "desc": "Défense du vieux port",
       "img": null
+    },
+    {
+      "id": "e49a2462-f1f2-4881-8689-ab8605bc24cd",
+      "title": "Coulon",
+      "lat": 46.32162384352847,
+      "lng": -0.5861377716064454,
+      "desc": "Marais Poitevin",
+      "img": null
     }
   ]
 }
