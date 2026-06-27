@@ -972,6 +972,14 @@
       "lng": 2.3491001129150395,
       "desc": "La citée",
       "img": null
+    },
+    {
+      "id": "fbb735e5-c2bd-413e-bce6-1d317165d0a1",
+      "title": "Montségur",
+      "lat": 42.875024910079006,
+      "lng": 1.832399368286133,
+      "desc": "Château de Montségur, cathare",
+      "img": null
     }
   ]
 }
