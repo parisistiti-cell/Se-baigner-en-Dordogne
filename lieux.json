@@ -788,6 +788,14 @@
       "lng": 1.2470984458923342,
       "desc": "Abbaye de Saint-Amand",
       "img": null
+    },
+    {
+      "id": "b1c7ac5a-cff8-4fae-9873-36d7f36e7dcd",
+      "title": "Puy de Sancy",
+      "lat": 45.536607820060134,
+      "lng": 2.818851470947266,
+      "desc": "La vue",
+      "img": null
     }
   ]
 }
