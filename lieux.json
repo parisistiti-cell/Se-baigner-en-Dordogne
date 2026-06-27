@@ -980,6 +980,14 @@
       "lng": 1.832399368286133,
       "desc": "Château de Montségur, cathare",
       "img": null
+    },
+    {
+      "id": "bdd8aea8-30f0-4489-9631-a42dff7df962",
+      "title": "Lagrasse",
+      "lat": 43.08995315515838,
+      "lng": 2.62075424194336,
+      "desc": "La ville",
+      "img": null
     }
   ]
 }
