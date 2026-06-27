@@ -932,6 +932,14 @@
       "lng": 0.5295753479003907,
       "desc": "NPO",
       "img": null
+    },
+    {
+      "id": "ccc8b6ab-d014-4fff-ba1d-e565f4af47a3",
+      "title": "Cucugnan",
+      "lat": 42.83640244537287,
+      "lng": 2.6213550567626958,
+      "desc": "Château de Quéribus, Cathare",
+      "img": null
     }
   ]
 }
