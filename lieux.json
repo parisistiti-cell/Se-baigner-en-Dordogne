@@ -812,6 +812,14 @@
       "lng": -2.7848625183105473,
       "desc": "Le site",
       "img": null
+    },
+    {
+      "id": "43bf6903-abf1-41f2-8d26-9d732d9d89cd",
+      "title": "Excideuil",
+      "lat": 45.33963556300936,
+      "lng": 1.0462224483489992,
+      "desc": "NPO",
+      "img": null
     }
   ]
 }
