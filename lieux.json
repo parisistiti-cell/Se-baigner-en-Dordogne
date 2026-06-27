@@ -884,6 +884,14 @@
       "lng": 0.68989098072052,
       "desc": "NPO",
       "img": null
+    },
+    {
+      "id": "1832aa90-a61a-4e43-87d5-bbfa1f06206d",
+      "title": "Couze-et-Saint-Front",
+      "lat": 44.83113043305888,
+      "lng": 0.7038652896881105,
+      "desc": "Ancienne papeterie de Couze",
+      "img": null
     }
   ]
 }
