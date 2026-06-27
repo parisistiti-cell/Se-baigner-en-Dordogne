@@ -964,6 +964,14 @@
       "lng": 2.0553874969482426,
       "desc": "Château de Puivert, Cathare",
       "img": null
+    },
+    {
+      "id": "1a38796d-4d41-4dae-9d69-0a93a61dbf4c",
+      "title": "Carcassonne",
+      "lat": 43.212232894962064,
+      "lng": 2.3491001129150395,
+      "desc": "La citée",
+      "img": null
     }
   ]
 }
