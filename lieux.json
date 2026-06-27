@@ -772,6 +772,14 @@
       "lng": 1.0744285583496096,
       "desc": "NPO",
       "img": null
+    },
+    {
+      "id": "9b1e4139-58f5-45a4-be9c-a422e4292b82",
+      "title": "Viaduc de Millau (12100 Creissels)",
+      "lat": 44.084810703480954,
+      "lng": 3.02175521850586,
+      "desc": "Le viaduc",
+      "img": null
     }
   ]
 }
