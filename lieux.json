@@ -988,6 +988,14 @@
       "lng": 2.62075424194336,
       "desc": "La ville",
       "img": null
+    },
+    {
+      "id": "a0ab9c18-3832-4682-82f8-c6b475921005",
+      "title": "Minerve",
+      "lat": 43.35613970984075,
+      "lng": 2.757225036621094,
+      "desc": "le village",
+      "img": null
     }
   ]
 }
