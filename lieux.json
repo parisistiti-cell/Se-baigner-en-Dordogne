@@ -780,6 +780,14 @@
       "lng": 3.02175521850586,
       "desc": "Le viaduc",
       "img": null
+    },
+    {
+      "id": "aa973116-e909-4862-84ff-fea3025d0e6a",
+      "title": "Coly-Saint-Amand",
+      "lat": 45.06336693791435,
+      "lng": 1.2470984458923342,
+      "desc": "Abbaye de Saint-Amand",
+      "img": null
     }
   ]
 }
