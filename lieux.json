@@ -716,6 +716,14 @@
       "lng": -1.2672901153564455,
       "desc": "Helfest",
       "img": null
+    },
+    {
+      "id": "387e27c4-f7f1-49ed-99ae-d03981cde6b8",
+      "title": "Audrix",
+      "lat": 44.8890769763873,
+      "lng": 0.9346961975097657,
+      "desc": "Gouffre de Proumeyssac",
+      "img": null
     }
   ]
 }
