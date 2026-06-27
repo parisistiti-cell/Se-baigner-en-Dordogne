@@ -740,6 +740,14 @@
       "lng": -6.384258270263673,
       "desc": "The Dark Hedges",
       "img": null
+    },
+    {
+      "id": "f80cc581-d7e2-40a5-b2d9-132975f4a379",
+      "title": "La teste de Buch",
+      "lat": 44.692627556714115,
+      "lng": -1.1664390563964846,
+      "desc": "Les Cabanes Tchanquées , l'île aux Oiseaux, bassin d'Arcachon",
+      "img": null
     }
   ]
 }
