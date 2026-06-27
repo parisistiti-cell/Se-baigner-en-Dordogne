@@ -892,6 +892,14 @@
       "lng": 0.7038652896881105,
       "desc": "Ancienne papeterie de Couze",
       "img": null
+    },
+    {
+      "id": "ca455df5-e8d7-432b-b116-ad482df422d0",
+      "title": "Cudot",
+      "lat": 48.00537254316639,
+      "lng": 3.158226013183594,
+      "desc": "Guédelon château des bâtisseurs",
+      "img": null
     }
   ]
 }
