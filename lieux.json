@@ -876,6 +876,14 @@
       "lng": -6.264181137084962,
       "desc": "The Temple Bar",
       "img": null
+    },
+    {
+      "id": "99a789ac-51d0-4172-948c-507836924e35",
+      "title": "Coulounieix-Chamiers",
+      "lat": 45.171089368019636,
+      "lng": 0.68989098072052,
+      "desc": "NPO",
+      "img": null
     }
   ]
 }
