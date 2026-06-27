@@ -692,6 +692,14 @@
       "lng": -3.7462091445922856,
       "desc": "La cité des peintres, galettes",
       "img": null
+    },
+    {
+      "id": "1cc15d95-6204-422a-800c-8646a3964341",
+      "title": "Saint-Rabier",
+      "lat": 45.17628284523085,
+      "lng": 1.1115932464599612,
+      "desc": "Moulin du Douime",
+      "img": null
     }
   ]
 }
