@@ -956,6 +956,14 @@
       "lng": 2.626762390136719,
       "desc": "Château de Villerouge-Termenès, Cathare",
       "img": null
+    },
+    {
+      "id": "a9526cd8-9545-4bea-90f4-86121ec63097",
+      "title": "Puivert",
+      "lat": 42.92060635035714,
+      "lng": 2.0553874969482426,
+      "desc": "Château de Puivert, Cathare",
+      "img": null
     }
   ]
 }
