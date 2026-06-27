@@ -924,6 +924,14 @@
       "lng": 0.5664396286010743,
       "desc": "NPO fontaine",
       "img": null
+    },
+    {
+      "id": "5fcee912-3710-4167-a768-c457a82710f6",
+      "title": "Saint-Astier",
+      "lat": 45.14463764259281,
+      "lng": 0.5295753479003907,
+      "desc": "NPO",
+      "img": null
     }
   ]
 }
