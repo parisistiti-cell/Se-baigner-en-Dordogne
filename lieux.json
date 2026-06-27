@@ -844,6 +844,14 @@
       "lng": null,
       "desc": "NPO",
       "img": null
+    },
+    {
+      "id": "28ae0d6b-678b-4592-8198-1ab6ed82dfd8",
+      "title": "Grand-Brassac",
+      "lat": 45.30184844447446,
+      "lng": 0.5354762077331544,
+      "desc": "Moulin de Rochereuil",
+      "img": null
     }
   ]
 }
