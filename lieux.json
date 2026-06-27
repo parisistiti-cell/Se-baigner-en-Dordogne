@@ -796,6 +796,14 @@
       "lng": 2.818851470947266,
       "desc": "La vue",
       "img": null
+    },
+    {
+      "id": "522ad714-1496-474b-93bc-d8c5e408545b",
+      "title": "L'Herbe (33950 Lège-Cap-Ferret)",
+      "lat": 44.689768447371854,
+      "lng": -1.2333011627197266,
+      "desc": "Le village",
+      "img": null
     }
   ]
 }
