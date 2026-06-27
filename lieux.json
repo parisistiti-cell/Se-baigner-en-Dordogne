@@ -940,6 +940,14 @@
       "lng": 2.6213550567626958,
       "desc": "Château de Quéribus, Cathare",
       "img": null
+    },
+    {
+      "id": "dc728e79-e597-4367-8236-428af94afea3",
+      "title": "Rouffiac-des-Corbières",
+      "lat": 42.871710399676104,
+      "lng": 2.558623552322388,
+      "desc": "Château de Peyrepertuse, Cathare",
+      "img": null
     }
   ]
 }
