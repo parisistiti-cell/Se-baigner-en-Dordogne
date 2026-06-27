@@ -868,6 +868,14 @@
       "lng": -0.5861377716064454,
       "desc": "Marais Poitevin",
       "img": null
+    },
+    {
+      "id": "ec891284-8c2c-4ee9-a1dd-6a75369c1e89",
+      "title": "Dublin",
+      "lat": 53.34444974661442,
+      "lng": -6.264181137084962,
+      "desc": "The Temple Bar",
+      "img": null
     }
   ]
 }
