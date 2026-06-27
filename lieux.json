@@ -700,6 +700,14 @@
       "lng": 1.1115932464599612,
       "desc": "Moulin du Douime",
       "img": null
+    },
+    {
+      "id": "427fd4b4-103a-45bd-b6ef-78c9c7b1d937",
+      "title": "Pressignac-Vicq",
+      "lat": 44.89339121182706,
+      "lng": 0.7202911376953126,
+      "desc": "Champs de kiwis",
+      "img": null
     }
   ]
 }
