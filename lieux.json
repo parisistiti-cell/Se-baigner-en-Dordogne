@@ -908,6 +908,14 @@
       "lng": 1.456890106201172,
       "desc": "Castel Novel les lanternes 2025/2026",
       "img": null
+    },
+    {
+      "id": "07c51837-0625-4bb9-900d-50895bc4f9bb",
+      "title": "Neuvic",
+      "lat": 45.10116884037917,
+      "lng": 0.4718863964080811,
+      "desc": "NPO",
+      "img": null
     }
   ]
 }
