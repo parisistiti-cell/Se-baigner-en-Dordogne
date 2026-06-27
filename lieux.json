@@ -820,6 +820,14 @@
       "lng": 1.0462224483489992,
       "desc": "NPO",
       "img": null
+    },
+    {
+      "id": "8a070458-bf38-4c20-9f7f-1775debe87ac",
+      "title": "Ligueux (Sorges et Ligueux en Périgord)",
+      "lat": 45.30773430004872,
+      "lng": 0.8198440074920655,
+      "desc": "NPO",
+      "img": null
     }
   ]
 }
