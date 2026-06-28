@@ -1092,6 +1092,14 @@
       "lng": 1.163434982299805,
       "desc": "Trop canoë,Vallée du Céou",
       "img": null
+    },
+    {
+      "id": "7b2fa147-192c-40a5-a1dd-950377dd50bb",
+      "title": "Clermont Ferrand",
+      "lat": 45.77458753226778,
+      "lng": 3.0873298645019536,
+      "desc": "Auvergne et Auvergnats",
+      "img": null
     }
   ]
 }
