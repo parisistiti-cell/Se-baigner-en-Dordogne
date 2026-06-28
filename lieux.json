@@ -1108,6 +1108,14 @@
       "lng": 3.1736755371093754,
       "desc": "RNUR fabrication des R5 ...",
       "img": null
+    },
+    {
+      "id": "ea3b3966-7dda-47cd-aa27-589b0b46cc1d",
+      "title": "Saint-Amand-Montrond",
+      "lat": 46.721859929245404,
+      "lng": 2.504539489746094,
+      "desc": "Construction d'une clinique",
+      "img": null
     }
   ]
 }
