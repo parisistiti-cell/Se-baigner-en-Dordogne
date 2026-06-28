@@ -1260,6 +1260,14 @@
       "lng": 1.31587028503418,
       "desc": "Mobylettes",
       "img": null
+    },
+    {
+      "id": "46c2f06d-e46b-4711-a44b-6691c665afe8",
+      "title": "Fouras",
+      "lat": 45.987244715974796,
+      "lng": -1.093568801879883,
+      "desc": "Bourse d'échange moto",
+      "img": null
     }
   ]
 }
