@@ -1244,6 +1244,14 @@
       "lng": 1.4579200744628906,
       "desc": "Festival Ecaussysteme",
       "img": null
+    },
+    {
+      "id": "eb112bf9-d80e-408a-8829-7a3eb13aa1ce",
+      "title": "Limeyrat",
+      "lat": 45.15820511383889,
+      "lng": 0.9800148010253907,
+      "desc": "Mobylettes",
+      "img": null
     }
   ]
 }
