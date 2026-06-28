@@ -1076,6 +1076,14 @@
       "lng": 2.0202827453613286,
       "desc": "Trop ski!",
       "img": null
+    },
+    {
+      "id": "52529a70-6336-4d7c-8f80-9e19345ad7da",
+      "title": "Saint-Mesmin",
+      "lat": 45.35394401146804,
+      "lng": 1.2072944641113283,
+      "desc": "Le Saut Ruban, trop pleine nature.",
+      "img": null
     }
   ]
 }
