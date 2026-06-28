@@ -1020,6 +1020,14 @@
       "lng": -1.1516761779785158,
       "desc": "La ville, les Francofolies.",
       "img": null
+    },
+    {
+      "id": "17cff009-0df3-4c64-88d1-f0c70b7cc60c",
+      "title": "Canopé Périgueux",
+      "lat": 45.19303666653944,
+      "lng": 0.7189178466796876,
+      "desc": "Long séjour!",
+      "img": null
     }
   ]
 }
