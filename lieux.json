@@ -1060,6 +1060,14 @@
       "lng": 0.04609107971191407,
       "desc": "Planche à voile",
       "img": null
+    },
+    {
+      "id": "d791f908-15ba-4f97-8157-b36deb1f83b2",
+      "title": "La Brée-les-Bains",
+      "lat": 46.013310393081724,
+      "lng": -1.3477993011474612,
+      "desc": "Trop sorts nautiques...",
+      "img": null
     }
   ]
 }
