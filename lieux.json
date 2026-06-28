@@ -1164,6 +1164,14 @@
       "lng": 2.2339367866516118,
       "desc": "Siège RNUR",
       "img": null
+    },
+    {
+      "id": "99d244cc-fae7-4dac-97d3-645421415c38",
+      "title": "Le Havre",
+      "lat": 49.627397741041335,
+      "lng": 0.39198875427246094,
+      "desc": "En route vers Southampton: VDC",
+      "img": null
     }
   ]
 }
