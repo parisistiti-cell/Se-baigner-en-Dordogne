@@ -1156,6 +1156,14 @@
       "lng": 1.135969161987305,
       "desc": "!",
       "img": null
+    },
+    {
+      "id": "f2ab200a-1570-42c3-84b7-f8dbcf793c71",
+      "title": "Boulogne-Billancourt",
+      "lat": 48.82288469304411,
+      "lng": 2.2339367866516118,
+      "desc": "Siège RNUR",
+      "img": null
     }
   ]
 }
