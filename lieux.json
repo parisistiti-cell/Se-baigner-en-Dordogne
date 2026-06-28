@@ -1196,6 +1196,14 @@
       "lng": 1.486330032348633,
       "desc": "Portugal, Irlande",
       "img": null
+    },
+    {
+      "id": "839b5beb-37fb-4129-b84e-fb0ae56bbd02",
+      "title": "Limoges",
+      "lat": 45.8374108259422,
+      "lng": 1.2682342529296877,
+      "desc": "Concession moto BMW",
+      "img": null
     }
   ]
 }
