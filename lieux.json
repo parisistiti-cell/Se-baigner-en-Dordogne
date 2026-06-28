@@ -1100,6 +1100,14 @@
       "lng": 3.0873298645019536,
       "desc": "Auvergne et Auvergnats",
       "img": null
+    },
+    {
+      "id": "40052232-ae48-465a-bb9e-a43bcf767b4c",
+      "title": "Douai",
+      "lat": 50.3869840508268,
+      "lng": 3.1736755371093754,
+      "desc": "RNUR fabrication des R5 ...",
+      "img": null
     }
   ]
 }
