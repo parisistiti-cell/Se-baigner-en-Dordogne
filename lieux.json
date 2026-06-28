@@ -1012,6 +1012,14 @@
       "lng": 2.0407104492187504,
       "desc": "test",
       "img": null
+    },
+    {
+      "id": "49a70dd3-38b6-487e-9376-6c97f3a2f879",
+      "title": "La Rochelle",
+      "lat": 46.15896588313292,
+      "lng": -1.1516761779785158,
+      "desc": "La ville, les Francofolies.",
+      "img": null
     }
   ]
 }
