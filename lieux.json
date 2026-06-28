@@ -1204,6 +1204,14 @@
       "lng": 1.2682342529296877,
       "desc": "Concession moto BMW",
       "img": null
+    },
+    {
+      "id": "7648d77d-0606-4302-8ed9-42d043759fed",
+      "title": "Toulouse",
+      "lat": 43.64725551568439,
+      "lng": 1.4357757568359375,
+      "desc": "Concession moto BMW",
+      "img": null
     }
   ]
 }
