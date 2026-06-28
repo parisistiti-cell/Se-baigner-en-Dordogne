@@ -1028,6 +1028,14 @@
       "lng": 0.7189178466796876,
       "desc": "Long séjour!",
       "img": null
+    },
+    {
+      "id": "3d963f80-f9c2-42c8-8399-e74c6c0c3d26",
+      "title": "Soulac",
+      "lat": 45.512843022443306,
+      "lng": -1.1247253417968752,
+      "desc": "La ville et la plage.",
+      "img": null
     }
   ]
 }
