@@ -1188,6 +1188,14 @@
       "lng": -1.4725112915039062,
       "desc": "VDN",
       "img": null
+    },
+    {
+      "id": "eba68959-ac4d-4946-86a6-ff9baf009c40",
+      "title": "Aéroport de Brive-Souillac",
+      "lat": 45.0390781545966,
+      "lng": 1.486330032348633,
+      "desc": "Portugal, Irlande",
+      "img": null
     }
   ]
 }
