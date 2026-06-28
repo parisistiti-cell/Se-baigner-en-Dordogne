@@ -1212,6 +1212,14 @@
       "lng": 1.4357757568359375,
       "desc": "Concession moto BMW",
       "img": null
+    },
+    {
+      "id": "af351c3d-2dd4-42b7-a8f6-f70ac9193b44",
+      "title": "Elsenheim",
+      "lat": 48.141330965230715,
+      "lng": 7.499542236328125,
+      "desc": "Alsace",
+      "img": null
     }
   ]
 }
