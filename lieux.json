@@ -1036,6 +1036,14 @@
       "lng": -1.1247253417968752,
       "desc": "La ville et la plage.",
       "img": null
+    },
+    {
+      "id": "2debedab-48e6-42f7-8b7e-8e0b6b09eda2",
+      "title": "Nantes",
+      "lat": 47.21713086508,
+      "lng": -1.554222106933594,
+      "desc": "La ville.",
+      "img": null
     }
   ]
 }
