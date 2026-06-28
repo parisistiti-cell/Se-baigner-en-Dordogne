@@ -1252,6 +1252,14 @@
       "lng": 0.9800148010253907,
       "desc": "Mobylettes",
       "img": null
+    },
+    {
+      "id": "e1ea187b-5178-43d2-8900-a0c550d23398",
+      "title": "La Cassagne",
+      "lat": 45.04592442852093,
+      "lng": 1.31587028503418,
+      "desc": "Mobylettes",
+      "img": null
     }
   ]
 }
