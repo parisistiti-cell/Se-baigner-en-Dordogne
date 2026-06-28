@@ -1236,6 +1236,14 @@
       "lng": 1.4775753021240237,
       "desc": "Jazz!",
       "img": null
+    },
+    {
+      "id": "d532f871-058c-41c6-9606-579796a0e968",
+      "title": "Gignac",
+      "lat": 45.004091361920196,
+      "lng": 1.4579200744628906,
+      "desc": "Festival Ecaussysteme",
+      "img": null
     }
   ]
 }
