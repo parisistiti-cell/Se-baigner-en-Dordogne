@@ -1116,6 +1116,14 @@
       "lng": 2.504539489746094,
       "desc": "Construction d'une clinique",
       "img": null
+    },
+    {
+      "id": "a02b7e9b-fe3d-4434-828f-66f38a361f64",
+      "title": "Gabillou",
+      "lat": 45.204173404339514,
+      "lng": 1.0342597961425783,
+      "desc": "Des anciens",
+      "img": null
     }
   ]
 }
