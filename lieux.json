@@ -1284,6 +1284,14 @@
       "lng": 0.29319763183593756,
       "desc": "Vacances",
       "img": null
+    },
+    {
+      "id": "188b234a-c072-40a2-830a-c9b476b1a2f3",
+      "title": "Uzerche",
+      "lat": 45.42252941621013,
+      "lng": 1.5661740303039553,
+      "desc": "Salle de la Machine de la Papeterie",
+      "img": null
     }
   ]
 }
