@@ -1268,6 +1268,14 @@
       "lng": -1.093568801879883,
       "desc": "Bourse d'échange moto",
       "img": null
+    },
+    {
+      "id": "c113b17a-fa63-4eef-a5dd-17f7a87ec402",
+      "title": "Rouffignac (24580)",
+      "lat": 45.0434957650723,
+      "lng": 0.9811708331108094,
+      "desc": "Pour achats ique-nique",
+      "img": null
     }
   ]
 }
