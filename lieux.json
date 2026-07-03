@@ -1292,6 +1292,14 @@
       "lng": 1.5661740303039553,
       "desc": "Salle de la Machine de la Papeterie",
       "img": null
+    },
+    {
+      "id": "0c67a754-5296-435e-9edc-54fe25564084",
+      "title": "Bois-d'Amont",
+      "lat": 46.52612287124786,
+      "lng": 6.117367744445802,
+      "desc": "Presque la Suisse",
+      "img": null
     }
   ]
 }
