@@ -1612,6 +1612,14 @@
       "lng": 4.3907543,
       "desc": "Installation au gîte de Saint-Sernin. Grand Marché d'Aubenas le samedi matin. Visite du centre historique et du Château d'Aubenas l'après-midi.",
       "img": null
+    },
+    {
+      "id": "e828401f-93f5-4ddf-8710-9c5251283c0e",
+      "title": "J2 - Vogüé, village & baignade dans l'Ardèche",
+      "lat": 44.551115,
+      "lng": 4.413293,
+      "desc": "Vogüé, classé Plus Beaux Villages de France. Visite du château et première baignade dans la rivière. Après-midi : Balazuc et son Muséum de l'Ardèche.",
+      "img": null
     }
   ]
 }
