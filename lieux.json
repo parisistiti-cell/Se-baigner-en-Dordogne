@@ -1556,6 +1556,14 @@
       "lng": 5.1404955,
       "desc": "Ville réputée pour son microclimat doux et ses olives AOC. Pont Roman du XIVe siècle sur l'Eygues, place des Arcades.",
       "img": null
+    },
+    {
+      "id": "fb1e7fc4-b474-4ce3-82f9-05d029fece68",
+      "title": "5 - Vaison-la-Romaine",
+      "lat": 44.2421933,
+      "lng": 5.0735791,
+      "desc": "Quartiers gallo-romains à ciel ouvert, pont romain, haute ville médiévale. Mosaïques antiques du site de Puymin.",
+      "img": null
     }
   ]
 }
