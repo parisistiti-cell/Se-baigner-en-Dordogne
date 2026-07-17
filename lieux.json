@@ -1308,6 +1308,14 @@
       "lng": 2.567738,
       "desc": "Musée Soulages, mondialement connu pour les œuvres \"Outrenoir\". Flânerie dans le centre historique de Rodez, cathédrale Notre-Dame en grès rose et ruelles médiévales.",
       "img": null
+    },
+    {
+      "id": "31d8df88-d9c7-40e1-b2ab-e32d4d396726",
+      "title": "2 - Viaduc de Millau",
+      "lat": 44.0953503,
+      "lng": 3.0228128,
+      "desc": "Viaduc de Millau, chef-d'œuvre conçu par Michel Virlogeux et Norman Foster. Belvédère de l'Aire du Viaduc (D911) pour la photo parfaite, village troglodytique de Peyre.",
+      "img": null
     }
   ]
 }
