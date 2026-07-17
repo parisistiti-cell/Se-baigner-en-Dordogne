@@ -1644,6 +1644,14 @@
       "lng": 4.3686163,
       "desc": "Eaux thermales et parc de Vals-les-Bains. Promenade le long de la Besorgues. Marché nocturne de Ruoms en soirée (alternative).",
       "img": null
+    },
+    {
+      "id": "71be6092-64c5-423e-9d57-a35b4a1e20d4",
+      "title": "J6 - Aven d'Orgnac, grotte & Cité de la Préhistoire",
+      "lat": 44.305905,
+      "lng": 4.433171,
+      "desc": "Descente spectaculaire dans l'Aven d'Orgnac. Cité de la Préhistoire. Retour possible par Banne et ses ruines de château.",
+      "img": null
     }
   ]
 }
