@@ -1516,6 +1516,14 @@
       "lng": 2.7891982,
       "desc": "Superbes paysages du Vignoble des Corbières. Dégustation de vins d'AOC Corbières chez un vigneron local.",
       "img": null
+    },
+    {
+      "id": "f9a44471-1d08-4833-b510-6c41566185eb",
+      "title": "12 - Le Perthus / La Jonquera",
+      "lat": 42.4582238,
+      "lng": 2.858089,
+      "desc": "Frontière espagnole, transition entre garrigue audoise et contreforts des Albères. Fort de Bellegarde dominant le col du Perthus.",
+      "img": null
     }
   ]
 }
