@@ -1668,6 +1668,14 @@
       "lng": 4.2381965,
       "desc": "Matin : Antraigues-sur-Volane, village de Jean Ferrat. Après-midi : Joyeuse et son musée de la Châtaigne.",
       "img": null
+    },
+    {
+      "id": "0929443b-2746-4783-8f70-27fe1fb092c4",
+      "title": "J9 - Vélorail de l'Ardèche, Boucieu-le-Roi",
+      "lat": 45.0344357,
+      "lng": 4.6782405,
+      "desc": "Vélorail de l'Ardèche à Boucieu-le-Roi. Alternative : Train de l'Ardèche (Le Mastrou).",
+      "img": null
     }
   ]
 }
