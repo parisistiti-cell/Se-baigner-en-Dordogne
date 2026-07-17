@@ -1332,6 +1332,14 @@
       "lng": 3.9812833,
       "desc": "La Bambouseraie en Cévennes, jardin exotique unique en Europe. Tour à bord du Train à Vapeur des Cévennes.",
       "img": null
+    },
+    {
+      "id": "c960ecf3-774a-41dd-9668-d1c5c5d004e8",
+      "title": "5 - Cirque de Navacelles",
+      "lat": 43.8999012,
+      "lng": 3.5146425,
+      "desc": "Gigantesque méandre abandonné par la Vis, canyon de 300 m de profondeur. Vue depuis le belvédère de Blandas, descente pédestre vers le hameau au fond du cirque.",
+      "img": null
     }
   ]
 }
