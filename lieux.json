@@ -1348,6 +1348,14 @@
       "lng": 3.5818117,
       "desc": "Ascension du Mont Aigoual (1 567 m). Le Climatographe (observatoire météorologique) et son espace muséographique interactif.",
       "img": null
+    },
+    {
+      "id": "2026e3e2-1ab9-42d8-9264-203af529c6ea",
+      "title": "7 - Abîme de Bramabiau",
+      "lat": 44.1223378,
+      "lng": 3.480681,
+      "desc": "La rivière du Bonheur s'engouffre sous le plateau calcaire de Camprieu et ressort en cascade sous un immense porche rocheux. Visite guidée du canyon souterrain.",
+      "img": null
     }
   ]
 }
