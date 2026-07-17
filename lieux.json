@@ -1356,6 +1356,14 @@
       "lng": 3.480681,
       "desc": "La rivière du Bonheur s'engouffre sous le plateau calcaire de Camprieu et ressort en cascade sous un immense porche rocheux. Visite guidée du canyon souterrain.",
       "img": null
+    },
+    {
+      "id": "414d227e-22ff-46de-a2af-940d6163623e",
+      "title": "8 - Barre-des-Cévennes",
+      "lat": 44.2412892,
+      "lng": 3.6556545,
+      "desc": "Village sentinelle des Cévennes perché sur une crête, haut lieu de l'histoire des Camisards. Sentier vers le \"Castelas\" pour un panorama exceptionnel.",
+      "img": null
     }
   ]
 }
