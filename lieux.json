@@ -1444,6 +1444,14 @@
       "lng": 2.2174949,
       "desc": "Place de la République entourée d'arcades. Dégustation de la Blanquette de Limoux, plus ancien vin effervescent du monde. Grand marché hebdomadaire.",
       "img": null
+    },
+    {
+      "id": "01af0954-79c4-4543-9e61-4d93548f37e8",
+      "title": "4 - Canal du Midi",
+      "lat": 43.2427146,
+      "lng": 2.4054572,
+      "desc": "Pause au bord du canal, promenade à pied, à vélo ou mini-croisière en péniche.",
+      "img": null
     }
   ]
 }
