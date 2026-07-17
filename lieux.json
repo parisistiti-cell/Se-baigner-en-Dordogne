@@ -1636,6 +1636,14 @@
       "lng": 4.3941697,
       "desc": "Descente en canoë (8 ou 13 km) sous le Pont d'Arc. Marché nocturne de Vallon-Pont-d'Arc en soirée.",
       "img": null
+    },
+    {
+      "id": "995437f5-1b22-4509-9bb4-2012f3053cd1",
+      "title": "J5 - Vals-les-Bains, thermes & rivière Besorgues",
+      "lat": 44.6572451,
+      "lng": 4.3686163,
+      "desc": "Eaux thermales et parc de Vals-les-Bains. Promenade le long de la Besorgues. Marché nocturne de Ruoms en soirée (alternative).",
+      "img": null
     }
   ]
 }
