@@ -1380,6 +1380,14 @@
       "lng": -1.0974684,
       "desc": "Le Fort Vauban, panorama sur l'océan, les parcs à huîtres et les îles environnantes. Grande Plage, plage de l'Espérance, dégustation d'huîtres au port de la Fumée.",
       "img": null
+    },
+    {
+      "id": "d36ccf35-d291-40c9-b3c2-b5e61ad1d5a9",
+      "title": "2 - Rochefort (corderie, musée marine etc)",
+      "lat": 45.9393833,
+      "lng": -0.9557568,
+      "desc": "Ancienne cité-arsenal voulue par Colbert. La Corderie Royale, le Musée national de la Marine, la frégate L'Hermione, le Pont Transbordeur de Martrou.",
+      "img": null
     }
   ]
 }
