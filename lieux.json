@@ -1532,6 +1532,14 @@
       "lng": 5.4082977,
       "desc": "Capitale de la lavande, \"Chemin des Lavandes\" et centre historique médiéval. Nougat traditionnel et distilleries de lavande locales.",
       "img": null
+    },
+    {
+      "id": "726f40bc-48ec-4fa2-9eb1-4d142d81ab5d",
+      "title": "2 - Mont Serein / Mont Ventoux",
+      "lat": 44.1831575,
+      "lng": 5.262773,
+      "desc": "Ascension du Mont Ventoux (1 910 m) par la route panoramique de Sault. Pause au Mont Serein, panorama à 360° depuis le sommet.",
+      "img": null
     }
   ]
 }
