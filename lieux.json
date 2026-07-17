@@ -1508,6 +1508,14 @@
       "lng": 2.5556404,
       "desc": "Colossal, véritable vaisseau de pierre de la taille de la Cité de Carcassonne. Murailles fusionnant avec la montagne.",
       "img": null
+    },
+    {
+      "id": "21e8cc4e-6907-4e82-add5-450853526b8d",
+      "title": "11 - Vignoble Corbières",
+      "lat": 43.14841,
+      "lng": 2.7891982,
+      "desc": "Superbes paysages du Vignoble des Corbières. Dégustation de vins d'AOC Corbières chez un vigneron local.",
+      "img": null
     }
   ]
 }
