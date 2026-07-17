@@ -1484,6 +1484,14 @@
       "lng": 2.0552762,
       "desc": "Donjon abritant la salle des Musiciens, hommage à l'art des troubadours. Lac de Puivert au pied du château.",
       "img": null
+    },
+    {
+      "id": "d76cd21e-d901-41af-b9b1-f59d04b9d3c8",
+      "title": "8 - Villerouge-Termenès (châteaux cathares)",
+      "lat": 43.0069153,
+      "lng": 2.6267517,
+      "desc": "Château fort restauré, histoire de Guillaume Bélibaste, dernier parfait cathare brûlé en 1321. Rôtisserie médiévale.",
+      "img": null
     }
   ]
 }
