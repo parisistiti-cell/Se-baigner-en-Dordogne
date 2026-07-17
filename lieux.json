@@ -1300,6 +1300,14 @@
       "lng": 6.117367744445802,
       "desc": "Presque la Suisse",
       "img": null
+    },
+    {
+      "id": "f03c017a-c1ea-410e-ba83-ab2d3b9305ab",
+      "title": "1 - Rodez, Musée Soulages",
+      "lat": 44.3522458,
+      "lng": 2.567738,
+      "desc": "Musée Soulages, mondialement connu pour les œuvres \"Outrenoir\". Flânerie dans le centre historique de Rodez, cathédrale Notre-Dame en grès rose et ruelles médiévales.",
+      "img": null
     }
   ]
 }
