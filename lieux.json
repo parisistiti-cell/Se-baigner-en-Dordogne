@@ -1388,6 +1388,14 @@
       "lng": -0.9557568,
       "desc": "Ancienne cité-arsenal voulue par Colbert. La Corderie Royale, le Musée national de la Marine, la frégate L'Hermione, le Pont Transbordeur de Martrou.",
       "img": null
+    },
+    {
+      "id": "06cf466a-5fba-427a-a28c-30aef3a91555",
+      "title": "3 - Croisière Charente / Fort Boyard / Île d'Aix",
+      "lat": 45.9995289,
+      "lng": -1.2139238,
+      "desc": "Départ depuis Fouras (Pointe de la Fumée). Croisière commentée près de Fort Boyard, escale sur l'Île d'Aix et dernière demeure de Napoléon Ier.",
+      "img": null
     }
   ]
 }
