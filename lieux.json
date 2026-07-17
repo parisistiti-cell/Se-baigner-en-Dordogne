@@ -1404,6 +1404,14 @@
       "lng": -1.1947623,
       "desc": "Le Château-d'Oléron et ses cabanes d'artistes colorées, le Phare de Chassiron, la Côte Sauvage et le port de la Cotinière.",
       "img": null
+    },
+    {
+      "id": "1d985afa-d5e1-4e33-abc8-96ca51944f5f",
+      "title": "5 - La Rochelle",
+      "lat": 46.1566225,
+      "lng": -1.1540431,
+      "desc": "Les trois tours médiévales du Vieux-Port, l'Aquarium de La Rochelle, shopping sous les arcades et marché central.",
+      "img": null
     }
   ]
 }
