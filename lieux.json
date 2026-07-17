@@ -1607,7 +1607,7 @@
     },
     {
       "id": "705f9381-595f-4002-8f2a-0455b36b902e",
-      "title": "J1 - Aubenas, Château & Grand Marché",
+      "title": "RT Ardeche J1 - Aubenas, Château & Grand Marché",
       "lat": 44.6208768,
       "lng": 4.3907543,
       "desc": "Installation au gîte de Saint-Sernin. Grand Marché d'Aubenas le samedi matin. Visite du centre historique et du Château d'Aubenas l'après-midi.",
@@ -1615,7 +1615,7 @@
     },
     {
       "id": "e828401f-93f5-4ddf-8710-9c5251283c0e",
-      "title": "J2 - Vogüé, village & baignade dans l'Ardèche",
+      "title": "RT Ardeche J2 - Vogüé, village & baignade dans l'Ardèche",
       "lat": 44.551115,
       "lng": 4.413293,
       "desc": "Vogüé, classé Plus Beaux Villages de France. Visite du château et première baignade dans la rivière. Après-midi : Balazuc et son Muséum de l'Ardèche.",
@@ -1623,7 +1623,7 @@
     },
     {
       "id": "7a3724e6-3619-44f5-8c60-41d381efc042",
-      "title": "J3 - Pont d'Arc & plages de Vallon-Pont-d'Arc",
+      "title": "RT Ardeche J3 - Pont d'Arc & plages de Vallon-Pont-d'Arc",
       "lat": 44.3820968,
       "lng": 4.4162713,
       "desc": "Matin : Grotte Chauvet 2 (réservation conseillée). Après-midi : baignade sous le Pont d'Arc, plages de Vallon-Pont-d'Arc.",
@@ -1631,7 +1631,7 @@
     },
     {
       "id": "38411121-7380-4a04-9578-e389adb69880",
-      "title": "J4 - Vallon-Pont-d'Arc, descente canoë des Gorges",
+      "title": "RT Ardeche J4 - Vallon-Pont-d'Arc, descente canoë des Gorges",
       "lat": 44.4062465,
       "lng": 4.3941697,
       "desc": "Descente en canoë (8 ou 13 km) sous le Pont d'Arc. Marché nocturne de Vallon-Pont-d'Arc en soirée.",
@@ -1639,7 +1639,7 @@
     },
     {
       "id": "995437f5-1b22-4509-9bb4-2012f3053cd1",
-      "title": "J5 - Vals-les-Bains, thermes & rivière Besorgues",
+      "title": "RT Ardeche J5 - Vals-les-Bains, thermes & rivière Besorgues",
       "lat": 44.6572451,
       "lng": 4.3686163,
       "desc": "Eaux thermales et parc de Vals-les-Bains. Promenade le long de la Besorgues. Marché nocturne de Ruoms en soirée (alternative).",
@@ -1647,7 +1647,7 @@
     },
     {
       "id": "71be6092-64c5-423e-9d57-a35b4a1e20d4",
-      "title": "J6 - Aven d'Orgnac, grotte & Cité de la Préhistoire",
+      "title": "RT Ardeche J6 - Aven d'Orgnac, grotte & Cité de la Préhistoire",
       "lat": 44.305905,
       "lng": 4.433171,
       "desc": "Descente spectaculaire dans l'Aven d'Orgnac. Cité de la Préhistoire. Retour possible par Banne et ses ruines de château.",
@@ -1655,7 +1655,7 @@
     },
     {
       "id": "9ac60492-b7a5-49a0-93a1-53ef05beb436",
-      "title": "J7 - Cascade du Ray-Pic (+ Gerbier de Jonc)",
+      "title": "RT Ardeche J7 - Cascade du Ray-Pic (+ Gerbier de Jonc)",
       "lat": 44.792292,
       "lng": 4.268282,
       "desc": "Mont Gerbier de Jonc, source de la Loire (ascension facile). Retour par la Cascade du Ray-Pic, site naturel rafraîchissant.",
@@ -1663,7 +1663,7 @@
     },
     {
       "id": "2c0f83af-d112-4951-aa6b-5ef5b28b7ae5",
-      "title": "J8 - Joyeuse & Antraigues-sur-Volane",
+      "title": "RT Ardeche J8 - Joyeuse & Antraigues-sur-Volane",
       "lat": 44.4797219,
       "lng": 4.2381965,
       "desc": "Matin : Antraigues-sur-Volane, village de Jean Ferrat. Après-midi : Joyeuse et son musée de la Châtaigne.",
@@ -1671,7 +1671,7 @@
     },
     {
       "id": "0929443b-2746-4783-8f70-27fe1fb092c4",
-      "title": "J9 - Vélorail de l'Ardèche, Boucieu-le-Roi",
+      "title": "RT Ardeche J9 - Vélorail de l'Ardèche, Boucieu-le-Roi",
       "lat": 45.0344357,
       "lng": 4.6782405,
       "desc": "Vélorail de l'Ardèche à Boucieu-le-Roi. Alternative : Train de l'Ardèche (Le Mastrou).",
@@ -1679,7 +1679,7 @@
     },
     {
       "id": "2ea22da6-51e8-497e-9c2c-ea1ba0258243",
-      "title": "J10 - Saint-Sernin, dernière baignade",
+      "title": "RT Ardeche J10 - Saint-Sernin, dernière baignade",
       "lat": 44.5730519,
       "lng": 4.3916129,
       "desc": "Petit-déjeuner en terrasse à Saint-Sernin. Achat de souvenirs (marrons glacés, vins). Dernière baignade dans un lieu paisible avant le départ.",
@@ -1687,7 +1687,7 @@
     },
     {
       "id": "0230557d-461b-4766-83e6-91b94f0bfdc9",
-      "title": "Grotte Chauvet 2 - Ardèche",
+      "title": "RT Ardeche Grotte Chauvet 2 - Ardèche",
       "lat": 44.406273,
       "lng": 4.431287,
       "desc": "Réplique de la grotte ornée, peintures préhistoriques. Réservation anticipée conseillée. À combiner avec le Pont d'Arc le même jour.",
@@ -1695,7 +1695,7 @@
     },
     {
       "id": "6be010f2-a9b6-4551-b3b2-4f60611624a8",
-      "title": "Les Vans",
+      "title": "RT Ardeche Les Vans",
       "lat": 44.4049707,
       "lng": 4.1310986,
       "desc": "Village au cœur du Sud Ardèche. Marché provençal réputé. Proche du Bois de Païolive et de ses chaos rocheux.",
