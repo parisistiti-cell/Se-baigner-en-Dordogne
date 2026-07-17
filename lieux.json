@@ -1580,6 +1580,14 @@
       "lng": 5.200176,
       "desc": "Village perché spectaculaire entièrement construit en pierres sèches. Point de vue classique depuis la route de Cavaillon.",
       "img": null
+    },
+    {
+      "id": "f02f5d77-4a3e-4ed8-9a44-89d0dd4473d6",
+      "title": "8 - Abbaye Senanque",
+      "lat": 43.9279827,
+      "lng": 5.1867401,
+      "desc": "Abbaye de Sénanque blottie au creux de son vallon. Champs de lavande entourant l'abbaye, magnifiques en été.",
+      "img": null
     }
   ]
 }
