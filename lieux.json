@@ -1303,7 +1303,7 @@
     },
     {
       "id": "f03c017a-c1ea-410e-ba83-ab2d3b9305ab",
-      "title": "1 - Rodez, Musée Soulages",
+      "title": "RT Cevennes 1 - Rodez, Musée Soulages",
       "lat": 44.3522458,
       "lng": 2.567738,
       "desc": "Musée Soulages, mondialement connu pour les œuvres \"Outrenoir\". Flânerie dans le centre historique de Rodez, cathédrale Notre-Dame en grès rose et ruelles médiévales.",
@@ -1311,7 +1311,7 @@
     },
     {
       "id": "31d8df88-d9c7-40e1-b2ab-e32d4d396726",
-      "title": "2 - Viaduc de Millau",
+      "title": "RT Cevennes 2 - Viaduc de Millau",
       "lat": 44.0953503,
       "lng": 3.0228128,
       "desc": "Viaduc de Millau, chef-d'œuvre conçu par Michel Virlogeux et Norman Foster. Belvédère de l'Aire du Viaduc (D911) pour la photo parfaite, village troglodytique de Peyre.",
@@ -1319,7 +1319,7 @@
     },
     {
       "id": "d9d0334e-46ee-420e-8c9d-511c74752d57",
-      "title": "3 - La Couvertoirade, cité des Templiers",
+      "title": "RT Cevennes 3 - La Couvertoirade, cité des Templiers",
       "lat": 43.9127975,
       "lng": 3.3167577,
       "desc": "Un des \"Plus Beaux Villages de France\", au milieu du plateau du Larzac. Tour des remparts fortifiés construits par les Templiers et les Hospitaliers.",
@@ -1327,7 +1327,7 @@
     },
     {
       "id": "431e8d6f-9d90-416a-bd7d-c13a6f8a0b39",
-      "title": "4 - Anduze, la porte des Cévennes",
+      "title": "RT Cevennes 4 - Anduze, la porte des Cévennes",
       "lat": 44.0711222,
       "lng": 3.9812833,
       "desc": "La Bambouseraie en Cévennes, jardin exotique unique en Europe. Tour à bord du Train à Vapeur des Cévennes.",
@@ -1335,7 +1335,7 @@
     },
     {
       "id": "c960ecf3-774a-41dd-9668-d1c5c5d004e8",
-      "title": "5 - Cirque de Navacelles",
+      "title": "RT Cevennes 5 - Cirque de Navacelles",
       "lat": 43.8999012,
       "lng": 3.5146425,
       "desc": "Gigantesque méandre abandonné par la Vis, canyon de 300 m de profondeur. Vue depuis le belvédère de Blandas, descente pédestre vers le hameau au fond du cirque.",
@@ -1343,7 +1343,7 @@
     },
     {
       "id": "48e112b4-db27-430d-aee1-19c428ca7cb7",
-      "title": "6 - Mont Aigoual, toit du Gard",
+      "title": "RT Cevennes 6 - Mont Aigoual, toit du Gard",
       "lat": 44.1211761,
       "lng": 3.5818117,
       "desc": "Ascension du Mont Aigoual (1 567 m). Le Climatographe (observatoire météorologique) et son espace muséographique interactif.",
@@ -1351,7 +1351,7 @@
     },
     {
       "id": "2026e3e2-1ab9-42d8-9264-203af529c6ea",
-      "title": "7 - Abîme de Bramabiau",
+      "title": "RT Cevennes 7 - Abîme de Bramabiau",
       "lat": 44.1223378,
       "lng": 3.480681,
       "desc": "La rivière du Bonheur s'engouffre sous le plateau calcaire de Camprieu et ressort en cascade sous un immense porche rocheux. Visite guidée du canyon souterrain.",
@@ -1359,7 +1359,7 @@
     },
     {
       "id": "414d227e-22ff-46de-a2af-940d6163623e",
-      "title": "8 - Barre-des-Cévennes",
+      "title": "RT Cevennes 8 - Barre-des-Cévennes",
       "lat": 44.2412892,
       "lng": 3.6556545,
       "desc": "Village sentinelle des Cévennes perché sur une crête, haut lieu de l'histoire des Camisards. Sentier vers le \"Castelas\" pour un panorama exceptionnel.",
@@ -1367,7 +1367,7 @@
     },
     {
       "id": "189a372e-0f3c-47fe-8c4a-80f71e0dc1ef",
-      "title": "9 - Sur les terres de la bête du Gévaudan",
+      "title": "RT Cevennes 9 - Sur les terres de la bête du Gévaudan",
       "lat": 44.6074277,
       "lng": 3.2815711,
       "desc": "Paysages de la Margeride jusqu'à Marvejols. Parc des Loups du Gévaudan à Sainte-Lucie : meutes de loups en semi-liberté et histoire de la célèbre \"Bête\".",
@@ -1375,7 +1375,7 @@
     },
     {
       "id": "3fd2eee7-5dcb-4d48-ba0d-b03156816972",
-      "title": "1 - Fouras",
+      "title": "RT Charente M 1 - Fouras",
       "lat": 45.9860221,
       "lng": -1.0974684,
       "desc": "Le Fort Vauban, panorama sur l'océan, les parcs à huîtres et les îles environnantes. Grande Plage, plage de l'Espérance, dégustation d'huîtres au port de la Fumée.",
@@ -1383,7 +1383,7 @@
     },
     {
       "id": "d36ccf35-d291-40c9-b3c2-b5e61ad1d5a9",
-      "title": "2 - Rochefort (corderie, musée marine etc)",
+      "title": "RT Charente M 2 - Rochefort (corderie, musée marine etc)",
       "lat": 45.9393833,
       "lng": -0.9557568,
       "desc": "Ancienne cité-arsenal voulue par Colbert. La Corderie Royale, le Musée national de la Marine, la frégate L'Hermione, le Pont Transbordeur de Martrou.",
@@ -1391,7 +1391,7 @@
     },
     {
       "id": "06cf466a-5fba-427a-a28c-30aef3a91555",
-      "title": "3 - Croisière Charente / Fort Boyard / Île d'Aix",
+      "title": "RT Charente M 3 - Croisière Charente / Fort Boyard / Île d'Aix",
       "lat": 45.9995289,
       "lng": -1.2139238,
       "desc": "Départ depuis Fouras (Pointe de la Fumée). Croisière commentée près de Fort Boyard, escale sur l'Île d'Aix et dernière demeure de Napoléon Ier.",
@@ -1399,7 +1399,7 @@
     },
     {
       "id": "2d9b9511-2216-4cab-84ed-daba3d8a63a3",
-      "title": "4 - Île d'Oléron",
+      "title": "RT Charente M 4 - Île d'Oléron",
       "lat": 45.8859979,
       "lng": -1.1947623,
       "desc": "Le Château-d'Oléron et ses cabanes d'artistes colorées, le Phare de Chassiron, la Côte Sauvage et le port de la Cotinière.",
@@ -1407,7 +1407,7 @@
     },
     {
       "id": "1d985afa-d5e1-4e33-abc8-96ca51944f5f",
-      "title": "5 - La Rochelle",
+      "title": "RT Charente M 5 - La Rochelle",
       "lat": 46.1566225,
       "lng": -1.1540431,
       "desc": "Les trois tours médiévales du Vieux-Port, l'Aquarium de La Rochelle, shopping sous les arcades et marché central.",
@@ -1415,7 +1415,7 @@
     },
     {
       "id": "f279eb1b-b01c-46d0-8cc7-0324daa46e4f",
-      "title": "6 - Île de Ré",
+      "title": "RT Charente M 6 - Île de Ré",
       "lat": 46.2066904,
       "lng": -1.3668715,
       "desc": "Maisons blanchies à la chaux, roses trémières, marais salants, pistes cyclables. Saint-Martin-de-Ré et ses fortifications Vauban UNESCO.",
@@ -1423,7 +1423,7 @@
     },
     {
       "id": "2c4400ed-3644-4394-8d36-4932dba14467",
-      "title": "1 - Carcassonne",
+      "title": "RT Cathares 1 - Carcassonne",
       "lat": 43.2060816,
       "lng": 2.3641961,
       "desc": "Remparts impressionnants et Château Comtal. Panorama spectaculaire sur la cité depuis le Pont Vieux.",
@@ -1431,7 +1431,7 @@
     },
     {
       "id": "e2a5de38-638b-4835-9b9f-6b0827001250",
-      "title": "2 - Minerve",
+      "title": "RT Cathares 2 - Minerve",
       "lat": 43.3541309,
       "lng": 2.7463235,
       "desc": "Ancienne place forte cathare suspendue au-dessus des canyons de la Cesse et du Brian. Ponts naturels et la \"Malvoisine\".",
@@ -1439,7 +1439,7 @@
     },
     {
       "id": "38be7852-f341-4d55-b330-30c04485ed8f",
-      "title": "3 - Limoux",
+      "title": "RT Cathares 3 - Limoux",
       "lat": 43.053511,
       "lng": 2.2174949,
       "desc": "Place de la République entourée d'arcades. Dégustation de la Blanquette de Limoux, plus ancien vin effervescent du monde. Grand marché hebdomadaire.",
@@ -1447,7 +1447,7 @@
     },
     {
       "id": "01af0954-79c4-4543-9e61-4d93548f37e8",
-      "title": "4 - Canal du Midi",
+      "title": "RT Cathares 4 - Canal du Midi",
       "lat": 43.2427146,
       "lng": 2.4054572,
       "desc": "Pause au bord du canal, promenade à pied, à vélo ou mini-croisière en péniche.",
@@ -1455,7 +1455,7 @@
     },
     {
       "id": "8f95c126-287b-4ba4-82c5-11b6b07928ff",
-      "title": "5 - Lagrasse (châteaux cathares)",
+      "title": "RT Cathares 5 - Lagrasse (châteaux cathares)",
       "lat": 43.0906269,
       "lng": 2.6167583,
       "desc": "Classé parmi les \"Plus Beaux Villages de France\". Cœur médiéval, halles du XIVe siècle, abbaye bénédictine Sainte-Marie. Dégustation de vins d'AOC Corbières.",
@@ -1463,7 +1463,7 @@
     },
     {
       "id": "5c2d5b2d-62cb-4fe4-af9c-85b550be8d66",
-      "title": "6 - Quéribus (châteaux cathares)",
+      "title": "RT Cathares 6 - Quéribus (châteaux cathares)",
       "lat": 42.8367719,
       "lng": 2.6214955,
       "desc": "Sentinelle de pierre suspendue sur un éperon rocheux à 728 m d'altitude. Salle gothique du donjon.",
@@ -1471,7 +1471,7 @@
     },
     {
       "id": "d5948ecd-0c7a-450c-83d3-e33e4ccc271e",
-      "title": "6 bis - Cucugnan",
+      "title": "RT Cathares 6 bis - Cucugnan",
       "lat": 42.850466,
       "lng": 2.603575,
       "desc": "Village célèbre pour son meunier et son sermon. Pause bucolique entre Quéribus et Peyrepertuse.",
@@ -1479,7 +1479,7 @@
     },
     {
       "id": "e27c4759-869b-453b-8c23-6a8cb0d10837",
-      "title": "7 - Puivert (châteaux cathares)",
+      "title": "RT Cathares 7 - Puivert (châteaux cathares)",
       "lat": 42.9211626,
       "lng": 2.0552762,
       "desc": "Donjon abritant la salle des Musiciens, hommage à l'art des troubadours. Lac de Puivert au pied du château.",
@@ -1487,7 +1487,7 @@
     },
     {
       "id": "d76cd21e-d901-41af-b9b1-f59d04b9d3c8",
-      "title": "8 - Villerouge-Termenès (châteaux cathares)",
+      "title": "RT Cathares 8 - Villerouge-Termenès (châteaux cathares)",
       "lat": 43.0069153,
       "lng": 2.6267517,
       "desc": "Château fort restauré, histoire de Guillaume Bélibaste, dernier parfait cathare brûlé en 1321. Rôtisserie médiévale.",
@@ -1495,7 +1495,7 @@
     },
     {
       "id": "61d8fcae-e3f2-45bc-93be-3bf95c922a73",
-      "title": "9 - Montségur (châteaux cathares)",
+      "title": "RT Cathares 9 - Montségur (châteaux cathares)",
       "lat": 42.8757967,
       "lng": 1.8331037,
       "desc": "Pog symbole de la résistance cathare, montée à pied d'environ 30 minutes. Panorama sur les Pyrénées. Musée archéologique au village.",
@@ -1503,7 +1503,7 @@
     },
     {
       "id": "56c19b66-7634-4d23-b955-87e92fe03002",
-      "title": "10 - Peyrepertuse (châteaux cathares)",
+      "title": "RT Cathares 10 - Peyrepertuse (châteaux cathares)",
       "lat": 42.8708334,
       "lng": 2.5556404,
       "desc": "Colossal, véritable vaisseau de pierre de la taille de la Cité de Carcassonne. Murailles fusionnant avec la montagne.",
@@ -1511,7 +1511,7 @@
     },
     {
       "id": "21e8cc4e-6907-4e82-add5-450853526b8d",
-      "title": "11 - Vignoble Corbières",
+      "title": "RT Cathares 11 - Vignoble Corbières",
       "lat": 43.14841,
       "lng": 2.7891982,
       "desc": "Superbes paysages du Vignoble des Corbières. Dégustation de vins d'AOC Corbières chez un vigneron local.",
@@ -1519,7 +1519,7 @@
     },
     {
       "id": "f9a44471-1d08-4833-b510-6c41566185eb",
-      "title": "12 - Le Perthus / La Jonquera",
+      "title": "RT Cathares 12 - Le Perthus / La Jonquera",
       "lat": 42.4582238,
       "lng": 2.858089,
       "desc": "Frontière espagnole, transition entre garrigue audoise et contreforts des Albères. Fort de Bellegarde dominant le col du Perthus.",
@@ -1527,7 +1527,7 @@
     },
     {
       "id": "20126bd3-c6ba-4d68-b793-6cc0cb3ae775",
-      "title": "1 - Sault",
+      "title": "RT Baronnies 1 - Sault",
       "lat": 44.0929452,
       "lng": 5.4082977,
       "desc": "Capitale de la lavande, \"Chemin des Lavandes\" et centre historique médiéval. Nougat traditionnel et distilleries de lavande locales.",
@@ -1535,7 +1535,7 @@
     },
     {
       "id": "726f40bc-48ec-4fa2-9eb1-4d142d81ab5d",
-      "title": "2 - Mont Serein / Mont Ventoux",
+      "title": "RT Baronnies 2 - Mont Serein / Mont Ventoux",
       "lat": 44.1831575,
       "lng": 5.262773,
       "desc": "Ascension du Mont Ventoux (1 910 m) par la route panoramique de Sault. Pause au Mont Serein, panorama à 360° depuis le sommet.",
@@ -1543,7 +1543,7 @@
     },
     {
       "id": "f347fa17-afa0-4e52-8725-b8c31331c800",
-      "title": "3 - Brantes",
+      "title": "RT Baronnies 3 - Brantes",
       "lat": 44.193209,
       "lng": 5.333613,
       "desc": "Village de caractère agrippé à la montagne, face à la paroi nord du Ventoux, vallée du Toulourenc. Ateliers d'artisans d'art.",
@@ -1551,7 +1551,7 @@
     },
     {
       "id": "d1e6d5aa-d63e-4aa7-904d-d71b390e5129",
-      "title": "4 - Nyons",
+      "title": "RT Baronnies 4 - Nyons",
       "lat": 44.3607035,
       "lng": 5.1404955,
       "desc": "Ville réputée pour son microclimat doux et ses olives AOC. Pont Roman du XIVe siècle sur l'Eygues, place des Arcades.",
@@ -1559,7 +1559,7 @@
     },
     {
       "id": "fb1e7fc4-b474-4ce3-82f9-05d029fece68",
-      "title": "5 - Vaison-la-Romaine",
+      "title": "RT Baronnies 5 - Vaison-la-Romaine",
       "lat": 44.2421933,
       "lng": 5.0735791,
       "desc": "Quartiers gallo-romains à ciel ouvert, pont romain, haute ville médiévale. Mosaïques antiques du site de Puymin.",
@@ -1567,7 +1567,7 @@
     },
     {
       "id": "807fa999-334a-4ae7-85d0-dd87dae66e89",
-      "title": "6 - Ocres de Roussillon",
+      "title": "RT Baronnies 6 - Ocres de Roussillon",
       "lat": 43.9009165,
       "lng": 5.2959089,
       "desc": "Village flamboyant aux façades colorées et falaises rouges et jaunes. Sentier des Ocres, mini-Colorado provençal.",
@@ -1575,7 +1575,7 @@
     },
     {
       "id": "89b42666-c430-42e1-b878-d44cb8a4d2e5",
-      "title": "7 - Gordes et abbaye",
+      "title": "RT Baronnies 7 - Gordes et abbaye",
       "lat": 43.911315,
       "lng": 5.200176,
       "desc": "Village perché spectaculaire entièrement construit en pierres sèches. Point de vue classique depuis la route de Cavaillon.",
@@ -1583,7 +1583,7 @@
     },
     {
       "id": "f02f5d77-4a3e-4ed8-9a44-89d0dd4473d6",
-      "title": "8 - Abbaye Senanque",
+      "title": "RT Baronnies 8 - Abbaye Senanque",
       "lat": 43.9279827,
       "lng": 5.1867401,
       "desc": "Abbaye de Sénanque blottie au creux de son vallon. Champs de lavande entourant l'abbaye, magnifiques en été.",
@@ -1591,7 +1591,7 @@
     },
     {
       "id": "1315d207-b31a-4bcc-a15e-4878ee0afc75",
-      "title": "9 - Buis-les-Baronnies",
+      "title": "RT Baronnies 9 - Buis-les-Baronnies",
       "lat": 44.2755869,
       "lng": 5.2753851,
       "desc": "Bourg médiéval ceinturé de falaises calcaires et champs de tilleuls. Place du marché aux arcades gothiques, Via Ferrata du Saint-Julien.",
@@ -1599,7 +1599,7 @@
     },
     {
       "id": "2bedfa1b-70f7-426f-a7bf-68c8529001e7",
-      "title": "9 bis - Dentelles de Montmirail",
+      "title": "RT Baronnies 9 bis - Dentelles de Montmirail",
       "lat": 44.179444,
       "lng": 5.060556,
       "desc": "Aiguilles de calcaire ciselées, randonnée à leur pied. Villages viticoles environnants : Gigondas, Vacqueyras, Beaumes-de-Venise.",
