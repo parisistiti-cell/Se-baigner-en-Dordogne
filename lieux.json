@@ -1396,6 +1396,14 @@
       "lng": -1.2139238,
       "desc": "Départ depuis Fouras (Pointe de la Fumée). Croisière commentée près de Fort Boyard, escale sur l'Île d'Aix et dernière demeure de Napoléon Ier.",
       "img": null
+    },
+    {
+      "id": "2d9b9511-2216-4cab-84ed-daba3d8a63a3",
+      "title": "4 - Île d'Oléron",
+      "lat": 45.8859979,
+      "lng": -1.1947623,
+      "desc": "Le Château-d'Oléron et ses cabanes d'artistes colorées, le Phare de Chassiron, la Côte Sauvage et le port de la Cotinière.",
+      "img": null
     }
   ]
 }
