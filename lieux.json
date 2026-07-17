@@ -1596,6 +1596,14 @@
       "lng": 5.2753851,
       "desc": "Bourg médiéval ceinturé de falaises calcaires et champs de tilleuls. Place du marché aux arcades gothiques, Via Ferrata du Saint-Julien.",
       "img": null
+    },
+    {
+      "id": "2bedfa1b-70f7-426f-a7bf-68c8529001e7",
+      "title": "9 bis - Dentelles de Montmirail",
+      "lat": 44.179444,
+      "lng": 5.060556,
+      "desc": "Aiguilles de calcaire ciselées, randonnée à leur pied. Villages viticoles environnants : Gigondas, Vacqueyras, Beaumes-de-Venise.",
+      "img": null
     }
   ]
 }
