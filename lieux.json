@@ -1540,6 +1540,14 @@
       "lng": 5.262773,
       "desc": "Ascension du Mont Ventoux (1 910 m) par la route panoramique de Sault. Pause au Mont Serein, panorama à 360° depuis le sommet.",
       "img": null
+    },
+    {
+      "id": "f347fa17-afa0-4e52-8725-b8c31331c800",
+      "title": "3 - Brantes",
+      "lat": 44.193209,
+      "lng": 5.333613,
+      "desc": "Village de caractère agrippé à la montagne, face à la paroi nord du Ventoux, vallée du Toulourenc. Ateliers d'artisans d'art.",
+      "img": null
     }
   ]
 }
