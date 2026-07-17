@@ -1676,6 +1676,14 @@
       "lng": 4.6782405,
       "desc": "Vélorail de l'Ardèche à Boucieu-le-Roi. Alternative : Train de l'Ardèche (Le Mastrou).",
       "img": null
+    },
+    {
+      "id": "2ea22da6-51e8-497e-9c2c-ea1ba0258243",
+      "title": "J10 - Saint-Sernin, dernière baignade",
+      "lat": 44.5730519,
+      "lng": 4.3916129,
+      "desc": "Petit-déjeuner en terrasse à Saint-Sernin. Achat de souvenirs (marrons glacés, vins). Dernière baignade dans un lieu paisible avant le départ.",
+      "img": null
     }
   ]
 }
