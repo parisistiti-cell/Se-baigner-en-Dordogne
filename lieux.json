@@ -1412,6 +1412,14 @@
       "lng": -1.1540431,
       "desc": "Les trois tours médiévales du Vieux-Port, l'Aquarium de La Rochelle, shopping sous les arcades et marché central.",
       "img": null
+    },
+    {
+      "id": "f279eb1b-b01c-46d0-8cc7-0324daa46e4f",
+      "title": "6 - Île de Ré",
+      "lat": 46.2066904,
+      "lng": -1.3668715,
+      "desc": "Maisons blanchies à la chaux, roses trémières, marais salants, pistes cyclables. Saint-Martin-de-Ré et ses fortifications Vauban UNESCO.",
+      "img": null
     }
   ]
 }
