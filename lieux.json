@@ -1780,6 +1780,14 @@
       "lng": -1.2837555,
       "desc": "Ville aux influences italiennes, ruines du château. Site du festival Hellfest.",
       "img": null
+    },
+    {
+      "id": "a7b12a46-d558-4cf8-966e-baa97c592fd0",
+      "title": "La Roche-Bernard",
+      "lat": 47.51743843145104,
+      "lng": -2.302923202514649,
+      "desc": "Petite Cité de Caractère. Flânerie sur son vieux port au bord de la Vilaine, puis montée dans le quartier historique pour admirer les anciens entrepôts de sel et d'impressionnants points de vue depuis le rocher.",
+      "img": null
     }
   ]
 }
