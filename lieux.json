@@ -1740,6 +1740,14 @@
       "lng": -3.7482712,
       "desc": "Cité des peintres, Chapelle de Trémalo. Dégustation du kouign-amann.",
       "img": null
+    },
+    {
+      "id": "7fcf302e-8091-40c8-9899-af8c14518b23",
+      "title": "6 - Quimper",
+      "lat": 47.9955824,
+      "lng": -4.102248,
+      "desc": "Cathédrale Saint-Corentin et maisons à colombages. Meilleur kouign-amann de la ville.",
+      "img": null
     }
   ]
 }
