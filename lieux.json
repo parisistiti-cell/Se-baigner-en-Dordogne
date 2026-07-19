@@ -1703,7 +1703,7 @@
     },
     {
       "id": "2601adb0-24e2-4ad7-954a-f652ce603d0f",
-      "title": "1 - Kerascoët, Névez (Sentier des Douaniers GR34)",
+      "title": "RT bretagne sud 1 - Kerascoët, Névez (Sentier des Douaniers GR34)",
       "lat": 47.7956788,
       "lng": -3.7765074,
       "desc": "Hameau de chaumières typiques sur le Sentier des Douaniers (GR34). Randonnée côtière au fil des kilomètres de côtes bretonnes.",
@@ -1711,7 +1711,7 @@
     },
     {
       "id": "99769403-43de-4190-b94f-4049363ee9d0",
-      "title": "2 - Pointe de Trévignon",
+      "title": "RT bretagne sud 2 - Pointe de Trévignon",
       "lat": 47.7916,
       "lng": -3.854083,
       "desc": "Dunes et côtes de Trévignon, site Natura 2000. Safari photo nature, spot d'ornithologie.",
@@ -1719,7 +1719,7 @@
     },
     {
       "id": "9d0243b2-4b93-483e-89c1-4de0ff21198b",
-      "title": "3 - Le Pouldu (Chemin des peintres)",
+      "title": "RT bretagne sud 3 - Le Pouldu (Chemin des peintres)",
       "lat": 47.795818,
       "lng": -3.58491,
       "desc": "Chemin des peintres, sur les pas des artistes de l'école de Pont-Aven. Kilomètres de marche le long de la côte.",
@@ -1727,7 +1727,7 @@
     },
     {
       "id": "25c483ae-b096-4234-8020-9473005a4b24",
-      "title": "4 - Concarneau, la Ville Close",
+      "title": "RT bretagne sud 4 - Concarneau, la Ville Close",
       "lat": 47.871823,
       "lng": -3.9160959,
       "desc": "Ville Close, remparts et port, ambiance de corsaires. Ruelles fortifiées entourées d'eau.",
@@ -1735,7 +1735,7 @@
     },
     {
       "id": "d763df99-247c-4a24-b32f-f7e6911f5f37",
-      "title": "5 - Pont-Aven, cité des peintres",
+      "title": "RT bretagne sud 5 - Pont-Aven, cité des peintres",
       "lat": 47.8554896,
       "lng": -3.7482712,
       "desc": "Cité des peintres, Chapelle de Trémalo. Dégustation du kouign-amann.",
@@ -1743,7 +1743,7 @@
     },
     {
       "id": "7fcf302e-8091-40c8-9899-af8c14518b23",
-      "title": "6 - Quimper",
+      "title": "RT bretagne sud 6 - Quimper",
       "lat": 47.9955824,
       "lng": -4.102248,
       "desc": "Cathédrale Saint-Corentin et maisons à colombages. Meilleur kouign-amann de la ville.",
@@ -1751,7 +1751,7 @@
     },
     {
       "id": "f1cb934c-3af1-49ab-aea3-25eb0d685071",
-      "title": "7 - Quimperlé",
+      "title": "RT bretagne sud 7 - Quimperlé",
       "lat": 47.872586,
       "lng": -3.547546,
       "desc": "Étape sur le chemin du retour. Cœur médiéval au confluent de l'Isole et de l'Ellé.",
@@ -1759,7 +1759,7 @@
     },
     {
       "id": "8ebe3171-3725-4776-ba20-6cbfd74ba67f",
-      "title": "8 - Locronan",
+      "title": "RT bretagne sud 8 - Locronan",
       "lat": 48.098711,
       "lng": -4.207479,
       "desc": "Un des \"Plus Beaux Villages de France\". Ruelles pavées et maisons en granit du XVIIe siècle.",
@@ -1767,7 +1767,7 @@
     },
     {
       "id": "0d9f611f-555f-46e0-88be-61dbb5beb16f",
-      "title": "9 - Carnac, alignements de menhirs",
+      "title": "RT bretagne sud 9 - Carnac, alignements de menhirs",
       "lat": 47.5918383,
       "lng": -3.0835991,
       "desc": "2 934 menhirs alignés, l'un des plus grands sites mégalithiques du monde.",
@@ -1775,7 +1775,7 @@
     },
     {
       "id": "8f5d4eb1-dc27-4bc1-9975-2dfb71001274",
-      "title": "10 - Clisson",
+      "title": "RT bretagne sud 10 - Clisson",
       "lat": 47.0874628,
       "lng": -1.2837555,
       "desc": "Ville aux influences italiennes, ruines du château. Site du festival Hellfest.",
@@ -1783,7 +1783,7 @@
     },
     {
       "id": "a7b12a46-d558-4cf8-966e-baa97c592fd0",
-      "title": "La Roche-Bernard",
+      "title": "RT bretagne sud 11 La Roche-Bernard",
       "lat": 47.51743843145104,
       "lng": -2.302923202514649,
       "desc": "Petite Cité de Caractère. Flânerie sur son vieux port au bord de la Vilaine, puis montée dans le quartier historique pour admirer les anciens entrepôts de sel et d'impressionnants points de vue depuis le rocher.",
