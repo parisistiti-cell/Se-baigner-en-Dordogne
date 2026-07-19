@@ -1732,6 +1732,14 @@
       "lng": -3.9160959,
       "desc": "Ville Close, remparts et port, ambiance de corsaires. Ruelles fortifiées entourées d'eau.",
       "img": null
+    },
+    {
+      "id": "d763df99-247c-4a24-b32f-f7e6911f5f37",
+      "title": "5 - Pont-Aven, cité des peintres",
+      "lat": 47.8554896,
+      "lng": -3.7482712,
+      "desc": "Cité des peintres, Chapelle de Trémalo. Dégustation du kouign-amann.",
+      "img": null
     }
   ]
 }
