@@ -1812,6 +1812,14 @@
       "lng": -3.58491,
       "desc": "Chemin des peintres, sur les pas des artistes de l'école de Pont-Aven. Kilomètres de marche le long de la côte.",
       "img": null
+    },
+    {
+      "id": "bdc2e113-aa7c-4507-8f29-b299419ff633",
+      "title": "4 - Concarneau, la Ville Close",
+      "lat": 47.871823,
+      "lng": -3.9160959,
+      "desc": "Ville Close, remparts et port, ambiance de corsaires. Ruelles fortifiées entourées d'eau.",
+      "img": null
     }
   ]
 }
