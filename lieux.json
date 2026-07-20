@@ -1852,6 +1852,14 @@
       "lng": -9.0627552,
       "desc": "Paysage lunaire de pavages calcaires uniques en Europe. Flore rare et sites mégalithiques.",
       "img": null
+    },
+    {
+      "id": "2b988979-1bb0-4d70-b0f5-6d3f88627ab4",
+      "title": "9 - Cliffs of Moher",
+      "lat": 52.9715368,
+      "lng": -9.4308825,
+      "desc": "Falaises vertigineuses de 200 m surplombant l'Atlantique. Vue depuis O'Brien's Tower.",
+      "img": null
     }
   ]
 }
