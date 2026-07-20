@@ -1796,6 +1796,14 @@
       "lng": -10.0202388,
       "desc": "Base pour explorer le Connemara, ambiance pubs typiques. Sky Road, château de Clifden. Excursions vers Tully et l'île d'Omey.",
       "img": null
+    },
+    {
+      "id": "81ad5b40-9847-4a69-80db-ce8a0cc2c14c",
+      "title": "2 - Diamond Hill",
+      "lat": 53.54819,
+      "lng": -9.9147038,
+      "desc": "Randonnée dans le Connemara National Park. Panorama à 360° sur les Twelve Bens et la côte atlantique.",
+      "img": null
     }
   ]
 }
