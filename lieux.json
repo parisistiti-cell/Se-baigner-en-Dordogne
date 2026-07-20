@@ -1868,6 +1868,14 @@
       "lng": -9.3774199,
       "desc": "Village connu pour sa musique traditionnelle irlandaise dans les pubs. Point de départ pour les Cliffs of Moher.",
       "img": null
+    },
+    {
+      "id": "c895f6f1-019b-4f36-a39b-efa2dcc9bb49",
+      "title": "11 - Limerick",
+      "lat": 52.663839,
+      "lng": -8.6267299,
+      "desc": "Étape sur la route vers le sud, château du roi Jean. Bord de la rivière Shannon.",
+      "img": null
     }
   ]
 }
