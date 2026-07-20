@@ -1791,7 +1791,7 @@
     },
     {
       "id": "07c1e803-49c6-4cca-8dac-669fb171e59b",
-      "title": "1 - Clifden (Buttermilk Lodge)",
+      "title": "RT connemara 1 - Clifden (Buttermilk Lodge)",
       "lat": 53.4891345,
       "lng": -10.0202388,
       "desc": "Base pour explorer le Connemara, ambiance pubs typiques. Sky Road, château de Clifden. Excursions vers Tully et l'île d'Omey.",
@@ -1799,7 +1799,7 @@
     },
     {
       "id": "81ad5b40-9847-4a69-80db-ce8a0cc2c14c",
-      "title": "2 - Diamond Hill",
+      "title": "RT connemara 2 - Diamond Hill",
       "lat": 53.54819,
       "lng": -9.9147038,
       "desc": "Randonnée dans le Connemara National Park. Panorama à 360° sur les Twelve Bens et la côte atlantique.",
@@ -1807,7 +1807,7 @@
     },
     {
       "id": "126c7a15-b0c5-494a-a863-451c2c489dc0",
-      "title": "3 - Mannin Bay & Ballyconneely",
+      "title": "RT connemara 3 - Mannin Bay & Ballyconneely",
       "lat": 53.441882,
       "lng": -10.0641374,
       "desc": "Mannin Bay, plage de sable corallien aux eaux turquoise. Connemara Smokehouse Ltd. Bunowen Pier, Ballyconneely.",
@@ -1815,7 +1815,7 @@
     },
     {
       "id": "ffa1d8ae-e58a-4e5a-87eb-ab025d3010fc",
-      "title": "4 - Abbaye de Kylemore",
+      "title": "RT connemara 4 - Abbaye de Kylemore",
       "lat": 53.5616392,
       "lng": -9.8893127,
       "desc": "Abbaye néogothique nichée entre montagnes et lac. Jardin victorien clos et petite chapelle gothique.",
@@ -1823,7 +1823,7 @@
     },
     {
       "id": "87f5ee85-4016-4e87-b6d4-3389b4175884",
-      "title": "5 - Lacs du Connemara",
+      "title": "RT connemara 5 - Lacs du Connemara",
       "lat": 53.4667524,
       "lng": -9.7390852,
       "desc": "Traversée des paysages de lacs et tourbières du Connemara. Arrêt photo dans la région de Recess.",
@@ -1831,7 +1831,7 @@
     },
     {
       "id": "64d0cd2d-2dfd-497c-bc95-b50189ed6032",
-      "title": "6 - Galway",
+      "title": "RT connemara 6 - Galway",
       "lat": 53.274001,
       "lng": -9.0512662,
       "desc": "Ville animée, rues pavées et pubs traditionnels. Point de départ pour les excursions vers les Aran Islands.",
@@ -1839,7 +1839,7 @@
     },
     {
       "id": "ed5038a3-940e-48ba-a6c6-b51c824b4aff",
-      "title": "7 - Aran Islands, Inishmore & Dún Aonghasa",
+      "title": "RT connemara 7 - Aran Islands, Inishmore & Dún Aonghasa",
       "lat": 53.1255535,
       "lng": -9.7668478,
       "desc": "Visite de l'île Inishmore. Fort préhistorique de Dún Aonghasa perché sur une falaise. Colonie de phoques.",
@@ -1847,7 +1847,7 @@
     },
     {
       "id": "a50d1d14-6c01-4656-a881-f3fee71bd431",
-      "title": "8 - Parc national du Burren",
+      "title": "RT connemara 8 - Parc national du Burren",
       "lat": 52.9448967,
       "lng": -9.0627552,
       "desc": "Paysage lunaire de pavages calcaires uniques en Europe. Flore rare et sites mégalithiques.",
@@ -1855,7 +1855,7 @@
     },
     {
       "id": "2b988979-1bb0-4d70-b0f5-6d3f88627ab4",
-      "title": "9 - Cliffs of Moher",
+      "title": "RT connemara 9 - Cliffs of Moher",
       "lat": 52.9715368,
       "lng": -9.4308825,
       "desc": "Falaises vertigineuses de 200 m surplombant l'Atlantique. Vue depuis O'Brien's Tower.",
@@ -1863,7 +1863,7 @@
     },
     {
       "id": "d4d5e783-eac9-45ca-8f07-7a1498887407",
-      "title": "10 - Doolin",
+      "title": "RT connemara 10 - Doolin",
       "lat": 53.0160289,
       "lng": -9.3774199,
       "desc": "Village connu pour sa musique traditionnelle irlandaise dans les pubs. Point de départ pour les Cliffs of Moher.",
@@ -1871,7 +1871,7 @@
     },
     {
       "id": "c895f6f1-019b-4f36-a39b-efa2dcc9bb49",
-      "title": "11 - Limerick",
+      "title": "RT connemara 11 - Limerick",
       "lat": 52.663839,
       "lng": -8.6267299,
       "desc": "Étape sur la route vers le sud, château du roi Jean. Bord de la rivière Shannon.",
@@ -1879,7 +1879,7 @@
     },
     {
       "id": "32e6c934-df97-4fae-8999-f50cf916046c",
-      "title": "12 - Mizen Head",
+      "title": "RT connemara 12 - Mizen Head",
       "lat": 51.4502311,
       "lng": -9.8188215,
       "desc": "Point le plus au sud-ouest de l'Irlande, falaises spectaculaires. Passerelle emblématique vers le phare.",
@@ -1887,7 +1887,7 @@
     },
     {
       "id": "c9fa8164-92f8-4c85-bd9a-1a783f2f41b7",
-      "title": "13 - Bantry",
+      "title": "RT connemara 13 - Bantry",
       "lat": 51.6798532,
       "lng": -9.4611105,
       "desc": "Petit port pittoresque sur la baie de Bantry. Bantry House à proximité.",
@@ -1895,7 +1895,7 @@
     },
     {
       "id": "3f192ee2-96b8-4145-bac7-f306e3b8d80b",
-      "title": "14 - Cork (English Market)",
+      "title": "RT connemara 14 - Cork (English Market)",
       "lat": 51.8976635,
       "lng": -8.4750684,
       "desc": "English Market, marché couvert historique et gourmand. Dernière étape avant le retour.",
