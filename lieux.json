@@ -1972,6 +1972,14 @@
       "lng": -2.7200782,
       "desc": "Port de pêche animé, architecture basque typique autour du vieux port.",
       "img": null
+    },
+    {
+      "id": "bc8ee666-9082-41b7-826c-e351f2f8f165",
+      "title": "10 - Gernika (Guernica)",
+      "lat": 43.3132097,
+      "lng": -2.6796198,
+      "desc": "Maison des Assemblées (Casa de Juntas) et l'Arbre de Gernika, symbole basque. Histoire liée au tableau de Picasso.",
+      "img": null
     }
   ]
 }
