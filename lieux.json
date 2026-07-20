@@ -1876,6 +1876,14 @@
       "lng": -8.6267299,
       "desc": "Étape sur la route vers le sud, château du roi Jean. Bord de la rivière Shannon.",
       "img": null
+    },
+    {
+      "id": "32e6c934-df97-4fae-8999-f50cf916046c",
+      "title": "12 - Mizen Head",
+      "lat": 51.4502311,
+      "lng": -9.8188215,
+      "desc": "Point le plus au sud-ouest de l'Irlande, falaises spectaculaires. Passerelle emblématique vers le phare.",
+      "img": null
     }
   ]
 }
