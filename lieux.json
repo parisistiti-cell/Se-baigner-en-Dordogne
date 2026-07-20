@@ -1916,6 +1916,14 @@
       "lng": -1.529178,
       "desc": "Grandes plages sauvages, spot de surf réputé. Longue promenade côtière entre Biarritz et Bayonne.",
       "img": null
+    },
+    {
+      "id": "5627fe29-3d09-4a95-861a-7cd6183c8e44",
+      "title": "3 - Biarritz",
+      "lat": 43.4871335,
+      "lng": -1.5558089,
+      "desc": "Grande Plage et ambiance balnéaire chic. Rocher de la Vierge et Côte des Basques.",
+      "img": null
     }
   ]
 }
