@@ -1884,6 +1884,14 @@
       "lng": -9.8188215,
       "desc": "Point le plus au sud-ouest de l'Irlande, falaises spectaculaires. Passerelle emblématique vers le phare.",
       "img": null
+    },
+    {
+      "id": "c9fa8164-92f8-4c85-bd9a-1a783f2f41b7",
+      "title": "13 - Bantry",
+      "lat": 51.6798532,
+      "lng": -9.4611105,
+      "desc": "Petit port pittoresque sur la baie de Bantry. Bantry House à proximité.",
+      "img": null
     }
   ]
 }
