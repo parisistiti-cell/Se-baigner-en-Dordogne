@@ -1788,6 +1788,14 @@
       "lng": -2.302923202514649,
       "desc": "Petite Cité de Caractère. Flânerie sur son vieux port au bord de la Vilaine, puis montée dans le quartier historique pour admirer les anciens entrepôts de sel et d'impressionnants points de vue depuis le rocher.",
       "img": null
+    },
+    {
+      "id": "07c1e803-49c6-4cca-8dac-669fb171e59b",
+      "title": "1 - Clifden (Buttermilk Lodge)",
+      "lat": 53.4891345,
+      "lng": -10.0202388,
+      "desc": "Base pour explorer le Connemara, ambiance pubs typiques. Sky Road, château de Clifden. Excursions vers Tully et l'île d'Omey.",
+      "img": null
     }
   ]
 }
