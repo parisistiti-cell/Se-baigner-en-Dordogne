@@ -1900,6 +1900,14 @@
       "lng": -8.4750684,
       "desc": "English Market, marché couvert historique et gourmand. Dernière étape avant le retour.",
       "img": null
+    },
+    {
+      "id": "24646eae-5c96-4e7f-ab18-d171601f8586",
+      "title": "1 - Bayonne",
+      "lat": 43.4933417,
+      "lng": -1.4746233,
+      "desc": "Cœur historique entre Nive et Adour, maisons à colombages colorées. Cathédrale Sainte-Marie et quartier du Petit Bayonne.",
+      "img": null
     }
   ]
 }
