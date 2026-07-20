@@ -1812,6 +1812,14 @@
       "lng": -10.0641374,
       "desc": "Mannin Bay, plage de sable corallien aux eaux turquoise. Connemara Smokehouse Ltd. Bunowen Pier, Ballyconneely.",
       "img": null
+    },
+    {
+      "id": "ffa1d8ae-e58a-4e5a-87eb-ab025d3010fc",
+      "title": "4 - Abbaye de Kylemore",
+      "lat": 53.5616392,
+      "lng": -9.8893127,
+      "desc": "Abbaye néogothique nichée entre montagnes et lac. Jardin victorien clos et petite chapelle gothique.",
+      "img": null
     }
   ]
 }
