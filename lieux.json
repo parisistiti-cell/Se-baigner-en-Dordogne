@@ -1940,6 +1940,14 @@
       "lng": -1.7917441,
       "desc": "Ville frontalière entre France et Espagne. Étape de transition vers le Pays basque espagnol.",
       "img": null
+    },
+    {
+      "id": "1f66bb2c-47d1-4e24-b228-5928f6c4e52a",
+      "title": "6 - Saint-Sébastien",
+      "lat": 43.3186188,
+      "lng": -1.9860118,
+      "desc": "Plage de la Concha, l'une des plus belles baies urbaines d'Europe. Vieille ville et dégustation de pintxos.",
+      "img": null
     }
   ]
 }
