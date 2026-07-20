@@ -1860,6 +1860,14 @@
       "lng": -9.4308825,
       "desc": "Falaises vertigineuses de 200 m surplombant l'Atlantique. Vue depuis O'Brien's Tower.",
       "img": null
+    },
+    {
+      "id": "d4d5e783-eac9-45ca-8f07-7a1498887407",
+      "title": "10 - Doolin",
+      "lat": 53.0160289,
+      "lng": -9.3774199,
+      "desc": "Village connu pour sa musique traditionnelle irlandaise dans les pubs. Point de départ pour les Cliffs of Moher.",
+      "img": null
     }
   ]
 }
