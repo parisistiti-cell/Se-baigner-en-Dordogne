@@ -1924,6 +1924,14 @@
       "lng": -1.5558089,
       "desc": "Grande Plage et ambiance balnéaire chic. Rocher de la Vierge et Côte des Basques.",
       "img": null
+    },
+    {
+      "id": "68a735ed-6760-48bf-84a8-dbc6359bc9e4",
+      "title": "4 - Saint-Jean-de-Luz",
+      "lat": 43.3877567,
+      "lng": -1.6603943,
+      "desc": "Port de pêche traditionnel et jolie baie abritée. Maison Louis XIV et vieille ville pittoresque.",
+      "img": null
     }
   ]
 }
