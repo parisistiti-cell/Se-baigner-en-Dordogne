@@ -1844,6 +1844,14 @@
       "lng": -9.7668478,
       "desc": "Visite de l'île Inishmore. Fort préhistorique de Dún Aonghasa perché sur une falaise. Colonie de phoques.",
       "img": null
+    },
+    {
+      "id": "a50d1d14-6c01-4656-a881-f3fee71bd431",
+      "title": "8 - Parc national du Burren",
+      "lat": 52.9448967,
+      "lng": -9.0627552,
+      "desc": "Paysage lunaire de pavages calcaires uniques en Europe. Flore rare et sites mégalithiques.",
+      "img": null
     }
   ]
 }
