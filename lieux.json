@@ -47,7 +47,7 @@
     },
     {
       "id": "0e81b8f1-721a-41ec-85ed-73a1c120a4a0",
-      "title": "DCB",
+      "title": "La croisée des chemins",
       "lat": 45.302776639208,
       "lng": 0.9313058853149415,
       "desc": "Chemin de terre dans les bois , dernier lieu.",
@@ -55,7 +55,7 @@
     },
     {
       "id": "ee67c9ea-2c07-425e-aba8-f2bf4cf76713",
-      "title": "BAM",
+      "title": "Hors du temps",
       "lat": 45.31691093604066,
       "lng": 1.0239386558532717,
       "desc": "Un coin de pré juste fauché près de La Loue.",
@@ -63,7 +63,7 @@
     },
     {
       "id": "40314a10-db82-4c55-b90a-080caf5ff660",
-      "title": "HPN",
+      "title": "Un repaire",
       "lat": 45.20884640674488,
       "lng": 0.7171583175659181,
       "desc": "Au milieu des pins.",
@@ -367,7 +367,7 @@
     },
     {
       "id": "0c3c0540-6bc3-4a58-b17a-dcfba345d423",
-      "title": "RVB",
+      "title": "Le point de rencontre",
       "lat": 45.1872430850933,
       "lng": 0.741029579411019,
       "desc": "Pique-nique",
@@ -375,7 +375,7 @@
     },
     {
       "id": "17f15948-b6ee-4817-bb07-c093e91728ce",
-      "title": "BdP",
+      "title": "Une échappée belle",
       "lat": 44.99727116791613,
       "lng": 1.2205491479382016,
       "desc": "Bain de pieds, lavoir sur la Beune, Centre la Pelvezy",
@@ -391,7 +391,7 @@
     },
     {
       "id": "daeec461-322e-4eee-88ef-408d5d873ef4",
-      "title": "BdV",
+      "title": "La bulle",
       "lat": 44.92944170423853,
       "lng": 1.1046821177097546,
       "desc": "Buée...",
@@ -399,7 +399,7 @@
     },
     {
       "id": "056fbda9-85bb-4582-9265-6f4dfa1fea03",
-      "title": "AdB1",
+      "title": "Le sanctuaire",
       "lat": 44.94613477906627,
       "lng": 1.0947261916925124,
       "desc": "Pause en face du château de Commarque",
@@ -407,7 +407,7 @@
     },
     {
       "id": "95a605ff-8605-4135-95c3-472a56718103",
-      "title": "AdB2",
+      "title": "L'alcôve ",
       "lat": 44.88886718625255,
       "lng": -1.1764439799453787,
       "desc": "Dans les pins.",
