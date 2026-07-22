@@ -1932,6 +1932,14 @@
       "lng": -1.6603943,
       "desc": "Socoa",
       "img": null
+    },
+    {
+      "id": "dbc6fa6c-adc1-43e8-b2f0-9314509483d2",
+      "title": "Les Gorges de Galamus",
+      "lat": 42.84374074929361,
+      "lng": 2.4693489074707036,
+      "desc": "Site naturel classé et protégé, le site grandiose des Gorges de Galamus vous surprendra par son relief particulier. Les eaux de l’Agly ont creusé ces parois calcaires sur plus de 500 mètres de profondeur pour rejoindre la Méditerranée.",
+      "img": null
     }
   ]
 }
