@@ -1661,7 +1661,7 @@
                 <input type="file" id="input-photo-localisation" accept="image/*" style="display:none">
             </div>
 
-            <div class="dropdown-overlay" id="search-dropdown-menu">
+            <div class="dropdown-overlay collapsed-menu" id="search-dropdown-menu">
         <div class="menu-toggle-handle" onclick="toggleSearchMenu()">
             <span>🔍 Voir/gérer</span>
             <span class="menu-toggle-actions" onclick="event.stopPropagation();">
@@ -2713,6 +2713,11 @@ if (btnToggleLieux) {
             if (btnReafficherEntete) btnReafficherEntete.classList.remove('visible');
         }
 
+        // Au lancement du site : on laisse un maximum de place à la carte en ne
+        // montrant que la loupe (bouton rond 🔍). Le bandeau titre, le champ de
+        // recherche et le menu "Voir/gérer" ne réapparaissent qu'au clic sur la loupe.
+        masquerEntete();
+
         // Bouton "➕" de la barre de recherche : équivalent visible et tactile
         // du double-clic/double-tap sur la carte pour ajouter un nouveau lieu
         // (ce geste reste fonctionnel mais n'est signalé nulle part à l'écran,
@@ -3337,6 +3342,9 @@ if (btnToggleLieux) {
             selectSpot(spot, true);
             if(searchInput) searchInput.value = '';
             resultsContainer.style.display = 'none';
+            // Le lieu est trouvé : on redonne la place à la carte (le petit popup
+            // nom/inscrire/partager/détail suffit, la recherche se replie sur la loupe).
+            masquerEntete();
         }
 
         // --- Cas particulier : le lieu recherché au clavier est déjà inscrit dans
@@ -3362,6 +3370,7 @@ if (btnToggleLieux) {
             afficherMessageDejaBase();
             if(searchInput) searchInput.value = '';
             resultsContainer.style.display = 'none';
+            masquerEntete();
             setTimeout(() => selectSpot(spot, true), 900);
         }
 
@@ -3574,11 +3583,12 @@ if (btnToggleLieux) {
             div.className = 'popup-bubble-content';
             div.innerHTML = `
                 <h4>${(spot.numero && !spot.isTop12) ? spot.numero + '. ' : ''}${spot.title}</h4>
-                <div style="display:flex;gap:4px;justify-content:center;">
+                <div style="display:flex;gap:4px;justify-content:center;flex-wrap:wrap;">
                     <button class="popup-btn ${isFavorite ? 'active' : ''}" onclick="toggleNotebook('${spot.id}'); refreshPopup('${spot.id}'); event.stopPropagation();">
                         ${isFavorite ? '❤️ Retirer' : '📖 Inscrire'}
                     </button>
                     <button class="popup-btn popup-btn-crypt" onclick="partagerSpotExistant('${spot.id}'); event.stopPropagation();">🔗 Partager</button>
+                    <button class="popup-btn" onclick="afficherDetailsSpot('${spot.id}'); event.stopPropagation();">ℹ️ Détail</button>
                 </div>
             `;
             return div;
@@ -3589,6 +3599,10 @@ if (btnToggleLieux) {
             if (marker && map && marker.isPopupOpen()) { marker.setPopupContent(createPopupContent(allSpots.find(s => s.id == spotId))); }
         }
 
+        // selectSpot : ne fait plus qu'amener le repère à l'écran et ouvrir le petit
+        // popup (nom / inscrire / partager / détail). Le panneau complet (météo, feux,
+        // webcam, lieux proches...) ne s'ouvre plus automatiquement : il faut cliquer
+        // sur le bouton "ℹ️ Détail" du popup, qui appelle afficherDetailsSpot ci-dessous.
         function selectSpot(spot, repositionMap = true) {
             if (map && markers[spot.id]) {
                 const marker = markers[spot.id];
@@ -3597,6 +3611,22 @@ if (btnToggleLieux) {
                 if (!map.hasLayer(marker)) marker.addTo(map);
                 if (repositionMap) map.setView([spot.lat, spot.lng], 14);
                 marker.openPopup();
+            }
+        }
+
+        // Ouvre le panneau complet des détails (météo, feux, webcam, réseaux sociaux,
+        // lieux proches...) pour un lieu déjà identifié par son id (bouton "ℹ️ Détail"
+        // du petit popup de la carte).
+        function afficherDetailsSpot(spotId) {
+            const spot = allSpots.find(s => s.id == spotId);
+            if (spot) afficherDetails(spot);
+        }
+
+        function afficherDetails(spot) {
+            // Le panneau détaillé va s'ouvrir : on referme le petit popup du repère
+            // (nom / inscrire / partager / détail) pour ne pas superposer les deux.
+            if (map && markers[spot.id] && markers[spot.id].isPopupOpen()) {
+                markers[spot.id].closePopup();
             }
             const googleMapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${spot.lat},${spot.lng}`;
             const googleImagesUrl = `https://www.google.com/search?tbm=isch&q=${encodeURIComponent(spot.title)}`;
@@ -4334,7 +4364,9 @@ if (btnToggleLieux) {
                     <div class="nearby-list">${contenuListe}</div>
                 `;
 
-                afficherLieuxProchesSurCarte(elementId);
+                // Par défaut, les repères mauves "À voir à proximité" ne sont plus
+                // affichés automatiquement sur la carte : l'utilisateur les active
+                // lui-même via le bouton "🗺️ Afficher sur la carte" ci-dessus.
             } catch (e) {
                 if (nearbyRequestCounters[elementId] !== requestId) return;
                 console.error('[Lieux à visiter] Erreur de traitement des résultats :', e);
