@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Éditeur de Roadtrip JSON</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background: #f4f4f9; color: #333; }
+        h1, h2 { color: #2c3e50; }
+        .container { max-width: 900px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        label { display: block; margin-top: 10px; font-weight: bold; }
+        input[type="text"], input[type="number"], textarea { width: 100%; padding: 8px; margin-top: 5px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; }
+        textarea { height: 80px; }
+        button { background: #3498db; color: white; border: none; padding: 10px 15px; cursor: pointer; border-radius: 4px; margin-top: 10px; }
+        button:hover { background: #2980b9; }
+        .danger { background: #e74c3c; }
+        .danger:hover { background: #c0392b; }
+        .success { background: #27ae60; }
+        .success:hover { background: #219653; }
+        .spot-card { background: #fafafa; border: 1px solid #e1e1e1; padding: 15px; margin-bottom: 15px; border-radius: 5px; position: relative; }
+        .actions { margin-top: 20px; display: flex; gap: 10px; flex-wrap: wrap; }
+        .file-box { background: #eef2f7; padding: 15px; border-radius: 6px; margin-bottom: 20px; }
+        .note { font-size: 0.9em; color: #555; margin-top: 5px; font-style: italic; }
+        .readonly-field { background: #e9ecef; color: #495057; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Éditeur de Structure Roadtrip</h1>
+    
+    <div class="file-box">
+        <label for="filePicker">Sélectionner votre fichier JSON d'origine :</label>
+        <input type="file" id="filePicker" accept=".json" onchange="chargerFichierLocal(event)">
+    </div>
+
+    <div id="editeurInterface" style="margin-top: 30px; display:none;">
+        <hr>
+        <h2>Informations Générales</h2>
+        <label>Nom du Roadtrip (nom) :</label>
+        <input type="text" id="fieldNom">
+        <label>Application (app) :</label>
+        <input type="text" id="fieldApp">
+        <label>Type :</label>
+        <input type="text" id="fieldType">
+        <label>Version :</label>
+        <input type="number" id="fieldVersion">
+        
+        <label>IDs des étapes enregistrées (savedSpotIds - mis à jour automatiquement) :</label>
+        <input type="text" id="fieldSavedSpotIds" class="readonly-field" readonly>
+
+        <h2>Étapes (customSpots)</h2>
+        <div id="spotsContainer"></div>
+        <button onclick="ajouterSpot()">+ Ajouter une étape</button>
+
+        <div class="actions">
+            <button class="success" onclick="enregistrerFichierDirect()" style="font-size: 16px;">💾 Forcer l'enregistrement sous...</button>
+        </div>
+        <p class="note">Note : Si le fichier s'enregistre automatiquement dans "Téléchargements" sans vous demander où, c'est un réglage de votre navigateur.</p>
+    </div>
+</div>
+
+<script>
+    let donneesActuelles = {};
+    let nomFichierOriginal = "rrr.json";
+    let prefixeIdCommun = "etape";
+
+    function chargerFichierLocal(event) {
+        const fichier = event.target.files[0];
+        if (!fichier) return;
+
+        nomFichierOriginal = fichier.name;
+
+        const lecteur = new FileReader();
+        lecteur.onload = function(e) {
+            try {
+                analyserEtAfficher(e.target.result);
+            } catch (err) {
+                alert('Erreur lors de la lecture du fichier : ' + err.message);
+            }
+        };
+        lecteur.readAsText(fichier);
+    }
+
+    function analyserEtAfficher(texteJson) {
+        try {
+            donneesActuelles = JSON.parse(texteJson);
+            
+            // Détection dynamique du préfixe des IDs à partir du premier spot s'il existe
+            if (donneesActuelles.customSpots && donneesActuelles.customSpots.length > 0) {
+                const premierId = donneesActuelles.customSpots[0].id || "";
+                const match = premierId.match(/^(.*-)[^-]+$/);
+                if (match) {
+                    prefixeIdCommun = match[1];
+                } else {
+                    prefixeIdCommun = donneesActuelles.nom ? donneesActuelles.nom.toLowerCase() + "-" : "spot-";
+                }
+            } else {
+                prefixeIdCommun = donneesActuelles.nom ? donneesActuelles.nom.toLowerCase() + "-" : "spot-";
+            }
+
+            document.getElementById('fieldNom').value = donneesActuelles.nom || '';
+            document.getElementById('fieldApp').value = donneesActuelles.app || '';
+            document.getElementById('fieldType').value = donneesActuelles.type || '';
+            document.getElementById('fieldVersion').value = donneesActuelles.version || 1;
+
+            afficherSpots();
+            document.getElementById('editeurInterface').style.display = 'block';
+            alert('Fichier chargé avec succès !');
+        } catch (e) {
+            alert('Erreur de syntaxe JSON : ' + e.message);
+        }
+    }
+
+    function mettreAJourSavedSpotIds() {
+        if (!donneesActuelles.customSpots) donneesActuelles.customSpots = [];
+        // Extrait tous les IDs actuels des customSpots sous forme de tableau
+        const ids = donneesActuelles.customSpots.map(spot => spot.id).filter(id => id);
+        donneesActuelles.savedSpotIds = ids;
+        
+        // Affiche dans l'input en format lisible (séparé par des virgules ou tableau JSON)
+        document.getElementById('fieldSavedSpotIds').value = JSON.stringify(ids);
+    }
+
+    function afficherSpots() {
+        const container = document.getElementById('spotsContainer');
+        container.innerHTML = '';
+
+        if (!donneesActuelles.customSpots) donneesActuelles.customSpots = [];
+
+        donneesActuelles.customSpots.forEach((spot, index) => {
+            const div = document.createElement('div');
+            div.className = 'spot-card';
+            div.innerHTML = `
+                <h3>Étape ${index + 1} (ID: ${spot.id})</h3>
+                <label>ID :</label>
+                <input type="text" value="${spot.id || ''}" onchange="modifierIdSpot(${index}, this.value)">
+                
+                <label>Numéro :</label>
+                <input type="text" value="${spot.numero || ''}" onchange="modifierSpot(${index}, 'numero', this.value)">
+                
+                <label>Titre :</label>
+                <input type="text" value="${spot.title || ''}" onchange="modifierSpot(${index}, 'title', this.value)">
+                
+                <label>Latitude :</label>
+                <input type="number" step="any" value="${spot.lat || 0}" onchange="modifierSpot(${index}, 'lat', parseFloat(this.value))">
+                
+                <label>Longitude :</label>
+                <input type="number" step="any" value="${spot.lng || 0}" onchange="modifierSpot(${index}, 'lng', parseFloat(this.value))">
+                
+                <label>Description (une ligne par point) :</label>
+                <textarea onchange="modifierDesc(${index}, this.value)">${Array.isArray(spot.desc) ? spot.desc.join('\n') : ''}</textarea>
+                
+                <button class="danger" onclick="supprimerSpot(${index})">Supprimer cette étape</button>
+            `;
+            container.appendChild(div);
+        });
+
+        // Met à jour la liste des IDs à chaque affichage
+        mettreAJourSavedSpotIds();
+    }
+
+    function modifierSpot(index, champ, valeur) {
+        donneesActuelles.customSpots[index][champ] = valeur;
+    }
+
+    function modifierIdSpot(index, valeur) {
+        donneesActuelles.customSpots[index].id = valeur;
+        mettreAJourSavedSpotIds();
+        // Met à jour dynamiquement le titre de la carte de l'étape sans tout recharger
+        const cards = document.getElementsByClassName('spot-card');
+        if(cards[index]) {
+            const h3 = cards[index].querySelector('h3');
+            if(h3) h3.innerText = `Étape ${index + 1} (ID: ${valeur})`;
+        }
+    }
+
+    function modifierDesc(index, valeur) {
+        donneesActuelles.customSpots[index].desc = valeur.split('\n').filter(ligne => ligne.trim() !== '');
+    }
+
+    function supprimerSpot(index) {
+        if(confirm('Voulez-vous vraiment supprimer cette étape ?')) {
+            donneesActuelles.customSpots.splice(index, 1);
+            afficherSpots();
+        }
+    }
+
+    function ajouterSpot() {
+        const nouvelleIndex = donneesActuelles.customSpots.length + 1;
+        const nouvelId = prefixeIdCommun + "j" + nouvelleIndex;
+        
+        donneesActuelles.customSpots.push({
+            id: nouvelId,
+            title: "Nouvelle étape",
+            lat: 44.0,
+            lng: 4.0,
+            desc: ["Description de l'étape"],
+            img: null,
+            isCustom: true,
+            numero: nouvelleIndex + "C"
+        });
+        afficherSpots();
+    }
+
+    function preparerDonnees() {
+        donneesActuelles.nom = document.getElementById('fieldNom').value;
+        donneesActuelles.app = document.getElementById('fieldApp').value;
+        donneesActuelles.type = document.getElementById('fieldType').value;
+        donneesActuelles.version = parseInt(document.getElementById('fieldVersion').value) || 1;
+        
+        // S'assure que savedSpotIds est bien actualisé juste avant l'enregistrement
+        mettreAJourSavedSpotIds();
+        
+        donneesActuelles.savedAt = new Date().toISOString();
+        return JSON.stringify(donneesActuelles, null, 2);
+    }
+
+    async function enregistrerFichierDirect() {
+        const jsonString = preparerDonnees();
+
+        if (window.showSaveFilePicker) {
+            try {
+                const options = {
+                    suggestedName: nomFichierOriginal,
+                    types: [{
+                        description: 'Fichiers JSON',
+                        accept: { 'application/json': ['.json'] },
+                    }],
+                };
+                const handle = await window.showSaveFilePicker(options);
+                const writable = await handle.createWritable();
+                await writable.write(jsonString);
+                await writable.close();
+                alert("Fichier enregistré avec succès !");
+                return;
+            } catch (err) {
+                if (err.name === 'AbortError') return;
+            }
+        }
+
+        const blob = new Blob([jsonString], { type: 'application/octet-stream' });
+        const url = URL.createObjectURL(blob);
+        const downloadAnchor = document.createElement('a');
+        downloadAnchor.href = url;
+        downloadAnchor.download = nomFichierOriginal;
+        
+        document.body.appendChild(downloadAnchor);
+        downloadAnchor.click();
+        
+        setTimeout(() => {
+            document.body.removeChild(downloadAnchor);
+            URL.revokeObjectURL(url);
+        }, 100);
+    }
+</script>
+
+</body>
+</html>
