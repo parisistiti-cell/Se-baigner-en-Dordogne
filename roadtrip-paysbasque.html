@@ -7996,6 +7996,13 @@ if (btnToggleLieux) {
             if (ok) {
                 const select = document.getElementById('roadtrip-select');
                 if (select) select.value = 'paysbasque';
+                // Les repères du Carnet sont créés masqués par défaut (carnetVisibles = false
+                // au chargement du script) : sans cet appel, le Carnet affiche bien "14" lieux
+                // dans la liste, mais aucun repère n'apparaît sur la carte tant qu'on n'a pas
+                // cliqué manuellement sur "🙈 Afficher le carnet sur la carte". Pour cette page
+                // dont le but est justement d'ouvrir directement sur la carte du road trip, on
+                // simule ce clic automatiquement une fois le chargement terminé.
+                if (typeof toggleCarnet === 'function' && !carnetVisibles) toggleCarnet();
             }
         }
         initialiserOuvertureSite();
