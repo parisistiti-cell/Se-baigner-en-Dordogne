@@ -8048,6 +8048,27 @@ if (btnToggleLieux) {
             // sauvegarde locale" si ce n'était pas voulu.
             sauvegarderSnapshotCarnetActuel();
 
+            // Page dédiée : on repart TOUJOURS de la version publiée sur GitHub, quelle que soit la
+            // copie déjà stockée sur l'appareil (road trip importé à la main, ancien, non marqué
+            // "github"...), que la synchronisation générale ci-dessus n'écraserait pas.
+            try {
+                const rep = await fetch(GITHUB_ROADTRIPS_BASE + 'paysbasque.json?t=' + Date.now(), { cache: 'no-store' });
+                if (rep.ok) {
+                    const p = await rep.json();
+                    if (p && Array.isArray(p.savedSpotIds) && Array.isArray(p.customSpots)) {
+                        const rts = getSavedRoadtrips();
+                        rts['paysbasque'] = {
+                            savedSpotIds: p.savedSpotIds,
+                            customSpots: p.customSpots,
+                            savedAt: p.savedAt || new Date().toISOString(),
+                            source: 'github',
+                            sourceFichier: 'paysbasque.json'
+                        };
+                        setSavedRoadtrips(rts);
+                    }
+                }
+            } catch (e) { console.warn('Rafraîchissement direct de paysbasque.json impossible :', e); }
+
             const ok = chargerRoadtripParNom('paysbasque', { viaSelection: true });
             if (ok) {
                 const select = document.getElementById('roadtrip-select');
