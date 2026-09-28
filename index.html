@@ -8048,6 +8048,27 @@ if (btnToggleLieux) {
             // sauvegarde locale" si ce n'était pas voulu.
             sauvegarderSnapshotCarnetActuel();
 
+            // Le road trip par défaut repart TOUJOURS de la version publiée sur GitHub, quelle que
+            // soit la copie déjà stockée sur l'appareil (importée à la main, ancienne, non marquée
+            // "github"...), que la synchronisation générale ci-dessus n'écraserait pas.
+            try {
+                const rep = await fetch(GITHUB_ROADTRIPS_BASE + 'ardeche2026.json?t=' + Date.now(), { cache: 'no-store' });
+                if (rep.ok) {
+                    const p = await rep.json();
+                    if (p && Array.isArray(p.savedSpotIds) && Array.isArray(p.customSpots)) {
+                        const rts = getSavedRoadtrips();
+                        rts['ardeche2026'] = {
+                            savedSpotIds: p.savedSpotIds,
+                            customSpots: p.customSpots,
+                            savedAt: p.savedAt || new Date().toISOString(),
+                            source: 'github',
+                            sourceFichier: 'ardeche2026.json'
+                        };
+                        setSavedRoadtrips(rts);
+                    }
+                }
+            } catch (e) { console.warn('Rafraîchissement direct de ardeche2026.json impossible :', e); }
+
             const ok = chargerRoadtripParNom('ardeche2026', { viaSelection: true });
             if (ok) {
                 const select = document.getElementById('roadtrip-select');
