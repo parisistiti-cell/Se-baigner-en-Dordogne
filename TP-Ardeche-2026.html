@@ -6960,11 +6960,15 @@ if (btnToggleLieux) {
 
             const spotExistant = allSpots.find(s => s.id === ID_BARYCENTRE);
             if (spotExistant) {
+                // Toute ligne d'URL déjà présente (ex. lien vers le livret du road trip, définie
+                // dans le JSON) est conservée au recalcul, au lieu d'être écrasée par le texte générique.
+                const liensConserves = (Array.isArray(spotExistant.desc) ? spotExistant.desc : [])
+                    .filter(l => typeof l === 'string' && /^https?:\/\//i.test(l.trim()));
                 spotExistant.lat = point.lat;
                 spotExistant.lng = point.lng;
-                spotExistant.desc = desc;
+                spotExistant.desc = liensConserves.length ? [...desc, ...liensConserves] : desc;
                 const cs = customSpots.find(s => s.id === ID_BARYCENTRE);
-                if (cs) { cs.lat = point.lat; cs.lng = point.lng; cs.desc = desc; }
+                if (cs) { cs.lat = point.lat; cs.lng = point.lng; cs.desc = spotExistant.desc; }
                 if (markers[ID_BARYCENTRE]) markers[ID_BARYCENTRE].setLatLng([point.lat, point.lng]);
             } else {
                 const spot = {
@@ -8232,7 +8236,7 @@ if (btnToggleLieux) {
                 const items = await reponse.json();
                 if (!Array.isArray(items)) throw new Error('Réponse API GitHub inattendue');
                 const fichiers = items
-                    .filter(item => item && item.type === 'file' && /\.json$/i.test(item.name))
+                    .filter(item => item && item.type === 'file' && /\.json$/i.test(item.name) && !/^org/i.test(item.name) && !/org\.json$/i.test(item.name))
                     .map(item => item.name);
                 return fichiers.length ? fichiers : GITHUB_ROADTRIPS_FICHIERS_SECOURS;
             } catch (e) {
@@ -8254,7 +8258,7 @@ if (btnToggleLieux) {
 
             for (const fichier of fichiers) {
                 try {
-                    const reponse = await fetch(GITHUB_ROADTRIPS_BASE + fichier);
+                    const reponse = await fetch(GITHUB_ROADTRIPS_BASE + fichier + '?t=' + Date.now(), { cache: 'no-store' });
                     if (!reponse.ok) continue;
                     const payload = await reponse.json();
                     if (!payload || !Array.isArray(payload.savedSpotIds) || !Array.isArray(payload.customSpots)) continue;
