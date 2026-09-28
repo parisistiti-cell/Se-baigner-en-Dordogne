@@ -7898,8 +7898,12 @@ if (btnToggleLieux) {
                 if (!reponse.ok) throw new Error('API GitHub indisponible (' + reponse.status + ')');
                 const items = await reponse.json();
                 if (!Array.isArray(items)) throw new Error('Réponse API GitHub inattendue');
+                // Les sauvegardes/anciennes copies ("orgardeche2026.json", "paysbasqueorg.json"...)
+                // portent le MÊME nom de road trip que le fichier actuel : chargées à la suite,
+                // elles écrasaient la version à jour par l'ancienne. On les ignore.
                 const fichiers = items
-                    .filter(item => item && item.type === 'file' && /\.json$/i.test(item.name))
+                    .filter(item => item && item.type === 'file' && /\.json$/i.test(item.name)
+                        && !/^org/i.test(item.name) && !/org\.json$/i.test(item.name))
                     .map(item => item.name);
                 return fichiers.length ? fichiers : GITHUB_ROADTRIPS_FICHIERS_SECOURS;
             } catch (e) {
