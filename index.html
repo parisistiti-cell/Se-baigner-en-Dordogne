@@ -7254,7 +7254,7 @@ if (btnToggleLieux) {
                 });
                 if (customSpots.length > 0) {
                     try {
-                        const bounds = L.latLngBounds(customSpots.map(s => [s.lat, s.lng]));
+                        const bounds = L.latLngBounds(customSpots.filter(s => !s.isBarycentre).map(s => [s.lat, s.lng]));
                         map.fitBounds(bounds, { padding: [40, 40] });
                     } catch (e) {}
                 }
