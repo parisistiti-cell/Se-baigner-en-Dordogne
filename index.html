@@ -7882,7 +7882,14 @@ if (btnToggleLieux) {
             'cevennes.json',
             'charente_maritime.json',
             'chateaux_cathares.json',
-            'sudbretagne.json'
+            'sudbretagne.json',
+            'paysbasque.json',
+            'Chateaux_Loire.json',
+            'Irlande_du_nord.json',
+            'Jura.json',
+            'Last10mois.json',
+            'Pyrenees_Orientales.json',
+            'connemara.json'
         ];
 
         async function listerFichiersRoadtripsGithub() {
@@ -7914,7 +7921,7 @@ if (btnToggleLieux) {
 
             for (const fichier of fichiers) {
                 try {
-                    const reponse = await fetch(GITHUB_ROADTRIPS_BASE + fichier);
+                    const reponse = await fetch(GITHUB_ROADTRIPS_BASE + fichier + '?t=' + Date.now(), { cache: 'no-store' });
                     if (!reponse.ok) continue;
                     const payload = await reponse.json();
                     if (!payload || !Array.isArray(payload.savedSpotIds) || !Array.isArray(payload.customSpots)) continue;
