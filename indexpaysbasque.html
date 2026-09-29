@@ -8164,7 +8164,11 @@ if (btnToggleLieux) {
                     const p = await rep.json();
                     if (p && Array.isArray(p.savedSpotIds) && Array.isArray(p.customSpots)) {
                         const rts = getSavedRoadtrips();
-                        rts[lienRoadtripNomDemande] = {
+                        const cibleN = normaliserNomRoadtrip(lienRoadtripNomDemande);
+                        // Écrase la copie déjà stockée (même nom, quelle que soit la casse), sans créer de doublon.
+                        const cle = Object.keys(rts).find(n => normaliserNomRoadtrip(n) === cibleN ||
+                            normaliserNomRoadtrip(rts[n] && rts[n].sourceFichier) === cibleN) || p.nom || lienRoadtripNomDemande;
+                        rts[cle] = {
                             savedSpotIds: p.savedSpotIds, customSpots: p.customSpots,
                             savedAt: p.savedAt || new Date().toISOString(),
                             source: 'github', sourceFichier: lienRoadtripNomDemande + '.json'
