@@ -8175,10 +8175,19 @@ if (btnToggleLieux) {
             const rt = roadtrips[nom];
             roadtripEnCoursNom = (rt.source === 'github') ? null : nom;
             refreshRoadtripEnCoursUI();
+            // Par défaut les repères du carnet sont MASQUÉS sur la carte (carnetVisibles = false,
+            // cf. bouton « Afficher le carnet sur la carte ») : on les rend visibles AVANT
+            // d'appliquer le road trip, pour que ses points s'affichent à l'ouverture.
+            carnetVisibles = true;
+            majBoutonCarnet();
             appliquerCarnet(rt.savedSpotIds || [], rt.customSpots || []); // ajoute les repères + recadre la carte
             const select = document.getElementById('roadtrip-select');
             if (select) select.value = nom;
             afficherStatutRoadtrip(`Road trip « ${nom} » ouvert (${(rt.savedSpotIds || []).length} lieux).`, true);
+
+            const pointsRt = () => customSpots.filter(sp => !sp.isLieuxDB && !sp.isBarycentre);
+            pointsRt().forEach(sp => appliquerVisibiliteSelonCategorie(sp));
+            centrerCarteSur(pointsRt());
 
             if (!lienRoadtripBarycentreDemande) return;
 
@@ -8189,6 +8198,7 @@ if (btnToggleLieux) {
             if (!bary) return;
             // Petit délai : laisse finir le recadrage animé de la carte sur l'ensemble des points.
             setTimeout(() => {
+                pointsRt().forEach(sp => appliquerVisibiliteSelonCategorie(sp)); // au cas où un recalcul en aurait masqué
                 selectSpot(bary, false);   // popup + halo, sans recentrer : tous les points restent visibles
                 afficherDetails(bary);     // panneau de détail complet du barycentre
             }, 700);
