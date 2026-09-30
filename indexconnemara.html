@@ -3068,6 +3068,7 @@
          barycentre "terre ferme la plus proche" — voir ajusterSurTerreFerme() plus bas. Fichier
          local, aucun appel réseau. -->
     <script src="france-littoral.js"></script>
+    <script src="europe-voisins-littoral.js"></script>
     <script>
         // ==========================================
         // GESTION DES ONGLETS DE LA MODALE
@@ -7018,6 +7019,39 @@ if (btnToggleLieux) {
             return false;
         }
 
+        // Renvoie true si (lat, lng) est sur la terre ferme, en France (FRANCE_LITTORAL) OU dans un
+        // pays voisin (EUROPE_VOISINS_LITTORAL, voir europe-voisins-littoral.js : Espagne, Andorre,
+        // Portugal, Italie, Suisse, Allemagne, Belgique...). Sans ce second contour, tout point
+        // hors de France (ex. côte espagnole) était pris pour de la mer et n'était jamais recalé.
+        // Renvoie null si le contour de la France n'est pas chargé (indéterminé).
+        let _bboxVoisins = null;
+        function pointEstSurTerre(lat, lng) {
+            const enFrance = pointEstEnFrance(lat, lng);
+            if (enFrance === null) return null;
+            if (enFrance) return true;
+            if (typeof EUROPE_VOISINS_LITTORAL === 'undefined') return false;
+            if (!_bboxVoisins) {
+                // Boîte englobante de chaque polygone, calculée une seule fois : évite de tester
+                // le point contre des milliers de sommets de polygones lointains.
+                _bboxVoisins = EUROPE_VOISINS_LITTORAL.map(anneaux => {
+                    let minLat = 90, maxLat = -90, minLng = 180, maxLng = -180;
+                    for (const [la, ln] of anneaux[0]) {
+                        if (la < minLat) minLat = la; if (la > maxLat) maxLat = la;
+                        if (ln < minLng) minLng = ln; if (ln > maxLng) maxLng = ln;
+                    }
+                    return [minLat, maxLat, minLng, maxLng];
+                });
+            }
+            for (let i = 0; i < EUROPE_VOISINS_LITTORAL.length; i++) {
+                const b = _bboxVoisins[i];
+                if (lat < b[0] || lat > b[1] || lng < b[2] || lng > b[3]) continue;
+                const anneaux = EUROPE_VOISINS_LITTORAL[i];
+                if (pointDansAnneau(lat, lng, anneaux[0]) &&
+                    !anneaux.slice(1).some(trou => pointDansAnneau(lat, lng, trou))) return true;
+            }
+            return false;
+        }
+
         // Si le barycentre calculé tombe hors des terres françaises — rivière, lac, mer, océan,
         // canal... — cherche le point sec le plus proche en s'écartant progressivement (16
         // directions, jusqu'à 30 km). Entièrement local (contour embarqué, voir
@@ -7026,7 +7060,7 @@ if (btnToggleLieux) {
         // lors des tests — timeouts et pannes fréquents, y compris depuis un relais serveur).
         // Renvoie toujours un point ({lat, lng, ajuste}).
         function ajusterSurTerreFerme(lat, lng) {
-            if (pointEstEnFrance(lat, lng) !== false) return { lat, lng, ajuste: false }; // sur terre, ou fichier de contour indisponible : on ne touche à rien
+            if (pointEstSurTerre(lat, lng) !== false) return { lat, lng, ajuste: false }; // sur terre, ou fichier de contour indisponible : on ne touche à rien
 
             const degresParKm = 1 / 111; // approximation suffisante à cette échelle
             for (let r = 0.2; r <= 30; r += 0.2) {
@@ -7035,7 +7069,7 @@ if (btnToggleLieux) {
                     const dLat = Math.cos(rad) * r * degresParKm;
                     const dLng = (Math.sin(rad) * r * degresParKm) / Math.cos(lat * Math.PI / 180);
                     const candLat = lat + dLat, candLng = lng + dLng;
-                    if (pointEstEnFrance(candLat, candLng)) {
+                    if (pointEstSurTerre(candLat, candLng)) {
                         return { lat: candLat, lng: candLng, ajuste: true };
                     }
                 }
@@ -7904,9 +7938,21 @@ if (btnToggleLieux) {
             'connemara.json'
         ];
 
+        // fetch avec délai maximal (compatible tous navigateurs) : sans réseau ou avec un réseau
+        // très lent, on n'attend pas indéfiniment et on retombe sur la copie locale.
+        function fetchAvecDelai(url, options, delaiMs) {
+            return new Promise((resolve, reject) => {
+                const ctrl = (typeof AbortController !== 'undefined') ? new AbortController() : null;
+                const minuteur = setTimeout(() => { if (ctrl) ctrl.abort(); reject(new Error('Délai dépassé : ' + url)); }, delaiMs || 6000);
+                fetch(url, Object.assign({}, options || {}, ctrl ? { signal: ctrl.signal } : {}))
+                    .then(r => { clearTimeout(minuteur); resolve(r); })
+                    .catch(e => { clearTimeout(minuteur); reject(e); });
+            });
+        }
+
         async function listerFichiersRoadtripsGithub() {
             try {
-                const reponse = await fetch(GITHUB_ROADTRIPS_API);
+                const reponse = await fetchAvecDelai(GITHUB_ROADTRIPS_API + '?t=' + Date.now(), { cache: 'no-store' }, 5000);
                 if (!reponse.ok) throw new Error('API GitHub indisponible (' + reponse.status + ')');
                 const items = await reponse.json();
                 if (!Array.isArray(items)) throw new Error('Réponse API GitHub inattendue');
@@ -7935,11 +7981,20 @@ if (btnToggleLieux) {
             // toucher aux road trips personnels (source !== 'github').
             const fichierVersNom = {};
 
+            // Téléchargement de TOUS les fichiers en parallèle (au lieu d'un par un), toujours
+            // depuis le serveur (jamais depuis un cache), avant d'afficher quoi que ce soit.
+            const payloadsParFichier = {};
+            await Promise.all(fichiers.map(async (f) => {
+                try {
+                    const r = await fetchAvecDelai(GITHUB_ROADTRIPS_BASE + f + '?t=' + Date.now(), { cache: 'no-store' }, 8000);
+                    if (r.ok) payloadsParFichier[f] = await r.json();
+                } catch (e) { console.warn('Téléchargement impossible : ' + f, e); }
+            }));
+
             for (const fichier of fichiers) {
                 try {
-                    const reponse = await fetch(GITHUB_ROADTRIPS_BASE + fichier + '?t=' + Date.now(), { cache: 'no-store' });
-                    if (!reponse.ok) continue;
-                    const payload = await reponse.json();
+                    const payload = payloadsParFichier[fichier];
+                    if (!payload) continue;
                     if (!payload || !Array.isArray(payload.savedSpotIds) || !Array.isArray(payload.customSpots)) continue;
 
                     const nom = (payload.nom || fichier.replace(/\.json$/i, '')).trim();
@@ -7962,8 +8017,10 @@ if (btnToggleLieux) {
 
                         if (!roadtrips[nom].source) { roadtrips[nom].source = 'github'; migres++; }
                         roadtrips[nom].sourceFichier = fichier;
-                        const dejaAJour = roadtrips[nom].savedAt && payload.savedAt &&
-                            roadtrips[nom].savedAt === payload.savedAt;
+                        // Comparaison sur le CONTENU réel (et non plus seulement sur savedAt) : une
+                        // modification du JSON sur GitHub est reprise même si savedAt n'a pas changé.
+                        const dejaAJour = JSON.stringify(roadtrips[nom].savedSpotIds) === JSON.stringify(payload.savedSpotIds) &&
+                            JSON.stringify(roadtrips[nom].customSpots) === JSON.stringify(payload.customSpots);
                         if (!dejaAJour) {
                             roadtrips[nom].savedSpotIds = payload.savedSpotIds;
                             roadtrips[nom].customSpots = payload.customSpots;
@@ -8082,7 +8139,7 @@ if (btnToggleLieux) {
             // soit la copie déjà stockée sur l'appareil (importée à la main, ancienne, non marquée
             // "github"...), que la synchronisation générale ci-dessus n'écraserait pas.
             try {
-                const rep = await fetch(GITHUB_ROADTRIPS_BASE + 'ardeche2026.json?t=' + Date.now(), { cache: 'no-store' });
+                const rep = await fetchAvecDelai(GITHUB_ROADTRIPS_BASE + 'ardeche2026.json?t=' + Date.now(), { cache: 'no-store' }, 8000);
                 if (rep.ok) {
                     const p = await rep.json();
                     if (p && Array.isArray(p.savedSpotIds) && Array.isArray(p.customSpots)) {
