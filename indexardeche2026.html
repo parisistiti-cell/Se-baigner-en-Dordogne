@@ -3050,6 +3050,7 @@
          barycentre "terre ferme la plus proche" — voir ajusterSurTerreFerme() plus bas. Fichier
          local, aucun appel réseau. -->
     <script src="france-littoral.js"></script>
+    <script src="europe-voisins-littoral.js"></script>
     <script>
         // ==========================================
         // GESTION DES ONGLETS DE LA MODALE
@@ -6903,6 +6904,39 @@ if (btnToggleLieux) {
             return false;
         }
 
+        // Renvoie true si (lat, lng) est sur la terre ferme, en France (FRANCE_LITTORAL) OU dans un
+        // pays voisin (EUROPE_VOISINS_LITTORAL, voir europe-voisins-littoral.js : Espagne, Andorre,
+        // Portugal, Italie, Suisse, Allemagne, Belgique...). Sans ce second contour, tout point
+        // hors de France (ex. côte espagnole) était pris pour de la mer et n'était jamais recalé.
+        // Renvoie null si le contour de la France n'est pas chargé (indéterminé).
+        let _bboxVoisins = null;
+        function pointEstSurTerre(lat, lng) {
+            const enFrance = pointEstEnFrance(lat, lng);
+            if (enFrance === null) return null;
+            if (enFrance) return true;
+            if (typeof EUROPE_VOISINS_LITTORAL === 'undefined') return false;
+            if (!_bboxVoisins) {
+                // Boîte englobante de chaque polygone, calculée une seule fois : évite de tester
+                // le point contre des milliers de sommets de polygones lointains.
+                _bboxVoisins = EUROPE_VOISINS_LITTORAL.map(anneaux => {
+                    let minLat = 90, maxLat = -90, minLng = 180, maxLng = -180;
+                    for (const [la, ln] of anneaux[0]) {
+                        if (la < minLat) minLat = la; if (la > maxLat) maxLat = la;
+                        if (ln < minLng) minLng = ln; if (ln > maxLng) maxLng = ln;
+                    }
+                    return [minLat, maxLat, minLng, maxLng];
+                });
+            }
+            for (let i = 0; i < EUROPE_VOISINS_LITTORAL.length; i++) {
+                const b = _bboxVoisins[i];
+                if (lat < b[0] || lat > b[1] || lng < b[2] || lng > b[3]) continue;
+                const anneaux = EUROPE_VOISINS_LITTORAL[i];
+                if (pointDansAnneau(lat, lng, anneaux[0]) &&
+                    !anneaux.slice(1).some(trou => pointDansAnneau(lat, lng, trou))) return true;
+            }
+            return false;
+        }
+
         // Si le barycentre calculé tombe hors des terres françaises — rivière, lac, mer, océan,
         // canal... — cherche le point sec le plus proche en s'écartant progressivement (16
         // directions, jusqu'à 30 km). Entièrement local (contour embarqué, voir
@@ -6911,7 +6945,7 @@ if (btnToggleLieux) {
         // lors des tests — timeouts et pannes fréquents, y compris depuis un relais serveur).
         // Renvoie toujours un point ({lat, lng, ajuste}).
         function ajusterSurTerreFerme(lat, lng) {
-            if (pointEstEnFrance(lat, lng) !== false) return { lat, lng, ajuste: false }; // sur terre, ou fichier de contour indisponible : on ne touche à rien
+            if (pointEstSurTerre(lat, lng) !== false) return { lat, lng, ajuste: false }; // sur terre, ou fichier de contour indisponible : on ne touche à rien
 
             const degresParKm = 1 / 111; // approximation suffisante à cette échelle
             for (let r = 0.2; r <= 30; r += 0.2) {
@@ -6920,7 +6954,7 @@ if (btnToggleLieux) {
                     const dLat = Math.cos(rad) * r * degresParKm;
                     const dLng = (Math.sin(rad) * r * degresParKm) / Math.cos(lat * Math.PI / 180);
                     const candLat = lat + dLat, candLng = lng + dLng;
-                    if (pointEstEnFrance(candLat, candLng)) {
+                    if (pointEstSurTerre(candLat, candLng)) {
                         return { lat: candLat, lng: candLng, ajuste: true };
                     }
                 }
