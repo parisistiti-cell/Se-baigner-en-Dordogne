@@ -8232,9 +8232,21 @@ if (btnToggleLieux) {
             'sudbretagne.json'
         ];
 
+        // fetch avec délai maximal (compatible tous navigateurs) : sans réseau ou avec un réseau
+        // très lent, on n'attend pas indéfiniment et on retombe sur la copie locale.
+        function fetchAvecDelai(url, options, delaiMs) {
+            return new Promise((resolve, reject) => {
+                const ctrl = (typeof AbortController !== 'undefined') ? new AbortController() : null;
+                const minuteur = setTimeout(() => { if (ctrl) ctrl.abort(); reject(new Error('Délai dépassé : ' + url)); }, delaiMs || 6000);
+                fetch(url, Object.assign({}, options || {}, ctrl ? { signal: ctrl.signal } : {}))
+                    .then(r => { clearTimeout(minuteur); resolve(r); })
+                    .catch(e => { clearTimeout(minuteur); reject(e); });
+            });
+        }
+
         async function listerFichiersRoadtripsGithub() {
             try {
-                const reponse = await fetch(GITHUB_ROADTRIPS_API);
+                const reponse = await fetchAvecDelai(GITHUB_ROADTRIPS_API + '?t=' + Date.now(), { cache: 'no-store' }, 5000);
                 if (!reponse.ok) throw new Error('API GitHub indisponible (' + reponse.status + ')');
                 const items = await reponse.json();
                 if (!Array.isArray(items)) throw new Error('Réponse API GitHub inattendue');
@@ -8259,23 +8271,48 @@ if (btnToggleLieux) {
             // toucher aux road trips personnels (source !== 'github').
             const fichierVersNom = {};
 
+            // Téléchargement de TOUS les fichiers en parallèle (au lieu d'un par un), toujours
+            // depuis le serveur (jamais depuis un cache), avant d'afficher quoi que ce soit.
+            const payloadsParFichier = {};
+            await Promise.all(fichiers.map(async (f) => {
+                try {
+                    const r = await fetchAvecDelai(GITHUB_ROADTRIPS_BASE + f + '?t=' + Date.now(), { cache: 'no-store' }, 8000);
+                    if (r.ok) payloadsParFichier[f] = await r.json();
+                } catch (e) { console.warn('Téléchargement impossible : ' + f, e); }
+            }));
+
             for (const fichier of fichiers) {
                 try {
-                    const reponse = await fetch(GITHUB_ROADTRIPS_BASE + fichier + '?t=' + Date.now(), { cache: 'no-store' });
-                    if (!reponse.ok) continue;
-                    const payload = await reponse.json();
+                    const payload = payloadsParFichier[fichier];
+                    if (!payload) continue;
                     if (!payload || !Array.isArray(payload.savedSpotIds) || !Array.isArray(payload.customSpots)) continue;
 
                     const nom = (payload.nom || fichier.replace(/\.json$/i, '')).trim();
                     fichierVersNom[fichier] = nom;
 
                     if (roadtrips[nom]) {
-                        // Déjà présent : on ne touche pas au contenu, mais on s'assure qu'il
-                        // reste bien identifié comme road trip "github" (ex : road trips
-                        // importés avant l'ajout de ce marquage), sans écraser le contenu, et on
-                        // mémorise son fichier d'origine (utile pour la purge ci-dessous).
+                        // Déjà présent localement. Deux cas :
+                        // - road trip "github" (source === 'github', ou source pas encore connue) :
+                        //   NON modifiable par l'utilisateur, donc on resynchronise son contenu
+                        //   avec la dernière version publiée (sinon la première version
+                        //   téléchargée resterait figée pour toujours).
+                        // - road trip personnel de même nom : on ne touche à rien, pour ne
+                        //   jamais écraser une modification locale de l'utilisateur.
+                        const estRoadtripGithub = !roadtrips[nom].source || roadtrips[nom].source === 'github';
+                        if (!estRoadtripGithub) { continue; }
+
                         if (!roadtrips[nom].source) { roadtrips[nom].source = 'github'; migres++; }
                         if (roadtrips[nom].sourceFichier !== fichier) { roadtrips[nom].sourceFichier = fichier; }
+                        // Comparaison sur le CONTENU réel (et non sur savedAt) : une modification du
+                        // JSON sur GitHub est reprise même si savedAt n'a pas changé.
+                        const dejaAJour = JSON.stringify(roadtrips[nom].savedSpotIds) === JSON.stringify(payload.savedSpotIds) &&
+                            JSON.stringify(roadtrips[nom].customSpots) === JSON.stringify(payload.customSpots);
+                        if (!dejaAJour) {
+                            roadtrips[nom].savedSpotIds = payload.savedSpotIds;
+                            roadtrips[nom].customSpots = payload.customSpots;
+                            roadtrips[nom].savedAt = payload.savedAt || new Date().toISOString();
+                            ajoutes++; // compteur "mis à jour" : déclenche setSavedRoadtrips plus bas
+                        }
                         continue;
                     }
 
