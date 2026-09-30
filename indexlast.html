@@ -7885,7 +7885,13 @@ if (btnToggleLieux) {
                 } catch (e) { console.warn('Téléchargement impossible : ' + f, e); }
             }));
 
-            for (const fichier of fichiers) {
+            // Si plusieurs fichiers portent le MÊME nom de road trip (ex. une copie de sauvegarde
+            // oubliée dans le dépôt), c'est la version la plus RÉCENTE (savedAt) qui doit gagner,
+            // et non le dernier fichier de la liste par ordre alphabétique.
+            const _dateFichier = (f) => { const p = payloadsParFichier[f]; const t = p && p.savedAt ? Date.parse(p.savedAt) : 0; return isNaN(t) ? 0 : t; };
+            const fichiersParDate = fichiers.slice().sort((a, b) => _dateFichier(a) - _dateFichier(b));
+
+            for (const fichier of fichiersParDate) {
                 try {
                     const payload = payloadsParFichier[fichier];
                     if (!payload) continue;
