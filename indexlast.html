@@ -1034,6 +1034,14 @@
             border-radius: 12px;
         }
         .weather-info .weather-time { font-weight: normal; color: #6c757d; }
+        /* Nom(s) du/des road trip(s) auquel(s) appartient le lieu, en bleu, sous le titre de la fiche. */
+        .details-roadtrips {
+            margin: 4px 0 0 0;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #0a4fc4;
+            line-height: 1.3;
+        }
         /* Rangée regroupant le bouton "Copier les coordonnées GPS" et la météo, juste sous le
            titre. Les coordonnées elles-mêmes ne sont plus affichées en permanence : elles
            n'apparaissent que dans le petit popup ouvert au clic sur le bouton (cf.
@@ -5486,6 +5494,56 @@ if (btnToggleLieux) {
             });
         }
 
+        // Road trip(s) auquel appartient le BARYCENTRE du carnet actuel. Le barycentre est recréé
+        // dans chaque road trip (même identifiant), on le rattache donc à celui dont les lieux sont
+        // exactement ceux du carnet ; à défaut, à ceux dont tous les lieux sont dans le carnet.
+        // Pour un road trip personnel suivi, le nom figure déjà dans l'identifiant (« …:nom »).
+        function roadtripsDuBarycentre(spotId) {
+            const id = String(spotId);
+            const k = id.indexOf(':');
+            if (k > -1 && id.slice(k + 1)) return [id.slice(k + 1)];
+            const estBary = (s) => String(s).indexOf('barycentre-roadtrip') === 0;
+            const carnet = new Set((savedSpotIds || []).map(String).filter(s => !estBary(s)));
+            if (carnet.size === 0) return [];
+            const exacts = [], inclus = [];
+            try {
+                const roadtrips = getSavedRoadtrips();
+                Object.keys(roadtrips).forEach(nom => {
+                    const rt = roadtrips[nom];
+                    const ids = (rt && Array.isArray(rt.savedSpotIds) ? rt.savedSpotIds : []).map(String).filter(s => !estBary(s));
+                    if (ids.length === 0 || !ids.every(s => carnet.has(s))) return;
+                    (ids.length === carnet.size ? exacts : inclus).push(nom);
+                });
+            } catch (e) {}
+            return exacts.length ? exacts : inclus;
+        }
+
+        // Noms des road trips (sauvegardés ou partagés, tels que listés dans « Charger un road trip »)
+        // qui contiennent ce lieu. Pour le barycentre : voir roadtripsDuBarycentre().
+        function roadtripsContenantLieu(spotId) {
+            const id = String(spotId);
+            if (id.indexOf('barycentre-roadtrip') === 0) return roadtripsDuBarycentre(id);
+            const noms = [];
+            try {
+                const roadtrips = getSavedRoadtrips();
+                Object.keys(roadtrips).forEach(nom => {
+                    const rt = roadtrips[nom];
+                    if (!rt) return;
+                    const dansListe = Array.isArray(rt.savedSpotIds) && rt.savedSpotIds.some(s => String(s) === id);
+                    const dansCustom = Array.isArray(rt.customSpots) && rt.customSpots.some(s => s && String(s.id) === id && !s.isBarycentre);
+                    if (dansListe || dansCustom) noms.push(nom);
+                });
+            } catch (e) {}
+            return noms;
+        }
+
+        function htmlRoadtripsDuLieu(spotId) {
+            const noms = roadtripsContenantLieu(spotId);
+            if (noms.length === 0) return '';
+            const echappe = (t) => String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+            return `<p class="details-roadtrips">🧳 Road trip : ${noms.map(echappe).join(', ')}</p>`;
+        }
+
         function afficherDetails(spot) {
             // Le panneau détaillé va s'ouvrir : on referme le petit popup du repère
             // (nom / inscrire / partager / détail) pour ne pas superposer les deux.
@@ -5518,6 +5576,7 @@ if (btnToggleLieux) {
                     <div class="details-header-text">
                         <h2>${(spot.numero && !spot.isTop12) ? spot.numero + '. ' : ''}${spot.title}${spot._editionLocale ? ` <span class="badge-edition-locale" title="${texteInfoEditionLocale(spot)}">✏️ modifié</span>` : ''}</h2>
                         ${spot._editionLocale ? `<p class="edition-locale-note">📍 ${texteInfoEditionLocale(spot)} <a href="#" onclick="ouvrirEditionLieu('${spot.id}'); event.preventDefault(); event.stopPropagation();">Voir / modifier</a></p>` : ''}
+                        ${htmlRoadtripsDuLieu(spot.id)}
                         <div class="header-meta-row">
                             <button class="btn-copy-coords" onclick="copierCoordonneesDetail('${spot.lat}', '${spot.lng}', this); event.stopPropagation();">📋 Copier les coordonnées GPS</button>
                             <div id="weather-info" class="weather-info">🌡️ Recherche de la température...</div>
