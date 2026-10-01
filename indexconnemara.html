@@ -3550,6 +3550,16 @@
         // appliquerEditionLocale() doit être appelée sur chaque lieu juste après sa création/son
         // chargement (Top 12 ci-dessus, Carnet ci-dessous, Base de Lieux, road trips...) afin que
         // toute édition précédemment enregistrée soit reprise dès le premier affichage.
+        // Copie d'un lieu destinée à être SAUVEGARDÉE / EXPORTÉE (road trip, snapshot) : on retire les
+        // drapeaux internes d'édition locale (_editionLocale, _original). Sinon ils se retrouvaient
+        // écrits dans le JSON publié, et TOUS les visiteurs voyaient le badge « ✏️ modifié » et
+        // « Modification enregistrée uniquement sur cet appareil » sur ce lieu.
+        function copieSpotPourSauvegarde(s) {
+            const c = { ...s };
+            delete c._editionLocale;
+            delete c._original;
+            return c;
+        }
         function getLieuEditsMap() {
             try { return JSON.parse(localStorage.getItem('tp_lieu_edits')) || {}; } catch (e) { return {}; }
         }
@@ -3560,6 +3570,9 @@
             if (!spot || spot.id === undefined || spot.id === null) return spot;
             const edits = getLieuEditsMap();
             const e = edits[spot.id];
+            // Drapeau « modifié » sans modification réellement enregistrée sur cet appareil (ex. drapeau
+            // recopié depuis un JSON de road trip) : on l'ignore, la description du lieu est conservée.
+            if (!e && spot._editionLocale) { delete spot._editionLocale; delete spot._original; }
             if (e) {
                 // Conserve les valeurs d'origine (avant édition) pour permettre une réinitialisation
                 // immédiate depuis l'éditeur, sans avoir à recharger la page.
@@ -3692,7 +3705,7 @@
                 if ((savedSpotIds && savedSpotIds.length) || (customSpots && customSpots.length)) {
                     localStorage.setItem('tp_derniere_sauvegarde_locale', JSON.stringify({
                         savedSpotIds: [...savedSpotIds],
-                        customSpots: customSpots.map(s => ({ ...s })),
+                        customSpots: customSpots.map(copieSpotPourSauvegarde),
                         sauvegardeLe: new Date().toISOString()
                     }));
                 }
@@ -7552,7 +7565,7 @@ if (btnToggleLieux) {
 
             roadtrips[nom] = {
                 savedSpotIds: [...savedSpotIds],
-                customSpots: customSpots.map(s => ({ ...s })),
+                customSpots: customSpots.map(copieSpotPourSauvegarde),
                 savedAt: new Date().toISOString()
             };
             setSavedRoadtrips(roadtrips);
@@ -8407,7 +8420,7 @@ if (btnToggleLieux) {
             return {
                 nom: 'Mon road trip',
                 savedSpotIds: [...savedSpotIds],
-                customSpots: customSpots.map(s => ({ ...s })),
+                customSpots: customSpots.map(copieSpotPourSauvegarde),
                 savedAt: new Date().toISOString()
             };
         }
