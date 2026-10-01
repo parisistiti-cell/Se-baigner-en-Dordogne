@@ -1034,6 +1034,14 @@
             border-radius: 12px;
         }
         .weather-info .weather-time { font-weight: normal; color: #6c757d; }
+        /* Nom(s) du/des road trip(s) auquel(s) appartient le lieu, en bleu, sous le titre de la fiche. */
+        .details-roadtrips {
+            margin: 4px 0 0 0;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #0a4fc4;
+            line-height: 1.3;
+        }
         /* Rangée regroupant le bouton "Copier les coordonnées GPS" et la météo, juste sous le
            titre. Les coordonnées elles-mêmes ne sont plus affichées en permanence : elles
            n'apparaissent que dans le petit popup ouvert au clic sur le bouton (cf.
@@ -3050,6 +3058,7 @@
          barycentre "terre ferme la plus proche" — voir ajusterSurTerreFerme() plus bas. Fichier
          local, aucun appel réseau. -->
     <script src="france-littoral.js"></script>
+    <script src="europe-voisins-littoral.js"></script>
     <script>
         // ==========================================
         // GESTION DES ONGLETS DE LA MODALE
@@ -5485,6 +5494,56 @@ if (btnToggleLieux) {
             });
         }
 
+        // Road trip(s) auquel appartient le BARYCENTRE du carnet actuel. Le barycentre est recréé
+        // dans chaque road trip (même identifiant), on le rattache donc à celui dont les lieux sont
+        // exactement ceux du carnet ; à défaut, à ceux dont tous les lieux sont dans le carnet.
+        // Pour un road trip personnel suivi, le nom figure déjà dans l'identifiant (« …:nom »).
+        function roadtripsDuBarycentre(spotId) {
+            const id = String(spotId);
+            const k = id.indexOf(':');
+            if (k > -1 && id.slice(k + 1)) return [id.slice(k + 1)];
+            const estBary = (s) => String(s).indexOf('barycentre-roadtrip') === 0;
+            const carnet = new Set((savedSpotIds || []).map(String).filter(s => !estBary(s)));
+            if (carnet.size === 0) return [];
+            const exacts = [], inclus = [];
+            try {
+                const roadtrips = getSavedRoadtrips();
+                Object.keys(roadtrips).forEach(nom => {
+                    const rt = roadtrips[nom];
+                    const ids = (rt && Array.isArray(rt.savedSpotIds) ? rt.savedSpotIds : []).map(String).filter(s => !estBary(s));
+                    if (ids.length === 0 || !ids.every(s => carnet.has(s))) return;
+                    (ids.length === carnet.size ? exacts : inclus).push(nom);
+                });
+            } catch (e) {}
+            return exacts.length ? exacts : inclus;
+        }
+
+        // Noms des road trips (sauvegardés ou partagés, tels que listés dans « Charger un road trip »)
+        // qui contiennent ce lieu. Pour le barycentre : voir roadtripsDuBarycentre().
+        function roadtripsContenantLieu(spotId) {
+            const id = String(spotId);
+            if (id.indexOf('barycentre-roadtrip') === 0) return roadtripsDuBarycentre(id);
+            const noms = [];
+            try {
+                const roadtrips = getSavedRoadtrips();
+                Object.keys(roadtrips).forEach(nom => {
+                    const rt = roadtrips[nom];
+                    if (!rt) return;
+                    const dansListe = Array.isArray(rt.savedSpotIds) && rt.savedSpotIds.some(s => String(s) === id);
+                    const dansCustom = Array.isArray(rt.customSpots) && rt.customSpots.some(s => s && String(s.id) === id && !s.isBarycentre);
+                    if (dansListe || dansCustom) noms.push(nom);
+                });
+            } catch (e) {}
+            return noms;
+        }
+
+        function htmlRoadtripsDuLieu(spotId) {
+            const noms = roadtripsContenantLieu(spotId);
+            if (noms.length === 0) return '';
+            const echappe = (t) => String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+            return `<p class="details-roadtrips">🧳 Road trip : ${noms.map(echappe).join(', ')}</p>`;
+        }
+
         function afficherDetails(spot) {
             // Le panneau détaillé va s'ouvrir : on referme le petit popup du repère
             // (nom / inscrire / partager / détail) pour ne pas superposer les deux.
@@ -5517,6 +5576,7 @@ if (btnToggleLieux) {
                     <div class="details-header-text">
                         <h2>${(spot.numero && !spot.isTop12) ? spot.numero + '. ' : ''}${spot.title}${spot._editionLocale ? ` <span class="badge-edition-locale" title="${texteInfoEditionLocale(spot)}">✏️ modifié</span>` : ''}</h2>
                         ${spot._editionLocale ? `<p class="edition-locale-note">📍 ${texteInfoEditionLocale(spot)} <a href="#" onclick="ouvrirEditionLieu('${spot.id}'); event.preventDefault(); event.stopPropagation();">Voir / modifier</a></p>` : ''}
+                        ${htmlRoadtripsDuLieu(spot.id)}
                         <div class="header-meta-row">
                             <button class="btn-copy-coords" onclick="copierCoordonneesDetail('${spot.lat}', '${spot.lng}', this); event.stopPropagation();">📋 Copier les coordonnées GPS</button>
                             <div id="weather-info" class="weather-info">🌡️ Recherche de la température...</div>
@@ -6900,6 +6960,39 @@ if (btnToggleLieux) {
             return false;
         }
 
+        // Renvoie true si (lat, lng) est sur la terre ferme, en France (FRANCE_LITTORAL) OU dans un
+        // pays voisin (EUROPE_VOISINS_LITTORAL, voir europe-voisins-littoral.js : Espagne, Andorre,
+        // Portugal, Italie, Suisse, Allemagne, Belgique...). Sans ce second contour, tout point
+        // hors de France (ex. côte espagnole) était pris pour de la mer et n'était jamais recalé.
+        // Renvoie null si le contour de la France n'est pas chargé (indéterminé).
+        let _bboxVoisins = null;
+        function pointEstSurTerre(lat, lng) {
+            const enFrance = pointEstEnFrance(lat, lng);
+            if (enFrance === null) return null;
+            if (enFrance) return true;
+            if (typeof EUROPE_VOISINS_LITTORAL === 'undefined') return false;
+            if (!_bboxVoisins) {
+                // Boîte englobante de chaque polygone, calculée une seule fois : évite de tester
+                // le point contre des milliers de sommets de polygones lointains.
+                _bboxVoisins = EUROPE_VOISINS_LITTORAL.map(anneaux => {
+                    let minLat = 90, maxLat = -90, minLng = 180, maxLng = -180;
+                    for (const [la, ln] of anneaux[0]) {
+                        if (la < minLat) minLat = la; if (la > maxLat) maxLat = la;
+                        if (ln < minLng) minLng = ln; if (ln > maxLng) maxLng = ln;
+                    }
+                    return [minLat, maxLat, minLng, maxLng];
+                });
+            }
+            for (let i = 0; i < EUROPE_VOISINS_LITTORAL.length; i++) {
+                const b = _bboxVoisins[i];
+                if (lat < b[0] || lat > b[1] || lng < b[2] || lng > b[3]) continue;
+                const anneaux = EUROPE_VOISINS_LITTORAL[i];
+                if (pointDansAnneau(lat, lng, anneaux[0]) &&
+                    !anneaux.slice(1).some(trou => pointDansAnneau(lat, lng, trou))) return true;
+            }
+            return false;
+        }
+
         // Si le barycentre calculé tombe hors des terres françaises — rivière, lac, mer, océan,
         // canal... — cherche le point sec le plus proche en s'écartant progressivement (16
         // directions, jusqu'à 30 km). Entièrement local (contour embarqué, voir
@@ -6908,7 +7001,7 @@ if (btnToggleLieux) {
         // lors des tests — timeouts et pannes fréquents, y compris depuis un relais serveur).
         // Renvoie toujours un point ({lat, lng, ajuste}).
         function ajusterSurTerreFerme(lat, lng) {
-            if (pointEstEnFrance(lat, lng) !== false) return { lat, lng, ajuste: false }; // sur terre, ou fichier de contour indisponible : on ne touche à rien
+            if (pointEstSurTerre(lat, lng) !== false) return { lat, lng, ajuste: false }; // sur terre, ou fichier de contour indisponible : on ne touche à rien
 
             const degresParKm = 1 / 111; // approximation suffisante à cette échelle
             for (let r = 0.2; r <= 30; r += 0.2) {
@@ -6917,7 +7010,7 @@ if (btnToggleLieux) {
                     const dLat = Math.cos(rad) * r * degresParKm;
                     const dLng = (Math.sin(rad) * r * degresParKm) / Math.cos(lat * Math.PI / 180);
                     const candLat = lat + dLat, candLng = lng + dLng;
-                    if (pointEstEnFrance(candLat, candLng)) {
+                    if (pointEstSurTerre(candLat, candLng)) {
                         return { lat: candLat, lng: candLng, ajuste: true };
                     }
                 }
@@ -8006,9 +8099,21 @@ if (btnToggleLieux) {
             'sudbretagne.json'
         ];
 
+        // fetch avec délai maximal (compatible tous navigateurs) : sans réseau ou avec un réseau
+        // très lent, on n'attend pas indéfiniment et on retombe sur la copie locale.
+        function fetchAvecDelai(url, options, delaiMs) {
+            return new Promise((resolve, reject) => {
+                const ctrl = (typeof AbortController !== 'undefined') ? new AbortController() : null;
+                const minuteur = setTimeout(() => { if (ctrl) ctrl.abort(); reject(new Error('Délai dépassé : ' + url)); }, delaiMs || 6000);
+                fetch(url, Object.assign({}, options || {}, ctrl ? { signal: ctrl.signal } : {}))
+                    .then(r => { clearTimeout(minuteur); resolve(r); })
+                    .catch(e => { clearTimeout(minuteur); reject(e); });
+            });
+        }
+
         async function listerFichiersRoadtripsGithub() {
             try {
-                const reponse = await fetch(GITHUB_ROADTRIPS_API);
+                const reponse = await fetchAvecDelai(GITHUB_ROADTRIPS_API + '?t=' + Date.now(), { cache: 'no-store' }, 5000);
                 if (!reponse.ok) throw new Error('API GitHub indisponible (' + reponse.status + ')');
                 const items = await reponse.json();
                 if (!Array.isArray(items)) throw new Error('Réponse API GitHub inattendue');
@@ -8033,23 +8138,54 @@ if (btnToggleLieux) {
             // toucher aux road trips personnels (source !== 'github').
             const fichierVersNom = {};
 
-            for (const fichier of fichiers) {
+            // Téléchargement de TOUS les fichiers en parallèle (au lieu d'un par un), toujours
+            // depuis le serveur (jamais depuis un cache), avant d'afficher quoi que ce soit.
+            const payloadsParFichier = {};
+            await Promise.all(fichiers.map(async (f) => {
                 try {
-                    const reponse = await fetch(GITHUB_ROADTRIPS_BASE + fichier);
-                    if (!reponse.ok) continue;
-                    const payload = await reponse.json();
+                    const r = await fetchAvecDelai(GITHUB_ROADTRIPS_BASE + f + '?t=' + Date.now(), { cache: 'no-store' }, 8000);
+                    if (r.ok) payloadsParFichier[f] = await r.json();
+                } catch (e) { console.warn('Téléchargement impossible : ' + f, e); }
+            }));
+
+            // Si plusieurs fichiers portent le MÊME nom de road trip (ex. une copie de sauvegarde
+            // oubliée dans le dépôt), c'est la version la plus RÉCENTE (savedAt) qui doit gagner,
+            // et non le dernier fichier de la liste par ordre alphabétique.
+            const _dateFichier = (f) => { const p = payloadsParFichier[f]; const t = p && p.savedAt ? Date.parse(p.savedAt) : 0; return isNaN(t) ? 0 : t; };
+            const fichiersParDate = fichiers.slice().sort((a, b) => _dateFichier(a) - _dateFichier(b));
+
+            for (const fichier of fichiersParDate) {
+                try {
+                    const payload = payloadsParFichier[fichier];
+                    if (!payload) continue;
                     if (!payload || !Array.isArray(payload.savedSpotIds) || !Array.isArray(payload.customSpots)) continue;
 
                     const nom = (payload.nom || fichier.replace(/\.json$/i, '')).trim();
                     fichierVersNom[fichier] = nom;
 
                     if (roadtrips[nom]) {
-                        // Déjà présent : on ne touche pas au contenu, mais on s'assure qu'il
-                        // reste bien identifié comme road trip "github" (ex : road trips
-                        // importés avant l'ajout de ce marquage), sans écraser le contenu, et on
-                        // mémorise son fichier d'origine (utile pour la purge ci-dessous).
+                        // Déjà présent localement. Deux cas :
+                        // - road trip "github" (source === 'github', ou source pas encore connue) :
+                        //   NON modifiable par l'utilisateur, donc on resynchronise son contenu
+                        //   avec la dernière version publiée (sinon la première version
+                        //   téléchargée resterait figée pour toujours).
+                        // - road trip personnel de même nom : on ne touche à rien, pour ne
+                        //   jamais écraser une modification locale de l'utilisateur.
+                        const estRoadtripGithub = !roadtrips[nom].source || roadtrips[nom].source === 'github';
+                        if (!estRoadtripGithub) { continue; }
+
                         if (!roadtrips[nom].source) { roadtrips[nom].source = 'github'; migres++; }
                         if (roadtrips[nom].sourceFichier !== fichier) { roadtrips[nom].sourceFichier = fichier; }
+                        // Comparaison sur le CONTENU réel (et non sur savedAt) : une modification du
+                        // JSON sur GitHub est reprise même si savedAt n'a pas changé.
+                        const dejaAJour = JSON.stringify(roadtrips[nom].savedSpotIds) === JSON.stringify(payload.savedSpotIds) &&
+                            JSON.stringify(roadtrips[nom].customSpots) === JSON.stringify(payload.customSpots);
+                        if (!dejaAJour) {
+                            roadtrips[nom].savedSpotIds = payload.savedSpotIds;
+                            roadtrips[nom].customSpots = payload.customSpots;
+                            roadtrips[nom].savedAt = payload.savedAt || new Date().toISOString();
+                            ajoutes++; // compteur "mis à jour" : déclenche setSavedRoadtrips plus bas
+                        }
                         continue;
                     }
 
