@@ -1811,6 +1811,53 @@
             #tour-panel { bottom: 8px; padding: 14px; }
         }
 
+        /* Bouton de lancement manuel du guide des fonctionnalités du menu 🔍 */
+        .btn-fonctionnalites {
+            flex: 0 0 auto; background: #1976d2; color: white; border: none; border-radius: 50%;
+            width: 40px; height: 40px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); font-size: 1.2rem; line-height: 1;
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
+        }
+        .btn-fonctionnalites:hover { background: #1e88e5; }
+
+        /* Info-bulle d'invitation sur l'ampoule 💡 (à l'ouverture de la page) */
+        #bulle-fonctionnalites {
+            position: fixed; z-index: 4000; width: min(220px, 80vw); box-sizing: border-box;
+            background: #1976d2; color: white; border-radius: 10px; padding: 9px 12px;
+            font-size: .85rem; line-height: 1.35; cursor: pointer; box-shadow: 0 4px 14px rgba(0,0,0,.3);
+        }
+        #bulle-fonctionnalites small { opacity: .85; }
+        #bulle-fonctionnalites::before {
+            content: ''; position: absolute; top: -7px; left: var(--fl-x, 50%); margin-left: -7px;
+            border: 7px solid transparent; border-top: 0; border-bottom-color: #1976d2;
+        }
+
+        /* --- Guide de présentation du menu 🔍 (lancé par le bouton 💡) : se ferme d'un clic en dehors de la fenêtre --- */
+        #pres-overlay { display: none; position: fixed; inset: 0; z-index: 5000; cursor: pointer; }
+        #pres-overlay.visible { display: block; }
+        #pres-spot {
+            position: fixed; border-radius: 10px; border: 3px solid #4caf50;
+            box-shadow: 0 0 0 9999px rgba(0, 20, 10, 0.6); pointer-events: none;
+            transition: top .25s ease, left .25s ease, width .25s ease, height .25s ease;
+            animation: tourPulse 1.6s ease-in-out infinite;
+        }
+        #pres-panel {
+            position: fixed; z-index: 5001; left: 50%; bottom: 18px; transform: translateX(-50%);
+            width: min(94vw, 420px); background: white; border-radius: 14px; border-top: 5px solid #2e7d32;
+            box-shadow: 0 6px 24px rgba(0,0,0,0.3); padding: 16px 18px; max-height: 60vh; overflow-y: auto;
+        }
+        #pres-panel .pres-etape { font-size: .75rem; color: #2e7d32; font-weight: bold; text-transform: uppercase; letter-spacing: .03em; margin-bottom: 4px; }
+        #pres-panel h4 { margin: 0 0 8px 0; font-size: 1.05rem; color: #222; }
+        #pres-panel p { margin: 0 0 14px 0; font-size: .9rem; color: #444; line-height: 1.45; }
+        #pres-panel .pres-actions { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; }
+        #pres-panel .pres-actions span { display: flex; gap: 8px; }
+        #pres-panel button { border: none; border-radius: 8px; padding: 8px 14px; font-size: .85rem; font-weight: bold; cursor: pointer; }
+        #pres-quitter { background: transparent; color: #888; padding: 8px 4px !important; }
+        #pres-prec { background: #eee; color: #333; }
+        #pres-prec:disabled { opacity: .4; cursor: default; }
+        #pres-suiv { background: #2e7d32; color: white; }
+        #pres-panel .pres-hint { margin-top: 10px; font-size: .72rem; color: #999; text-align: center; }
+        @media (max-width: 480px) { #pres-panel { bottom: 8px; padding: 14px; } }
+
         /* Bouton micro (recherche vocale) */
         .btn-micro-recherche {
             flex: 0 0 auto;
@@ -2301,7 +2348,7 @@
            la mise en page. */
         @media (min-width: 769px) and (max-width: 1024px) {
             .search-input { padding: 12px 16px; }
-            .btn-aide-generale, .btn-guide-roadtrip, .btn-ajouter-lieu, .btn-micro-recherche {
+            .btn-aide-generale, .btn-guide-roadtrip, .btn-fonctionnalites, .btn-ajouter-lieu, .btn-micro-recherche {
                 width: 46px;
                 height: 46px;
                 font-size: 1.25rem;
@@ -2369,6 +2416,7 @@
                 <button id="btn-ajouter-lieu-ici" class="btn-ajouter-lieu" onclick="ajouterLieuAuCentreCarte()" title="Ajouter un nouveau lieu au centre de la carte" aria-label="Ajouter un nouveau lieu au centre de la carte">➕</button>
                 <button id="btn-aide-generale" class="btn-aide-generale" onclick="ouvrirAideGenerale()" title="Aide : que peut faire ce site ? (confidentialité, hors ligne...)" aria-label="Ouvrir l'aide générale">?</button>
                 <button id="btn-guide-roadtrip" class="btn-guide-roadtrip" onclick="demarrerGuideRoadtrip()" title="Guide pas à pas : créer un road trip de A à Z" aria-label="Démarrer le guide pas à pas de création d'un road trip">🧭</button>
+                <button id="btn-fonctionnalites" class="btn-fonctionnalites" onclick="demarrerGuideMenu()" title="Fonctionnalités : présentation du menu de recherche" aria-label="Afficher la présentation des fonctionnalités du menu de recherche">💡</button>
                 <div id="search-results" class="search-results"></div>
                 <input type="file" id="input-photo-localisation" accept="image/*" style="display:none">
             </div>
@@ -2535,7 +2583,12 @@
                 <div class="modal-confidentialite modal-aide-generale">
                     <button class="close-btn-modal" onclick="fermerAideGenerale()" aria-label="Fermer l'aide">×</button>
                     <h3>❓ Ce que permet ce site</h3>
-                    <p style="font-size:0.8rem; color:#666; margin:-6px 0 14px 0;">Dernière mise à jour de cette version du site : 08/09/2026 à 18h00.</p>
+                    <p style="font-size:0.8rem; color:#666; margin:-6px 0 14px 0;">Dernière mise à jour de cette version du site : 02/10/2026 à 10h53.</p>
+
+                    <p style="background:#e8f5e9; border-left:4px solid #2e7d32; padding:8px 12px; border-radius:6px; margin:0 0 14px 0;">
+                        💡 <b>Nouveau : présentation guidée du menu 🔍</b><span class="badge-nouveau">NOUVEAU</span><br>
+                        Le bouton bleu 💡 de la barre de recherche (une info-bulle le signale à l'ouverture du site) lance une courte présentation : la loupe 🔍, la recherche d'un lieu puis chaque onglet du menu « 🔍 Voir/gérer » (Carnet, Top 12, Road Trips, Base de Lieux). Elle ne s'ouvre pas toute seule et se ferme d'un clic en dehors de sa fenêtre.
+                    </p>
 
                     <p style="background:#e8f5e9; border-left:4px solid #2e7d32; padding:8px 12px; border-radius:6px; margin:0 0 14px 0;">
                         🔄 <b>Correctif : road trips partagés (🌐) toujours à jour</b><span class="badge-nouveau">NOUVEAU</span><br>
@@ -2591,6 +2644,7 @@
 
                     <h4 style="color:var(--secondary);">📖 Planification &amp; Gestion de Road Trips</h4>
                     <ul>
+                        <li><b>💡 Fonctionnalités du menu 🔍</b><span class="badge-nouveau">NOUVEAU</span> : le bouton bleu 💡 (à côté du 🧭) lance la présentation du menu « Voir/gérer » : loupe, recherche d'un lieu, Carnet, Top 12, Road Trips et Base de Lieux. Elle ne s'ouvre pas toute seule (une info-bulle signale le bouton à l'ouverture du site) ; elle se ferme d'un clic en dehors de sa fenêtre ou avec la touche Échap.</li>
                         <li><b>🧭 Guide pas à pas</b> : le bouton vert 🧭 en haut de l'écran lance un tutoriel interactif qui vous guide en direct sur le site pour créer un road trip de A à Z (voir encadré en haut de cette aide).</li>
                         <li><b>Carnet Virtuel Personnel</b> : au premier lancement, le Carnet est vide ; vous y inscrivez vos propres lieux (ou chargez un road trip via 📂, le vôtre ou un des road trips 🌐 Partagés).</li>
                         <li><b>Sauvegarde 💾</b> : un seul bouton « 💾 Sauvegarder » fait tout à la fois — il demande un nom, le mémorise dans ce navigateur (pour le retrouver d'un clic via 📂 Charger), PUIS ouvre aussitôt un vrai enregistrement dans un fichier sur votre appareil : choix du dossier et du nom de fichier sur PC (le navigateur se souvient du dernier dossier utilisé), ou sélecteur de partage natif sur mobile.</li>
@@ -2683,16 +2737,16 @@
 
                     <h4 style="color:#b00020;">Crédit</h4>
                     <ul>
-                        <li><a href="https://www.facebook.com/amandinois1107?locale=fr_FR" target="_blank" rel="noopener noreferrer" style="color:#b00020;">Facebook — amandinois1107</a></li>
+                        <li><a href="https://www.facebook.com/amandinois1202?locale=fr_FR" target="_blank" rel="noopener noreferrer" style="color:#b00020;">Facebook — amandinois1202</a></li>
                         <li><a href="http://www.linkedin.com/in/thierry-parisis-optimeau" target="_blank" rel="noopener noreferrer" style="color:#b00020;">LinkedIn — Thierry Parisis</a></li>
-                        <li><a href="https://www.instagram.com/amandinois1107/" target="_blank" rel="noopener noreferrer" style="color:#b00020;">Instagram — @amandinois1107</a></li>
+                        <li><a href="https://www.instagram.com/amandinois1202/" target="_blank" rel="noopener noreferrer" style="color:#b00020;">Instagram — @amandinois1202</a></li>
                         <li><a href="https://www.youtube.com/@sisiraptiti" target="_blank" rel="noopener noreferrer" style="color:#b00020;">YouTube — @sisiraptiti</a></li>
-                        <li><a href="https://www.threads.com/@amandinois1107" target="_blank" rel="noopener noreferrer" style="color:#b00020;">Threads — @amandinois1107</a></li>
+                        <li><a href="https://www.threads.com/@amandinois1202" target="_blank" rel="noopener noreferrer" style="color:#b00020;">Threads — @amandinois1202</a></li>
                         <li><a href="https://x.com/ThierryParisis" target="_blank" rel="noopener noreferrer" style="color:#b00020;">X — @ThierryParisis</a></li>
                         <li><a href="https://parisistiti-cell.github.io/titimessenger/" target="_blank" rel="noopener noreferrer" style="color:#b00020;">Messagerie chiffrée — ThierryParisis</a></li>
                     </ul>
 
-                    <p style="font-size:0.75rem; color:#888; text-align:center; margin-top:16px; border-top:1px solid #eee; padding-top:10px;">Aide relue et mise à jour le 8 septembre 2026 à 18h00</p>
+                    <p style="font-size:0.75rem; color:#888; text-align:center; margin-top:16px; border-top:1px solid #eee; padding-top:10px;">Aide relue et mise à jour le 2 octobre 2026 à 10h53</p>
                 </div>
             </div>
 
@@ -2771,6 +2825,24 @@
                         <button type="button" id="tour-btn-oui" onclick="guideRoadtripChoisir(true)" style="display:none; background:#2e7d32; color:white;">✅ Oui</button>
                     </div>
                 </div>
+            </div>
+
+            <!-- Guide de présentation du menu 🔍.
+                 Un clic sur le voile (donc en dehors de la fenêtre #pres-panel) le ferme. Lancé par le bouton 💡. -->
+            <div id="bulle-fonctionnalites" style="display:none;" onclick="demarrerGuideMenu()" role="tooltip">💡 Fonctionnalités du menu 🔍<br><small>Cliquez sur l'ampoule pour (re)voir la présentation</small></div>
+            <div id="pres-overlay" onclick="fermerGuideMenu()"><div id="pres-spot"></div></div>
+            <div id="pres-panel" style="display:none;" role="dialog" aria-label="Présentation du menu de recherche">
+                <div class="pres-etape" id="pres-etape"></div>
+                <h4 id="pres-titre"></h4>
+                <p id="pres-texte"></p>
+                <div class="pres-actions">
+                    <button type="button" id="pres-quitter" onclick="fermerGuideMenu()">Fermer</button>
+                    <span>
+                        <button type="button" id="pres-prec" onclick="naviguerGuideMenu(-1)">◀ Précédent</button>
+                        <button type="button" id="pres-suiv" onclick="naviguerGuideMenu(1)">Suivant ▶</button>
+                    </span>
+                </div>
+                <div class="pres-hint">Cliquez en dehors de cette fenêtre pour la fermer.</div>
             </div>
 
             <!-- Éditeur de road trip (JSON) avancé : ouvert via la barre verte "✏️ Éditer un
@@ -9676,6 +9748,168 @@ if (btnToggleLieux) {
             modificationsNonSauvegardees = false;
             if (typeof guideRoadtripNotifierAction === 'function') guideRoadtripNotifierAction('roadtripEdite');
         }
+
+        // ==========================================
+        // GUIDE DE PRÉSENTATION DU MENU 🔍 (lancé par le bouton 💡)
+        // ==========================================
+        // Présente la recherche d'un lieu puis chaque onglet du bandeau « Voir/gérer ».
+        // Se ferme d'un clic en dehors de la fenêtre (sur le voile) ou avec la touche Échap.
+        // Lancé par le bouton 💡 (ou demarrerGuideMenu()) ; pas de lancement automatique sur ce site.
+        const GUIDE_MENU_ETAPES = [
+            { cible: '#btn-reafficher-entete', entete: false, menu: false, titre: '🔍 La loupe',
+              texte: `Au lancement, seule la loupe est affichée pour laisser toute la place à la carte. Touchez-la pour faire apparaître la barre de recherche et le menu « Voir/gérer ». Ils se masquent de nouveau quand vous touchez la carte.` },
+            { cible: '.search-container', menu: false, titre: '🔍 Rechercher un lieu',
+              texte: `Tapez le nom d'un lieu (village, rivière, plage…) ou des coordonnées GPS (ex : 44.8645, 1.3532), puis choisissez un résultat : la carte se centre dessus et sa fiche s'ouvre.<br>🎤 recherche vocale · ➕ ajoute un lieu au centre de la carte · ? aide générale.` },
+            { cible: '.menu-toggle-handle', menu: false, titre: '🔍 Le menu « Voir/gérer »',
+              texte: `Touchez ce bandeau pour ouvrir ou replier le menu. Il regroupe quatre onglets : <b>Carnet</b>, <b>Top 12</b>, <b>Road Trips</b> et <b>Base de Lieux</b>. Les boutons <b>Trier</b> (listes classées par distance depuis votre position) et <b>Alerte</b> (notification à proximité d'un lieu du Top 12 ou du Carnet) s'y trouvent aussi.` },
+            { cible: '.tabs-bar .tab-btn[data-tab="sous-menu-carnet"]', menu: true, onglet: 'sous-menu-carnet', titre: '📖 CARNET',
+              texte: `Votre carnet de <b>travail</b> de la session : les lieux sur lesquels vous travaillez (par défaut le road trip « chateaux_cathares »). Choisissez un lieu dans la liste pour le voir sur la carte, affichez ou masquez le carnet sur la carte, ou videz-le avec 🗑️.<br><b style="color:#b00020;">⚠️ Avant de commencer un autre projet, effacez-le ou sauvegardez-le (onglet Road Trips).</b>` },
+            { cible: '.tabs-bar .tab-btn[data-tab="sous-menu-top12"]', menu: true, onglet: 'sous-menu-top12', titre: '⭐ Top 12',
+              texte: `Les 12 lieux sélectionnés par l'administrateur (TP), modifiables par lui seul. Choisissez-en un dans la liste pour aller le voir, ou affichez les 12 repères d'un coup sur la carte avec le bouton prévu.` },
+            { cible: '.tabs-bar .tab-btn[data-tab="sous-menu-roadtrips"]', menu: true, onglet: 'sous-menu-roadtrips', titre: '💾 Road Trips',
+              texte: `Sauvegardez le contenu du Carnet sous forme de road trip (📍 les vôtres, 🌐 les road trips partagés), rechargez-en un dans le carnet, importez un fichier .json, partagez par lien, WhatsApp, e-mail ou PDF, ou modifiez-les avec ✏️. Pensez à choisir un dossier de sauvegarde. Ils restent consultables hors ligne.` },
+            { cible: '.tabs-bar .tab-btn[data-tab="sous-menu-lieux"]', menu: true, onglet: 'sous-menu-lieux', titre: '📚 Base de Lieux',
+              texte: `Les lieux enregistrés par l'administrateur (TP), modifiables par lui seul. Les lieux marqués « RT » appartiennent à un road trip.` },
+            { cible: '#btn-guide-roadtrip', menu: false, titre: '🧭 Pour aller plus loin',
+              texte: `Le bouton vert 🧭 lance le guide pas à pas pour créer un road trip de A à Z, et le bouton ? ouvre l'aide générale. Bonne exploration !` }
+        ];
+        let guideMenuActif = false;
+        let guideMenuIdx = 0;
+        let guideMenuEtatInitial = null;
+
+        // Au lancement du site, l'entête, la recherche et le menu « Voir/gérer » sont masqués (seule la loupe 🔍
+        // est visible) : le guide les montre/masque lui-même selon l'étape.
+        function enteteCacheeGuideMenu() {
+            const sc = document.querySelector('.search-container');
+            return !!(sc && sc.classList.contains('overlay-cachee'));
+        }
+        function afficherEnteteGuideMenu(visible) {
+            ['header', '.search-container', '.dropdown-overlay'].forEach(sel => {
+                const el = document.querySelector(sel);
+                if (el) el.classList.toggle('overlay-cachee', !visible);
+            });
+            const loupe = document.getElementById('btn-reafficher-entete');
+            if (loupe) loupe.classList.toggle('visible', !visible);
+        }
+
+        function demarrerGuideMenu() {
+            if (guideMenuActif) return;
+            const menu = document.getElementById('search-dropdown-menu');
+            guideMenuEtatInitial = {
+                replie: !menu || menu.classList.contains('collapsed-menu'),
+                enteteCachee: enteteCacheeGuideMenu(),
+                onglet: document.querySelector('.tabs-bar .tab-btn.active')
+            };
+            guideMenuActif = true;
+            guideMenuIdx = 0;
+            document.getElementById('pres-overlay').classList.add('visible');
+            document.getElementById('pres-panel').style.display = 'block';
+            afficherEtapeGuideMenu();
+        }
+
+        function fermerGuideMenu() {
+            if (!guideMenuActif) return;
+            guideMenuActif = false;
+            document.getElementById('pres-overlay').classList.remove('visible');
+            document.getElementById('pres-panel').style.display = 'none';
+            const menu = document.getElementById('search-dropdown-menu');
+            const e = guideMenuEtatInitial;
+            if (e) afficherEnteteGuideMenu(!e.enteteCachee);
+            if (menu && e) {
+                if (e.onglet) activerOngletMenu(e.onglet);
+                menu.classList.toggle('collapsed-menu', e.replie);
+            }
+            setTimeout(() => afficherBulleFonctionnalites(7000), 150);
+        }
+
+        function naviguerGuideMenu(delta) {
+            const n = guideMenuIdx + delta;
+            if (n >= GUIDE_MENU_ETAPES.length) { fermerGuideMenu(); return; }
+            if (n < 0) return;
+            guideMenuIdx = n;
+            afficherEtapeGuideMenu();
+        }
+
+        function afficherEtapeGuideMenu() {
+            const e = GUIDE_MENU_ETAPES[guideMenuIdx];
+            const menu = document.getElementById('search-dropdown-menu');
+            afficherEnteteGuideMenu(e.entete !== false);
+            if (menu) menu.classList.toggle('collapsed-menu', !e.menu);
+            if (e.onglet) {
+                const b = document.querySelector(`.tabs-bar .tab-btn[data-tab="${e.onglet}"]`);
+                if (b) activerOngletMenu(b);
+            }
+            document.getElementById('pres-etape').textContent = `Étape ${guideMenuIdx + 1}/${GUIDE_MENU_ETAPES.length}`;
+            document.getElementById('pres-titre').textContent = e.titre;
+            document.getElementById('pres-texte').innerHTML = e.texte;
+            document.getElementById('pres-prec').disabled = (guideMenuIdx === 0);
+            document.getElementById('pres-suiv').textContent = (guideMenuIdx === GUIDE_MENU_ETAPES.length - 1) ? 'Terminer ✓' : 'Suivant ▶';
+            positionnerGuideMenu();
+            setTimeout(positionnerGuideMenu, 300); // après l'animation d'ouverture/fermeture du menu
+        }
+
+        function positionnerGuideMenu() {
+            if (!guideMenuActif) return;
+            const e = GUIDE_MENU_ETAPES[guideMenuIdx];
+            const sp = document.getElementById('pres-spot');
+            const c = document.querySelector(e.cible);
+            if (c) c.scrollIntoView({ block: 'nearest', inline: 'center' });
+            const r = c ? c.getBoundingClientRect() : { left: innerWidth / 2, top: innerHeight / 2, width: 0, height: 0 };
+            const m = 4;
+            sp.style.left = (r.left - m) + 'px';
+            sp.style.top = (r.top - m) + 'px';
+            sp.style.width = (r.width + 2 * m) + 'px';
+            sp.style.height = (r.height + 2 * m) + 'px';
+        }
+
+        window.addEventListener('resize', positionnerGuideMenu);
+        document.addEventListener('keydown', (ev) => { if (ev.key === 'Escape') fermerGuideMenu(); });
+
+        // PAS de lancement automatique sur ce site (il s'ouvre directement sur le road trip) : seule l'info-bulle
+        // sur la loupe / l'ampoule est proposée à l'ouverture, sauf ouverture directe d'un road trip / d'un lieu
+        // (?rt=, ?roadtrip=, ?lieu=) : ces paramètres sont retirés de l'URL par le script dès le chargement, d'où
+        // le test sur les variables dédiées. Dans ce cas rien n'est affiché, pour ne pas masquer ce qui s'ouvre.
+        // Info-bulle sur l'ampoule 💡 : rappelle où relancer la présentation (à la fermeture du guide,
+        // ou dès l'ouverture si le lancement automatique est sauté). Disparaît au clic, avec Échap ou après quelques secondes.
+        let timerBulleFonctionnalites = null;
+        function positionnerBulleFonctionnalites() {
+            const bulle = document.getElementById('bulle-fonctionnalites');
+            const btn = document.getElementById(enteteCacheeGuideMenu() ? 'btn-reafficher-entete' : 'btn-fonctionnalites');
+            if (!bulle || !btn || bulle.style.display === 'none') return;
+            const r = btn.getBoundingClientRect();
+            const cx = r.left + r.width / 2;
+            const left = Math.max(8, Math.min(cx - bulle.offsetWidth / 2, innerWidth - bulle.offsetWidth - 8));
+            bulle.style.left = left + 'px';
+            bulle.style.top = (r.bottom + 10) + 'px';
+            bulle.style.setProperty('--fl-x', (cx - left) + 'px');
+        }
+        function afficherBulleFonctionnalites(dureeMs) {
+            const bulle = document.getElementById('bulle-fonctionnalites');
+            if (!bulle || guideMenuActif || guideRoadtripActif) return;
+            bulle.innerHTML = enteteCacheeGuideMenu()
+                ? '💡 Présentation du menu 🔍<br><small>Touchez la loupe 🔍 puis l\'ampoule 💡</small>'
+                : '💡 Fonctionnalités du menu 🔍<br><small>Cliquez sur l\'ampoule pour (re)voir la présentation</small>';
+            bulle.style.display = 'block';
+            positionnerBulleFonctionnalites();
+            clearTimeout(timerBulleFonctionnalites);
+            timerBulleFonctionnalites = setTimeout(masquerBulleFonctionnalites, dureeMs || 8000);
+        }
+        function masquerBulleFonctionnalites() {
+            const bulle = document.getElementById('bulle-fonctionnalites');
+            if (bulle) bulle.style.display = 'none';
+        }
+        window.addEventListener('resize', positionnerBulleFonctionnalites);
+        document.addEventListener('click', masquerBulleFonctionnalites);
+        document.addEventListener('keydown', (ev) => { if (ev.key === 'Escape') masquerBulleFonctionnalites(); });
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const lienDirect = (typeof lienPartageAppliqueAuChargement !== 'undefined' && lienPartageAppliqueAuChargement)
+                    || (typeof lienLieuDirectDemande !== 'undefined' && lienLieuDirectDemande)
+                    || (typeof nomRoadtripDirectDemande !== 'undefined' && nomRoadtripDirectDemande);
+                if (lienDirect || guideRoadtripActif) return;
+                afficherBulleFonctionnalites(10000);
+            }, 1200);
+        });
 
 </script>
 
