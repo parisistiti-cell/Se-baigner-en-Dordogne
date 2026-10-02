@@ -2625,7 +2625,7 @@
                 <div class="modal-confidentialite modal-aide-generale">
                     <button class="close-btn-modal" onclick="fermerAideGenerale()" aria-label="Fermer l'aide">×</button>
                     <h3>❓ Ce que permet ce site</h3>
-                    <p style="font-size:0.8rem; color:#666; margin:-6px 0 14px 0;">Dernière mise à jour de cette version du site : 02/10/2026 à 08h10.</p>
+                    <p style="font-size:0.8rem; color:#666; margin:-6px 0 14px 0;">Dernière mise à jour de cette version du site : 02/10/2026 à 13h30.</p>
 
                     <p style="background:#e8f5e9; border-left:4px solid #2e7d32; padding:8px 12px; border-radius:6px; margin:0 0 14px 0;">
                         💡 <b>Nouveau : présentation guidée du menu 🔍</b><span class="badge-nouveau">NOUVEAU</span><br>
@@ -2686,10 +2686,10 @@
 
                     <h4 style="color:#b00020;">🛠️ Mode administrateur (réservé à TP)</h4><span class="badge-nouveau">NOUVEAU</span>
                     <ul>
-                        <li><b>🛠️ Activer/désactiver</b> : le bouton « 🛠️ » (à côté du 💡 et du guide pas à pas 🧭) bascule le mode administrateur. Une fois activé (« 🛠️ ON »), un panneau « Ajouter un lieu » apparaît (en haut à droite sur ordinateur, en feuille coulissante en bas de l'écran sur mobile).</li>
+                        <li><b>🛠️ Activer/désactiver</b> : le bouton « 🛠️ » (à côté du 💡 et du guide pas à pas 🧭) bascule le mode administrateur. Le secret d'accès vous est demandé à l'activation ; une fois saisi (« 🛠️ ON »), un panneau « Ajouter un lieu » apparaît (en haut à droite sur ordinateur, en feuille coulissante en bas de l'écran sur mobile).</li>
                         <li><b>Ajouter un lieu à la Base de Lieux</b> : en mode administrateur, un simple clic (ou tap) sur la carte place un repère et pré-remplit ses coordonnées dans le panneau. Il suffit ensuite de renseigner le nom (obligatoire), une courte description et, si besoin, l'URL d'une photo, puis de cliquer sur « Enregistrer » : le lieu est envoyé et ajouté directement à la Base de Lieux publique, visible par tous les visiteurs du site.</li>
                         <li><b>🗑️ Supprimer un lieu</b> : dans le panneau, la section « 🗑️ Supprimer un lieu » permet de choisir un lieu existant de la Base de Lieux dans une liste déroulante puis de confirmer sa suppression définitive.</li>
-                        <li><b>Accès protégé</b> : ces actions (ajout/suppression) sont envoyées à un service en ligne dédié et protégées par un identifiant secret connu uniquement de l'administrateur ; elles n'affectent jamais le Carnet, les road trips ou les autres données personnelles des visiteurs du site.</li>
+                        <li><b>Accès protégé</b> : ces actions (ajout/suppression) sont envoyées à un service en ligne dédié et protégées par un identifiant secret connu uniquement de l'administrateur, saisi à l'activation du 🛠️ (il n'est ni écrit dans la page ni enregistré, et il est oublié à la désactivation ou au rechargement) ; elles n'affectent jamais le Carnet, les road trips ou les autres données personnelles des visiteurs du site.</li>
                     </ul>
 
 
@@ -2802,7 +2802,7 @@
                         <li><a href="https://parisistiti-cell.github.io/titimessenger/" target="_blank" rel="noopener noreferrer" style="color:#b00020;">Messagerie chiffrée — ThierryParisis</a></li>
                     </ul>
 
-                    <p style="font-size:0.75rem; color:#888; text-align:center; margin-top:16px; border-top:1px solid #eee; padding-top:10px;">Aide relue et mise à jour le 2 octobre 2026 à 08h10</p>
+                    <p style="font-size:0.75rem; color:#888; text-align:center; margin-top:16px; border-top:1px solid #eee; padding-top:10px;">Aide relue et mise à jour le 2 octobre 2026 à 13h30</p>
                 </div>
             </div>
 
@@ -9725,18 +9725,45 @@ if (btnToggleLieux) {
         // ===================== MODE ADMINISTRATEUR =====================
         // Permet à l'administrateur du site (TP) d'ajouter ou de supprimer des lieux
         // directement dans la Base de Lieux publique (fichier lieux.json, via un backend).
-        // Réservé à l'administrateur : nécessite de connaître le secret d'accès (ADMIN_SECRET).
+        // Réservé à l'administrateur : le secret d'accès n'est PAS écrit dans le code : il est demandé à l'activation du 🛠️ et gardé en mémoire uniquement (jusqu'à la désactivation ou au rechargement de la page).
         const ADMIN_MODE = false;
         const ADMIN_API_URL = "https://lieux.parisis-titi.workers.dev/";
-        const ADMIN_SECRET = '*0711last*';
+        let adminSecret = null; // saisi par l'administrateur à l'activation du mode, jamais stocké
 
         let adminModeForced = false;
         let adminCurrentLat = null;
         let adminCurrentLng = null;
         let adminMarker = null;
 
-        function toggleAdminMode() {
-            adminModeForced = !adminModeForced;
+        // Vérifie le secret auprès du serveur AVANT d'activer le mode : requête de suppression sur un
+        // identifiant inexistant (sans effet) ; le serveur répond 401/403 si le secret est faux.
+        // Renvoie true (accepté), false (refusé) ou null (serveur injoignable).
+        async function verifierSecretAdmin(secret) {
+            try {
+                const resp = await fetch(ADMIN_API_URL, {
+                    method: "DELETE",
+                    headers: { "Content-Type": "application/json", "x-admin-secret": secret },
+                    body: JSON.stringify({ id: "__verification_secret__" })
+                });
+                if (resp.status === 401 || resp.status === 403) return false;
+                return true;
+            } catch (e) { return null; }
+        }
+
+        async function toggleAdminMode() {
+            if (!adminModeForced) {
+                // Activation : on demande le secret (rien n'est écrit dans le code de la page).
+                const saisi = window.prompt("Mode administrateur : entrez le secret d'accès");
+                if (saisi === null || saisi.trim() === '') return; // annulé : le mode reste désactivé
+                const ok = await verifierSecretAdmin(saisi.trim());
+                if (ok === false) { alert("Secret incorrect : mode administrateur non activé."); return; }
+                if (ok === null) { alert("Impossible de vérifier le secret (serveur injoignable). Réessayez."); return; }
+                adminSecret = saisi.trim();
+                adminModeForced = true;
+            } else {
+                adminModeForced = false;
+                adminSecret = null; // désactivation : le secret est oublié
+            }
             const btn = document.getElementById('btn-admin-toggle');
             if (btn) {
                 btn.textContent = adminModeForced ? '🛠️ ON' : '🛠️';
@@ -9758,6 +9785,12 @@ if (btnToggleLieux) {
                 e.stopPropagation();
                 toggleAdminMode();
             });
+        }
+
+        // Secret refusé par le serveur : on l'oublie et on quitte le mode administrateur.
+        function adminSecretRefuse() {
+            adminSecret = null;
+            if (adminModeForced) toggleAdminMode();
         }
 
         function toggleAdminPanelCollapse() {
@@ -9803,12 +9836,13 @@ if (btnToggleLieux) {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    "x-admin-secret": ADMIN_SECRET
+                    "x-admin-secret": adminSecret || ""
                 },
                 body: JSON.stringify(lieu)
             });
 
             const data = await resp.json().catch(() => ({}));
+            if (resp.status === 401 || resp.status === 403) { adminSecretRefuse(); throw new Error("Secret refusé : mode administrateur désactivé."); }
             if (!resp.ok || !data.ok) {
                 throw new Error(data.error || "Erreur d'enregistrement");
             }
@@ -9862,12 +9896,13 @@ if (btnToggleLieux) {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
-                    "x-admin-secret": ADMIN_SECRET
+                    "x-admin-secret": adminSecret || ""
                 },
                 body: JSON.stringify({ id: lieuId })
             });
 
             const data = await resp.json().catch(() => ({}));
+            if (resp.status === 401 || resp.status === 403) { adminSecretRefuse(); throw new Error("Secret refusé : mode administrateur désactivé."); }
             if (!resp.ok || !data.ok) {
                 throw new Error(data.error || "Erreur de suppression");
             }
