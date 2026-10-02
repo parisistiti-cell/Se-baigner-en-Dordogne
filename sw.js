@@ -12,7 +12,7 @@
 // force le nettoyage de l'ancien cache dans "activate" ci-dessous — sans ce
 // changement, un fichier déjà mis en cache (ex. Last10mois.json) peut rester
 // bloqué indéfiniment côté utilisateur même après un nouveau déploiement.
-const CACHE_VERSION = 'tp-baignades-v6';
+const CACHE_VERSION = 'tp-baignades-v7';
 const APP_SHELL_CACHE = CACHE_VERSION + '-shell';
 const TILES_CACHE = CACHE_VERSION + '-tiles';
 const MAX_TILES_EN_CACHE = 400; // limite volontairement modeste pour ne pas saturer le stockage de l'appareil
