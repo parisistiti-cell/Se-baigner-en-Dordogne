@@ -2584,11 +2584,11 @@
                 <div class="modal-confidentialite modal-aide-generale">
                     <button class="close-btn-modal" onclick="fermerAideGenerale()" aria-label="Fermer l'aide">×</button>
                     <h3>❓ Ce que permet ce site</h3>
-                    <p style="font-size:0.8rem; color:#666; margin:-6px 0 14px 0;">Dernière mise à jour de cette version du site : 02/10/2026 à 07h43.</p>
+                    <p style="font-size:0.8rem; color:#666; margin:-6px 0 14px 0;">Dernière mise à jour de cette version du site : 02/10/2026 à 07h50.</p>
 
                     <p style="background:#e8f5e9; border-left:4px solid #2e7d32; padding:8px 12px; border-radius:6px; margin:0 0 14px 0;">
                         💡 <b>Nouveau : présentation guidée du menu 🔍</b><span class="badge-nouveau">NOUVEAU</span><br>
-                        Au lancement de la page, une courte présentation explique la recherche d'un lieu puis chaque onglet du menu « 🔍 Voir/gérer » (Carnet, Top 12, Road Trips, Base de Lieux). Elle se ferme d'un clic en dehors de sa fenêtre ; une info-bulle indique alors le bouton bleu 💡 de la barre de recherche, qui permet de la relancer à tout moment.
+                        Au lancement de la page, une courte présentation explique la loupe 🔍, la recherche d'un lieu puis chaque onglet du menu « 🔍 Voir/gérer » (Carnet, Top 12, Road Trips, Base de Lieux). Elle se ferme d'un clic en dehors de sa fenêtre ; une info-bulle indique alors le bouton bleu 💡 de la barre de recherche, qui permet de la relancer à tout moment.
                     </p>
 
                     <p style="background:#e8f5e9; border-left:4px solid #2e7d32; padding:8px 12px; border-radius:6px; margin:0 0 14px 0;">
@@ -2645,7 +2645,7 @@
 
                     <h4 style="color:var(--secondary);">📖 Planification &amp; Gestion de Road Trips</h4>
                     <ul>
-                        <li><b>💡 Fonctionnalités du menu 🔍</b><span class="badge-nouveau">NOUVEAU</span> : le bouton bleu 💡 (à côté du 🧭) relance la présentation du menu « Voir/gérer » : recherche d'un lieu, Carnet, Top 12, Road Trips et Base de Lieux. Elle s'affiche aussi automatiquement à l'ouverture de la page et se ferme d'un clic en dehors de sa fenêtre ou avec la touche Échap.</li>
+                        <li><b>💡 Fonctionnalités du menu 🔍</b><span class="badge-nouveau">NOUVEAU</span> : le bouton bleu 💡 (à côté du 🧭) relance la présentation du menu « Voir/gérer » : loupe, recherche d'un lieu, Carnet, Top 12, Road Trips et Base de Lieux. Elle s'affiche aussi automatiquement à l'ouverture de la page et se ferme d'un clic en dehors de sa fenêtre ou avec la touche Échap.</li>
                         <li><b>🧭 Guide pas à pas</b> : le bouton vert 🧭 en haut de l'écran lance un tutoriel interactif qui vous guide en direct sur le site pour créer un road trip de A à Z (voir encadré en haut de cette aide).</li>
                         <li><b>Carnet Virtuel Personnel</b> : au premier lancement, le Carnet est vide ; vous y inscrivez vos propres lieux (ou chargez un road trip via 📂, le vôtre ou un des road trips 🌐 Partagés).</li>
                         <li><b>Sauvegarde 💾</b> : un seul bouton « 💾 Sauvegarder » fait tout à la fois — il demande un nom, le mémorise dans ce navigateur (pour le retrouver d'un clic via 📂 Charger), PUIS ouvre aussitôt un vrai enregistrement dans un fichier sur votre appareil : choix du dossier et du nom de fichier sur PC (le navigateur se souvient du dernier dossier utilisé), ou sélecteur de partage natif sur mobile.</li>
@@ -2747,7 +2747,7 @@
                         <li><a href="https://parisistiti-cell.github.io/titimessenger/" target="_blank" rel="noopener noreferrer" style="color:#b00020;">Messagerie chiffrée — ThierryParisis</a></li>
                     </ul>
 
-                    <p style="font-size:0.75rem; color:#888; text-align:center; margin-top:16px; border-top:1px solid #eee; padding-top:10px;">Aide relue et mise à jour le 2 octobre 2026 à 07h43</p>
+                    <p style="font-size:0.75rem; color:#888; text-align:center; margin-top:16px; border-top:1px solid #eee; padding-top:10px;">Aide relue et mise à jour le 2 octobre 2026 à 07h50</p>
                 </div>
             </div>
 
@@ -9663,6 +9663,8 @@ if (btnToggleLieux) {
         // Se ferme d'un clic en dehors de la fenêtre (sur le voile) ou avec la touche Échap.
         // Lancé automatiquement à l'ouverture, puis par le bouton 💡 (ou demarrerGuideMenu()).
         const GUIDE_MENU_ETAPES = [
+            { cible: '#btn-reafficher-entete', entete: false, menu: false, titre: '🔍 La loupe',
+              texte: `Au lancement, seule la loupe est affichée pour laisser toute la place à la carte. Touchez-la pour faire apparaître la barre de recherche et le menu « Voir/gérer ». Ils se masquent de nouveau quand vous touchez la carte.` },
             { cible: '.search-container', menu: false, titre: '🔍 Rechercher un lieu',
               texte: `Tapez le nom d'un lieu (village, rivière, plage…) ou des coordonnées GPS (ex : 44.8645, 1.3532), puis choisissez un résultat : la carte se centre dessus et sa fiche s'ouvre.<br>🎤 recherche vocale · ➕ ajoute un lieu au centre de la carte · ? aide générale.` },
             { cible: '.menu-toggle-handle', menu: false, titre: '🔍 Le menu « Voir/gérer »',
@@ -9682,11 +9684,27 @@ if (btnToggleLieux) {
         let guideMenuIdx = 0;
         let guideMenuEtatInitial = null;
 
+        // Au lancement du site, l'entête, la recherche et le menu « Voir/gérer » sont masqués (seule la loupe 🔍
+        // est visible) : le guide les montre/masque lui-même selon l'étape.
+        function enteteCacheeGuideMenu() {
+            const sc = document.querySelector('.search-container');
+            return !!(sc && sc.classList.contains('overlay-cachee'));
+        }
+        function afficherEnteteGuideMenu(visible) {
+            ['header', '.search-container', '.dropdown-overlay'].forEach(sel => {
+                const el = document.querySelector(sel);
+                if (el) el.classList.toggle('overlay-cachee', !visible);
+            });
+            const loupe = document.getElementById('btn-reafficher-entete');
+            if (loupe) loupe.classList.toggle('visible', !visible);
+        }
+
         function demarrerGuideMenu() {
             if (guideMenuActif) return;
             const menu = document.getElementById('search-dropdown-menu');
             guideMenuEtatInitial = {
                 replie: !menu || menu.classList.contains('collapsed-menu'),
+                enteteCachee: enteteCacheeGuideMenu(),
                 onglet: document.querySelector('.tabs-bar .tab-btn.active')
             };
             guideMenuActif = true;
@@ -9703,6 +9721,7 @@ if (btnToggleLieux) {
             document.getElementById('pres-panel').style.display = 'none';
             const menu = document.getElementById('search-dropdown-menu');
             const e = guideMenuEtatInitial;
+            if (e) afficherEnteteGuideMenu(!e.enteteCachee);
             if (menu && e) {
                 if (e.onglet) activerOngletMenu(e.onglet);
                 menu.classList.toggle('collapsed-menu', e.replie);
@@ -9721,6 +9740,7 @@ if (btnToggleLieux) {
         function afficherEtapeGuideMenu() {
             const e = GUIDE_MENU_ETAPES[guideMenuIdx];
             const menu = document.getElementById('search-dropdown-menu');
+            afficherEnteteGuideMenu(e.entete !== false);
             if (menu) menu.classList.toggle('collapsed-menu', !e.menu);
             if (e.onglet) {
                 const b = document.querySelector(`.tabs-bar .tab-btn[data-tab="${e.onglet}"]`);
@@ -9758,7 +9778,7 @@ if (btnToggleLieux) {
         let timerBulleFonctionnalites = null;
         function positionnerBulleFonctionnalites() {
             const bulle = document.getElementById('bulle-fonctionnalites');
-            const btn = document.getElementById('btn-fonctionnalites');
+            const btn = document.getElementById(enteteCacheeGuideMenu() ? 'btn-reafficher-entete' : 'btn-fonctionnalites');
             if (!bulle || !btn || bulle.style.display === 'none') return;
             const r = btn.getBoundingClientRect();
             const cx = r.left + r.width / 2;
@@ -9770,6 +9790,9 @@ if (btnToggleLieux) {
         function afficherBulleFonctionnalites(dureeMs) {
             const bulle = document.getElementById('bulle-fonctionnalites');
             if (!bulle || guideMenuActif || guideRoadtripActif) return;
+            bulle.innerHTML = enteteCacheeGuideMenu()
+                ? '💡 Revoir la présentation du menu 🔍<br><small>Touchez la loupe 🔍 puis l\'ampoule 💡</small>'
+                : '💡 Fonctionnalités du menu 🔍<br><small>Cliquez sur l\'ampoule pour (re)voir la présentation</small>';
             bulle.style.display = 'block';
             positionnerBulleFonctionnalites();
             clearTimeout(timerBulleFonctionnalites);
