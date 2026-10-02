@@ -2571,11 +2571,11 @@
                 <div class="modal-confidentialite modal-aide-generale">
                     <button class="close-btn-modal" onclick="fermerAideGenerale()" aria-label="Fermer l'aide">×</button>
                     <h3>❓ Ce que permet ce site</h3>
-                    <p style="font-size:0.8rem; color:#666; margin:-6px 0 14px 0;">Dernière mise à jour de cette version du site : 02/10/2026 à 10h36.</p>
+                    <p style="font-size:0.8rem; color:#666; margin:-6px 0 14px 0;">Dernière mise à jour de cette version du site : 02/10/2026 à 11h03.</p>
 
                     <p style="background:#e8f5e9; border-left:4px solid #2e7d32; padding:8px 12px; border-radius:6px; margin:0 0 14px 0;">
                         💡 <b>Nouveau : présentation guidée du menu 🔍</b><span class="badge-nouveau">NOUVEAU</span><br>
-                        Au lancement de la page, une courte présentation explique la loupe 🔍, la recherche d'un lieu puis chaque onglet du menu « 🔍 Voir/gérer » (Carnet, Top 12, Road Trips, Base de Lieux). Elle se ferme d'un clic en dehors de sa fenêtre ; une info-bulle indique alors le bouton bleu 💡 de la barre de recherche, qui permet de la relancer à tout moment.
+                        Le bouton bleu 💡 de la barre de recherche (une info-bulle le signale à l'ouverture du site) lance une courte présentation : la loupe 🔍, la recherche d'un lieu puis chaque onglet du menu « 🔍 Voir/gérer » (Carnet, Top 12, Road Trips, Base de Lieux). Elle ne s'ouvre pas toute seule et se ferme d'un clic en dehors de sa fenêtre.
                     </p>
 
                     <p style="background:#e8f5e9; border-left:4px solid #2e7d32; padding:8px 12px; border-radius:6px; margin:0 0 14px 0;">
@@ -2627,7 +2627,7 @@
 
                     <h4 style="color:var(--secondary);">📖 Planification &amp; Gestion de Road Trips</h4>
                     <ul>
-                        <li><b>💡 Fonctionnalités du menu 🔍</b><span class="badge-nouveau">NOUVEAU</span> : le bouton bleu 💡 (à côté du 🧭) relance la présentation du menu « Voir/gérer » : loupe, recherche d'un lieu, Carnet, Top 12, Road Trips et Base de Lieux. Elle s'affiche aussi automatiquement à l'ouverture de la page et se ferme d'un clic en dehors de sa fenêtre ou avec la touche Échap.</li>
+                        <li><b>💡 Fonctionnalités du menu 🔍</b><span class="badge-nouveau">NOUVEAU</span> : le bouton bleu 💡 (à côté du 🧭) lance la présentation du menu « Voir/gérer » : loupe, recherche d'un lieu, Carnet, Top 12, Road Trips et Base de Lieux. Elle ne s'ouvre pas toute seule (une info-bulle signale le bouton à l'ouverture du site) ; elle se ferme d'un clic en dehors de sa fenêtre ou avec la touche Échap.</li>
                         <li><b>🧭 Guide pas à pas</b> : le bouton vert 🧭 en haut de l'écran lance un tutoriel interactif qui vous guide en direct sur le site pour créer un road trip de A à Z (voir encadré en haut de cette aide).</li>
                         <li><b>Carnet Virtuel Personnel</b> : au premier lancement, le Carnet est vide ; vous y inscrivez vos propres lieux (ou chargez un road trip via 📂, le vôtre ou un des road trips 🌐 Partagés).</li>
                         <li><b>Sauvegarde 💾</b> : un seul bouton « 💾 Sauvegarder » fait tout à la fois — il demande un nom, le mémorise dans ce navigateur (pour le retrouver d'un clic via 📂 Charger), PUIS ouvre aussitôt un vrai enregistrement dans un fichier sur votre appareil : choix du dossier et du nom de fichier sur PC (le navigateur se souvient du dernier dossier utilisé), ou sélecteur de partage natif sur mobile.</li>
@@ -2728,7 +2728,7 @@
                         <li><a href="https://x.com/ThierryParisis" target="_blank" rel="noopener noreferrer" style="color:#b00020;">X — @ThierryParisis</a></li>
                     </ul>
 
-                    <p style="font-size:0.75rem; color:#888; text-align:center; margin-top:16px; border-top:1px solid #eee; padding-top:10px;">Aide relue et mise à jour le 2 octobre 2026 à 10h36</p>
+                    <p style="font-size:0.75rem; color:#888; text-align:center; margin-top:16px; border-top:1px solid #eee; padding-top:10px;">Aide relue et mise à jour le 2 octobre 2026 à 11h03</p>
                 </div>
             </div>
 
@@ -10053,11 +10053,11 @@ if (btnToggleLieux) {
         }
 
         // ==========================================
-        // GUIDE DE PRÉSENTATION DU MENU 🔍 (au lancement de la page, puis via le bouton 💡)
+        // GUIDE DE PRÉSENTATION DU MENU 🔍 (lancé par le bouton 💡)
         // ==========================================
         // Présente la recherche d'un lieu puis chaque onglet du bandeau « Voir/gérer ».
         // Se ferme d'un clic en dehors de la fenêtre (sur le voile) ou avec la touche Échap.
-        // Lancé automatiquement à l'ouverture, puis par le bouton 💡 (ou demarrerGuideMenu()).
+        // Lancé par le bouton 💡 (ou demarrerGuideMenu()) ; pas de lancement automatique sur ce site.
         const GUIDE_MENU_ETAPES = [
             { cible: '#btn-reafficher-entete', entete: false, menu: false, titre: '🔍 La loupe',
               texte: `Au lancement, seule la loupe est affichée pour laisser toute la place à la carte. Touchez-la pour faire apparaître la barre de recherche et le menu « Voir/gérer ». Ils se masquent de nouveau quand vous touchez la carte.` },
@@ -10168,7 +10168,8 @@ if (btnToggleLieux) {
         window.addEventListener('resize', positionnerGuideMenu);
         document.addEventListener('keydown', (ev) => { if (ev.key === 'Escape') fermerGuideMenu(); });
 
-        // Lancement automatique à l'ouverture de la page, sauf ouverture directe d'un road trip / d'un lieu
+        // PAS de lancement automatique sur ce site (il s'ouvre directement sur le road trip) : seule l'info-bulle
+        // sur la loupe / l'ampoule est proposée à l'ouverture, sauf ouverture directe d'un road trip / d'un lieu
         // (?rt=, ?roadtrip=, ?lieu=) : ces paramètres sont retirés de l'URL par le script dès le chargement, d'où
         // le test sur les variables dédiées. Dans ce cas rien n'est affiché, pour ne pas masquer ce qui s'ouvre.
         // Info-bulle sur l'ampoule 💡 : rappelle où relancer la présentation (à la fermeture du guide,
@@ -10189,7 +10190,7 @@ if (btnToggleLieux) {
             const bulle = document.getElementById('bulle-fonctionnalites');
             if (!bulle || guideMenuActif || guideRoadtripActif) return;
             bulle.innerHTML = enteteCacheeGuideMenu()
-                ? '💡 Revoir la présentation du menu 🔍<br><small>Touchez la loupe 🔍 puis l\'ampoule 💡</small>'
+                ? '💡 Présentation du menu 🔍<br><small>Touchez la loupe 🔍 puis l\'ampoule 💡</small>'
                 : '💡 Fonctionnalités du menu 🔍<br><small>Cliquez sur l\'ampoule pour (re)voir la présentation</small>';
             bulle.style.display = 'block';
             positionnerBulleFonctionnalites();
@@ -10209,8 +10210,7 @@ if (btnToggleLieux) {
                     || (typeof lienLieuDirectDemande !== 'undefined' && lienLieuDirectDemande)
                     || (typeof nomRoadtripDirectDemande !== 'undefined' && nomRoadtripDirectDemande);
                 if (lienDirect || guideRoadtripActif) return;
-                if (!window.location.search) demarrerGuideMenu();
-                else afficherBulleFonctionnalites(12000);
+                afficherBulleFonctionnalites(10000);
             }, 1200);
         });
 
