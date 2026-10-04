@@ -2323,6 +2323,13 @@
             .dropdown-overlay.collapsed-menu {
                 max-height: 42px !important;
             }
+            /* Le balai 🧹 (en haut à droite sur grand écran) recouvrait ici le bout de la barre de
+               recherche, donc l'ampoule 💡 : on le descend sous le bandeau « Voir/gérer » replié,
+               à droite, et sous le menu lorsqu'il est ouvert (z-index inférieur à 1050). */
+            .btn-nettoyer-carte {
+                top: 114px;
+                z-index: 1000;
+            }
             /* En-tête plus compact : sur un petit écran, on laisse le maximum
                de hauteur disponible à la carte plutôt qu'au titre. */
             header {
@@ -9679,7 +9686,7 @@ if (btnToggleLieux) {
               texte: `Touchez un repère : une petite fenêtre s'ouvre. Ici, celle du <b>🏠 Barycentre du road trip</b>, ajouté automatiquement au Carnet dès 2 lieux inscrits, au point central de toutes vos étapes.<br>📖 <b>Inscrire</b> / ❤️ <b>Retirer</b> du Carnet · 🔗 <b>Partager</b> · 📍 <b>Lien direct</b> · ℹ️ <b>Détail</b> · ✏️ <b>Éditer</b> le nom, la description et la photo.` },
             { cible: '#details-panel', entete: false, menu: false, titre: 'ℹ️ La fenêtre « Détail »',
               action: () => guideOuvrirDetailBarycentre(), garderDetails: true,
-              texte: `Le bouton ℹ️ ouvre cette fiche complète (⤢ pour l'agrandir) : photo (touchez-la pour l'agrandir), 📋 coordonnées GPS à copier, 🌡️ météo, 🔥 feu, 🎥 webcams, réseaux sociaux, description, 🚩 à visiter, 🥾 à faire, 🏨 hébergement. En bas : 🗺️ Itinéraire, 📖 Carnet, 📸 Photos, 📥 Carte IGN, 🔗 Partager, ✏️ Éditer ce lieu.` },
+              texte: `Le bouton ℹ️ ouvre cette fiche complète (⤢ pour l'agrandir) : photo (touchez-la pour l'agrandir), 📋 coordonnées GPS à copier, 🌡️ météo, 🔥 feu, 🎥 webcams, réseaux sociaux, description, 🚩 à visiter, 🥾 à faire, 🏨 hébergement. En bas : 🗺️ Itinéraire, 📖 Carnet, 📸 Photos, 📥 Carte IGN, 🔗 Partager, ✏️ Éditer ce lieu.<br>⏳ <b>Les blocs 🚩 à visiter, 🥾 à faire et 🏨 hébergement peuvent mettre quelques secondes à s'afficher</b> (chargement en ligne).` },
             { cible: '.tabs-bar .tab-btn[data-tab="sous-menu-top12"]', menu: true, onglet: 'sous-menu-top12', titre: '⭐ Top 12',
               texte: `Les 12 lieux sélectionnés par l'administrateur (TP), modifiables par lui seul. Choisissez-en un dans la liste pour aller le voir, ou affichez les 12 repères d'un coup sur la carte avec le bouton prévu.` },
             { cible: '.tabs-bar .tab-btn[data-tab="sous-menu-roadtrips"]', menu: true, onglet: 'sous-menu-roadtrips', titre: '💾 Road Trips',
@@ -9689,7 +9696,7 @@ if (btnToggleLieux) {
             { cible: '#btn-guide-roadtrip', menu: false, titre: '🧭 Pour aller plus loin',
               texte: `Le bouton vert 🧭 lance le guide pas à pas pour créer un road trip de A à Z, et le bouton ? ouvre l'aide générale.` },
             { cible: '#btn-nettoyer-carte', entete: false, menu: false, titre: '🧹 Nettoyer la carte',
-              texte: `Le balai, en haut à droite de la carte, retire d'un coup tous les repères affichés (sans rien supprimer de vos listes ni de vos réglages) : réaffichez ensuite une catégorie avec 🙈 et elle revient.<br><b style=\"color:#b00020;\">🔒 Toutes vos modifications (carnet, lieux édités, road trips…) restent sur votre appareil : elles ne sont jamais publiées.</b> Bonne exploration !` }
+              texte: `Le balai, sur le côté droit de la carte, retire d'un coup tous les repères affichés (sans rien supprimer de vos listes ni de vos réglages) : réaffichez ensuite une catégorie avec 🙈 et elle revient.<br><b style=\"color:#b00020;\">🔒 Toutes vos modifications (carnet, lieux édités, road trips…) restent sur votre appareil : elles ne sont jamais publiées.</b> Bonne exploration !` }
         ];
         // --- Actions du guide : chaque étape peut agir sur la carte (afficher les points du carnet,
         // ouvrir la petite fenêtre du barycentre, ouvrir la fiche détail) et entoure l'élément expliqué.
