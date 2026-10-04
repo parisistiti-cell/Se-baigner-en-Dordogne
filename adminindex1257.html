@@ -269,7 +269,7 @@
 
         /* Mise en évidence de l'onglet CARNET, placé en premier et en majuscules pour bien
            le différencier des autres : c'est le carnet de TRAVAIL de la session en cours
-           (par défaut le road trip "Last10mois"), à distinguer des collections figées
+           (par défaut le road trip "ardeche2026"), à distinguer des collections figées
            Top 12 / Base de Lieux et de la liste des Road Trips sauvegardés. */
         .tabs-bar .tab-btn.tab-btn-carnet-principal {
             letter-spacing: 0.03em;
@@ -279,7 +279,7 @@
         }
 
         /* Rappel visible en haut de l'onglet Carnet : ce carnet est celui sur lequel on
-           travaille pendant la session (chargé par défaut avec "Last10mois"), à effacer ou
+           travaille pendant la session (chargé par défaut avec "ardeche2026"), à effacer ou
            sauvegarder avant d'y inscrire les lieux d'un autre projet/road trip. */
         .carnet-avertissement-travail {
             background: #fff3cd;
@@ -1011,7 +1011,7 @@
         }
         .scrollable-x.no-fade-left.no-fade-right { -webkit-mask-image: none; mask-image: none; }
 
-        /* (CSS du panneau admin retiré : plus de panneau d'ajout/suppression de lieux) */
+        /* (CSS de base du panneau admin : styles spécifiques mobile plus bas, cf. ".admin-panel-handle") */
         .details-info { flex: 1; }
         .details-info h2 {
             margin: 0 0 8px 0;
@@ -1811,6 +1811,47 @@
             #tour-panel { bottom: 8px; padding: 14px; }
         }
 
+
+        /* ===================== Panneau Admin sur mobile ===================== */
+        /* Poignée de glissement (masquée sur desktop, visible en haut du panneau sur mobile) */
+        .admin-panel-handle { display: none; }
+        .admin-panel-draghandle {
+            width: 42px; height: 5px; background: #d0d5da; border-radius: 3px;
+            margin: 0 auto 8px auto;
+        }
+        .admin-panel-handle-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+        .admin-panel-handle-title { font-weight: bold; color: var(--secondary); font-size: 0.95rem; }
+        .admin-panel-handle-arrow { font-size: 0.78rem; color: #888; white-space: nowrap; }
+
+        @media (max-width: 768px) {
+            /* Le panneau devient une feuille coulissante ancrée en bas de l'écran :
+               cela laisse la carte visible au-dessus, avec un ascenseur (overflow-y)
+               si le contenu dépasse la hauteur autorisée. */
+            #admin-panel {
+                top: auto !important;
+                bottom: 0 !important;
+                left: 0 !important;
+                right: 0 !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                box-sizing: border-box;
+                border-radius: 16px 16px 0 0 !important;
+                max-height: 70vh;
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
+                padding: 10px 16px 18px 16px !important;
+                box-shadow: 0 -6px 20px rgba(0,0,0,0.22) !important;
+                transition: max-height 0.25s ease;
+            }
+            .admin-panel-handle { display: block; cursor: pointer; user-select: none; }
+            #admin-panel-title-ajouter { display: none; }
+            /* Replié : on ne voit plus que la poignée + le titre, la carte redevient visible */
+            #admin-panel.admin-panel-collapsed {
+                max-height: 54px;
+                overflow: hidden;
+            }
+        }
+
         /* Bouton de lancement manuel du guide des fonctionnalités du menu 🔍 */
         .btn-fonctionnalites {
             flex: 0 0 auto; background: #1976d2; color: white; border: none; border-radius: 50%;
@@ -2424,6 +2465,7 @@
                 <button id="btn-aide-generale" class="btn-aide-generale" onclick="ouvrirAideGenerale()" title="Aide : que peut faire ce site ? (confidentialité, hors ligne...)" aria-label="Ouvrir l'aide générale">?</button>
                 <button id="btn-guide-roadtrip" class="btn-guide-roadtrip" onclick="demarrerGuideRoadtrip()" title="Guide pas à pas : créer un road trip de A à Z" aria-label="Démarrer le guide pas à pas de création d'un road trip">🧭</button>
                 <button id="btn-fonctionnalites" class="btn-fonctionnalites" onclick="demarrerGuideMenu()" title="Fonctionnalités : présentation du menu de recherche" aria-label="Afficher la présentation des fonctionnalités du menu de recherche">💡</button>
+                <button id="btn-admin-toggle" class="btn-aide-generale" title="Mode administrateur (écrire dans la Base de Lieux)" aria-label="Mode administrateur">🛠️</button>
                 <div id="search-results" class="search-results"></div>
                 <input type="file" id="input-photo-localisation" accept="image/*" style="display:none">
             </div>
@@ -2441,7 +2483,7 @@
                 <div class="tabs-bar" role="tablist" aria-label="Catégories de lieux">
                     <button type="button" class="tab-btn tab-btn-carnet-principal active" role="tab" aria-selected="true" aria-controls="sous-menu-carnet" data-tab="sous-menu-carnet" onclick="activerOngletMenu(this)">
                         <span class="menu-categorie-badge badge-carnet">C</span> CARNET (<span id="nb-count">0</span>)
-                        <span class="aide-icone" title="⚠️ Carnet de TRAVAIL de la session en cours : il contient les lieux sur lesquels vous travaillez actuellement (par défaut le road trip « Last10mois », chargé automatiquement à l'ouverture du site). Avant d'y inscrire d'autres lieux pour un nouveau projet, pensez à l'effacer (🗑️ Effacer le carnet) ou à le sauvegarder (💾 Road Trips), sous peine de mélanger plusieurs road trips dans le même carnet." onclick="event.stopPropagation(); ouvrirAideCarnet();" role="button" tabindex="0" aria-label="Aide sur le Carnet Virtuel">?</span>
+                        <span class="aide-icone" title="⚠️ Carnet de TRAVAIL de la session en cours : il contient les lieux sur lesquels vous travaillez actuellement (par défaut le road trip « ardeche2026 », chargé automatiquement à l'ouverture du site). Avant d'y inscrire d'autres lieux pour un nouveau projet, pensez à l'effacer (🗑️ Effacer le carnet) ou à le sauvegarder (💾 Road Trips), sous peine de mélanger plusieurs road trips dans le même carnet." onclick="event.stopPropagation(); ouvrirAideCarnet();" role="button" tabindex="0" aria-label="Aide sur le Carnet Virtuel">?</span>
                     </button>
                     <button type="button" class="tab-btn" role="tab" aria-selected="false" aria-controls="sous-menu-top12" data-tab="sous-menu-top12" onclick="activerOngletMenu(this)">
                         <span class="menu-categorie-badge badge-top12">T</span> Top 12
@@ -2460,7 +2502,7 @@
                 <div class="tabs-panels">
                 <div class="dropdown-group">
                     <div class="sous-menu-contenu tab-panel active" id="sous-menu-carnet" role="tabpanel">
-                    <p class="carnet-avertissement-travail">⚠️ Carnet de <b>travail</b> de cette session (par défaut « Last10mois »). Effacez-le (🗑️) ou sauvegardez-le (💾 Road Trips) avant d'y inscrire les lieux d'un autre projet.</p>
+                    <p class="carnet-avertissement-travail">⚠️ Carnet de <b>travail</b> de cette session (par défaut « ardeche2026 »). Effacez-le (🗑️) ou sauvegardez-le (💾 Road Trips) avant d'y inscrire les lieux d'un autre projet.</p>
                     <div id="carnet-roadtrip-en-cours" class="roadtrip-en-cours-label" style="display:none;"></div>
                     <select id="notebook-select" class="top10-select">
                         <option value="">— Choisir un spot dans le carnet —</option>
@@ -2498,7 +2540,7 @@
                             <div class="roadtrip-glisser-indice">Charge automatiquement dans le carnet le road trip sélectionné ci-dessus (remplace le contenu actuel).</div>
                             <div class="roadtrip-save-row">
                                 <button type="button" id="btn-delete-roadtrip" class="btn-vider-carnet" title="Supprimer ce road trip sauvegardé">🗑️ Supprimer</button>
-                                <button type="button" id="btn-restaurer-sauvegarde" class="btn-charger-roadtrip" title="Restaure le contenu du Carnet Virtuel tel qu'il était juste avant le dernier remplacement automatique (ex : chargement automatique du road trip « Last10mois » à l'ouverture du site)">♻️ Restaurer la dernière sauvegarde locale</button>
+                                <button type="button" id="btn-restaurer-sauvegarde" class="btn-charger-roadtrip" title="Restaure le contenu du Carnet Virtuel tel qu'il était juste avant le dernier remplacement automatique (ex : chargement automatique du road trip « ardeche2026 » à l'ouverture du site)">♻️ Restaurer la dernière sauvegarde locale</button>
                             </div>
                         </div>
                     </div>
@@ -2590,26 +2632,36 @@
                 <div class="modal-confidentialite modal-aide-generale">
                     <button class="close-btn-modal" onclick="fermerAideGenerale()" aria-label="Fermer l'aide">×</button>
                     <h3>❓ Ce que permet ce site</h3>
-                    <p style="font-size:0.8rem; color:#666; margin:-6px 0 14px 0;">Dernière mise à jour de cette version du site : 02/10/2026 à 10h53.</p>
+                    <p style="font-size:0.8rem; color:#666; margin:-6px 0 14px 0;">Dernière mise à jour de cette version du site : 02/10/2026 à 13h30.</p>
 
                     <p style="background:#e8f5e9; border-left:4px solid #2e7d32; padding:8px 12px; border-radius:6px; margin:0 0 14px 0;">
                         💡 <b>Nouveau : présentation guidée du menu 🔍</b><span class="badge-nouveau">NOUVEAU</span><br>
-                        Le bouton bleu 💡 de la barre de recherche (une info-bulle le signale à l'ouverture du site) lance une courte présentation : la loupe 🔍, la recherche d'un lieu puis chaque onglet du menu « 🔍 Voir/gérer » (Carnet, affichage des points sur la carte, petite fenêtre et fenêtre « Détail » d'un lieu, Top 12, Road Trips, Base de Lieux), et se termine par le balai 🧹 et le rappel que vos modifications ne sont jamais publiées. Elle ne s'ouvre pas toute seule et se ferme d'un clic en dehors de sa fenêtre.
+                        Au lancement de la page, une courte présentation explique la loupe 🔍, la recherche d'un lieu puis chaque onglet du menu « 🔍 Voir/gérer » (Carnet, affichage des points sur la carte, petite fenêtre et fenêtre « Détail » d'un lieu, Top 12, Road Trips, Base de Lieux), et se termine par le balai 🧹 et le rappel que vos modifications ne sont jamais publiées. Elle se ferme d'un clic en dehors de sa fenêtre ; une info-bulle indique alors le bouton bleu 💡 de la barre de recherche, qui permet de la relancer à tout moment.
+                    </p>
+
+                    <p style="background:#e8f5e9; border-left:4px solid #2e7d32; padding:8px 12px; border-radius:6px; margin:0 0 14px 0;">
+                        🛠️ <b>Nouveau : mode administrateur</b><span class="badge-nouveau">NOUVEAU</span><br>
+                        Un bouton « 🛠️ » (à côté du 💡) permet à l'administrateur du site (TP) d'ajouter ou de supprimer directement des lieux dans la Base de Lieux publique. Détails plus bas dans cette aide.
+                    </p>
+
+                    <p style="background:#e8f5e9; border-left:4px solid #2e7d32; padding:8px 12px; border-radius:6px; margin:0 0 14px 0;">
+                        🔄 <b>Correctif : road trips partagés (🌐) toujours à jour</b><span class="badge-nouveau">NOUVEAU</span><br>
+                        Un road trip « 🌐 Partagé (TP) » (ex : « Last10mois ») pouvait rester figé sur la toute première version téléchargée sur un appareil donné, même après une nouvelle publication côté serveur. Il est désormais resynchronisé automatiquement à chaque ouverture du site dès qu'une nouvelle version est publiée. Un bug plus rare pouvant occasionnellement bloquer le chargement de la carte au démarrage a également été corrigé.
                     </p>
 
                     <p style="background:#e8f5e9; border-left:4px solid #2e7d32; padding:8px 12px; border-radius:6px; margin:0 0 14px 0;">
                         📍 <b>Correctif : lien direct vers un lieu</b><span class="badge-nouveau">NOUVEAU</span><br>
-                        Le lieu ouvert via un « 📍 Lien direct » (ou un lien de partage de road trip ?rt=...) reste désormais correctement affiché : il n'est plus fermé/effacé aussitôt par le chargement automatique du road trip « Last10mois » à l'ouverture du site.
+                        Le lieu ouvert via un « 📍 Lien direct » (ou un lien de partage de road trip ?rt=...) reste désormais correctement affiché : il n'est plus fermé/effacé aussitôt par le chargement automatique du road trip « ardeche2026 » à l'ouverture du site.
                     </p>
 
                     <p style="background:#fff3cd; border-left:4px solid #ffc107; padding:8px 12px; border-radius:6px; margin:0 0 14px 0;">
                         📖 <b>CARNET en premier, en majuscules</b><span class="badge-nouveau">NOUVEAU</span><br>
-                        L'onglet <b>CARNET</b> est désormais placé en tout premier dans le bandeau « Voir/gérer » et affiché en majuscules pour bien le différencier des autres : c'est le carnet de <b>travail de la session en cours</b>, chargé par défaut avec le road trip « Last10mois ». Avant d'y inscrire les lieux d'un autre projet, pensez à l'<b>effacer</b> (🗑️ Effacer le carnet) ou à le <b>sauvegarder</b> (💾 Road Trips), sous peine de mélanger plusieurs road trips dans le même carnet.
+                        L'onglet <b>CARNET</b> est désormais placé en tout premier dans le bandeau « Voir/gérer » et affiché en majuscules pour bien le différencier des autres : c'est le carnet de <b>travail de la session en cours</b>, chargé par défaut avec le road trip « ardeche2026 ». Avant d'y inscrire les lieux d'un autre projet, pensez à l'<b>effacer</b> (🗑️ Effacer le carnet) ou à le <b>sauvegarder</b> (💾 Road Trips), sous peine de mélanger plusieurs road trips dans le même carnet.
                     </p>
 
                     <p style="background:#fff3cd; border-left:4px solid #ffc107; padding:8px 12px; border-radius:6px; margin:0 0 14px 0;">
                         🛟 <b>Nouveau : protection contre la perte de données</b><span class="badge-nouveau">NOUVEAU</span><br>
-                        Un avertissement s'affiche désormais si vous tentez de fermer ou de recharger la page alors que des modifications du Carnet (ajout/retrait de lieux, édition...) n'ont pas encore été mises à l'abri dans un vrai fichier. En cas de remplacement automatique du carnet à l'ouverture du site (chargement du road trip « Last10mois »), le bouton « ♻️ Restaurer la dernière sauvegarde locale » (onglet Road Trips) permet de retrouver le contenu précédent.
+                        Un avertissement s'affiche désormais si vous tentez de fermer ou de recharger la page alors que des modifications du Carnet (ajout/retrait de lieux, édition...) n'ont pas encore été mises à l'abri dans un vrai fichier. En cas de remplacement automatique du carnet à l'ouverture du site (chargement du road trip « ardeche2026 »), le bouton « ♻️ Restaurer la dernière sauvegarde locale » (onglet Road Trips) permet de retrouver le contenu précédent.
                     </p>
 
                     <p style="background:#e8f5e9; border-left:4px solid #2e7d32; padding:8px 12px; border-radius:6px; margin:0 0 14px 0;">
@@ -2628,7 +2680,7 @@
 
                     <h4 style="color:var(--accent);">🗺️ Bandeau « Voir/gérer »</h4>
                     <ul>
-                        <li><span class="menu-categorie-badge badge-carnet">C</span><b>CARNET 📖 (carnet de travail de la session)</b> : placé en premier et en majuscules pour le différencier des autres catégories. Il contient les lieux sur lesquels vous travaillez actuellement (par défaut le road trip « Last10mois », chargé automatiquement à l'ouverture du site). <span style="color:#b00020;">Pensez à l'effacer (🗑️) ou à le sauvegarder (💾 Road Trips) avant d'y inscrire les lieux d'un autre projet</span>, pour ne pas mélanger plusieurs road trips dans le même carnet.</li>
+                        <li><span class="menu-categorie-badge badge-carnet">C</span><b>CARNET 📖 (carnet de travail de la session)</b> : placé en premier et en majuscules pour le différencier des autres catégories. Il contient les lieux sur lesquels vous travaillez actuellement (par défaut le road trip « ardeche2026 », chargé automatiquement à l'ouverture du site). <span style="color:#b00020;">Pensez à l'effacer (🗑️) ou à le sauvegarder (💾 Road Trips) avant d'y inscrire les lieux d'un autre projet</span>, pour ne pas mélanger plusieurs road trips dans le même carnet.</li>
                         <li><span class="menu-categorie-badge badge-top12">T</span><b>12 Spots « Fraîcheur » 🌊</b> : une sélection fixe de 12 lieux préservés en Dordogne, choisie par l'administrateur du site.</li>
                         <li><span class="menu-categorie-badge badge-lieux"></span><b>Base de Lieux 📚</b> : catalogue de lieux officiels enregistrés par l'administrateur (chargé dynamiquement).</li>
                         <li><b>💾 Road Trips sauvegardés</b> : vos itinéraires personnels (📍), ainsi que des road trips partagés ajoutés automatiquement (🌐, identifiés « Partagés (TP) », non modifiables par le bouton « Charger »). Le menu déroulant « Charger » les regroupe et les repère par ces deux badges.</li>
@@ -2639,6 +2691,15 @@
                         <li><b>🔔 Alerte</b> : pendant un déplacement, prévient discrètement (notification ou message) quand vous passez à moins de 500 m d'un lieu du Top 12 ou de votre Carnet. Une seule alerte par lieu et par session.</li>
                     </ul>
 
+                    <h4 style="color:#b00020;">🛠️ Mode administrateur (réservé à TP)</h4><span class="badge-nouveau">NOUVEAU</span>
+                    <ul>
+                        <li><b>🛠️ Activer/désactiver</b> : le bouton « 🛠️ » (à côté du 💡 et du guide pas à pas 🧭) bascule le mode administrateur. Le secret d'accès vous est demandé à l'activation ; une fois saisi (« 🛠️ ON »), un panneau « Ajouter un lieu » apparaît (en haut à droite sur ordinateur, en feuille coulissante en bas de l'écran sur mobile).</li>
+                        <li><b>Ajouter un lieu à la Base de Lieux</b> : en mode administrateur, un simple clic (ou tap) sur la carte place un repère et pré-remplit ses coordonnées dans le panneau. Il suffit ensuite de renseigner le nom (obligatoire), une courte description et, si besoin, l'URL d'une photo, puis de cliquer sur « Enregistrer » : le lieu est envoyé et ajouté directement à la Base de Lieux publique, visible par tous les visiteurs du site.</li>
+                        <li><b>🗑️ Supprimer un lieu</b> : dans le panneau, la section « 🗑️ Supprimer un lieu » permet de choisir un lieu existant de la Base de Lieux dans une liste déroulante puis de confirmer sa suppression définitive.</li>
+                        <li><b>Accès protégé</b> : ces actions (ajout/suppression) sont envoyées à un service en ligne dédié et protégées par un identifiant secret connu uniquement de l'administrateur, saisi à l'activation du 🛠️ (il n'est ni écrit dans la page ni enregistré, et il est oublié à la désactivation ou au rechargement) ; elles n'affectent jamais le Carnet, les road trips ou les autres données personnelles des visiteurs du site.</li>
+                    </ul>
+
+
                     <h4 style="color:var(--primary);">➕ Ajouter un nouveau lieu</h4>
                     <ul>
                         <li><b>Bouton ➕ ou double clic/double tap sur la carte</b> : place un repère au centre de la carte (ou à l'endroit cliqué) et ouvre un formulaire pour lui donner un nom, une description et une photo, avant de l'inscrire dans votre Carnet.</li>
@@ -2646,7 +2707,7 @@
 
                     <h4 style="color:var(--secondary);">📖 Planification &amp; Gestion de Road Trips</h4>
                     <ul>
-                        <li><b>💡 Fonctionnalités du menu 🔍</b><span class="badge-nouveau">NOUVEAU</span> : le bouton bleu 💡 (à côté du 🧭) lance la présentation du menu « Voir/gérer » : loupe, recherche d'un lieu, Carnet, affichage des points sur la carte, petite fenêtre et fenêtre « Détail » d'un lieu, Top 12, Road Trips, Base de Lieux, balai 🧹 et confidentialité des modifications. Elle ne s'ouvre pas toute seule (une info-bulle signale le bouton à l'ouverture du site) ; elle se ferme d'un clic en dehors de sa fenêtre ou avec la touche Échap.</li>
+                        <li><b>💡 Fonctionnalités du menu 🔍</b><span class="badge-nouveau">NOUVEAU</span> : le bouton bleu 💡 (à côté du 🧭) relance la présentation du menu « Voir/gérer » : loupe, recherche d'un lieu, Carnet, affichage des points sur la carte, petite fenêtre et fenêtre « Détail » d'un lieu, Top 12, Road Trips, Base de Lieux, balai 🧹 et confidentialité des modifications. Elle s'affiche aussi automatiquement à l'ouverture de la page et se ferme d'un clic en dehors de sa fenêtre ou avec la touche Échap.</li>
                         <li><b>🧭 Guide pas à pas</b> : le bouton vert 🧭 en haut de l'écran lance un tutoriel interactif qui vous guide en direct sur le site pour créer un road trip de A à Z (voir encadré en haut de cette aide).</li>
                         <li><b>Carnet Virtuel Personnel</b> : au premier lancement, le Carnet est vide ; vous y inscrivez vos propres lieux (ou chargez un road trip via 📂, le vôtre ou un des road trips 🌐 Partagés).</li>
                         <li><b>Sauvegarde 💾</b> : un seul bouton « 💾 Sauvegarder » fait tout à la fois — il demande un nom, le mémorise dans ce navigateur (pour le retrouver d'un clic via 📂 Charger), PUIS ouvre aussitôt un vrai enregistrement dans un fichier sur votre appareil : choix du dossier et du nom de fichier sur PC (le navigateur se souvient du dernier dossier utilisé), ou sélecteur de partage natif sur mobile.</li>
@@ -2745,9 +2806,10 @@
                         <li><a href="https://www.youtube.com/@sisiraptiti" target="_blank" rel="noopener noreferrer" style="color:#b00020;">YouTube — @sisiraptiti</a></li>
                         <li><a href="https://www.threads.com/@amandinois1202" target="_blank" rel="noopener noreferrer" style="color:#b00020;">Threads — @amandinois1202</a></li>
                         <li><a href="https://x.com/ThierryParisis" target="_blank" rel="noopener noreferrer" style="color:#b00020;">X — @ThierryParisis</a></li>
+                        <li><a href="https://parisistiti-cell.github.io/titimessenger/" target="_blank" rel="noopener noreferrer" style="color:#b00020;">Messagerie chiffrée — ThierryParisis</a></li>
                     </ul>
 
-                    <p style="font-size:0.75rem; color:#888; text-align:center; margin-top:16px; border-top:1px solid #eee; padding-top:10px;">Aide relue et mise à jour le 2 octobre 2026 à 10h53</p>
+                    <p style="font-size:0.75rem; color:#888; text-align:center; margin-top:16px; border-top:1px solid #eee; padding-top:10px;">Aide relue et mise à jour le 2 octobre 2026 à 13h30</p>
                 </div>
             </div>
 
@@ -2767,7 +2829,7 @@
                     <h3>📖 Mon CARNET (carnet de travail)</h3>
                     <p>Le <b>CARNET</b> est placé en premier dans le bandeau « Voir/gérer » et affiché en <b>majuscules</b> pour bien le différencier des autres catégories (Top 12, Base de Lieux, Road Trips sauvegardés).</p>
                     <p>C'est le carnet sur lequel vous <b>travaillez pendant la session en cours</b> : il contient les lieux qu'on recherche et qu'on inscrit, ainsi que les derniers lieux chargés. On peut en inscrire plusieurs et les sauvegarder dans un « Road Trip ».</p>
-                    <p style="background:#fff3cd; border-left:4px solid #ffc107; color:#5c4500; padding:6px 10px; border-radius:6px;">⚠️ Par défaut, le road trip « Last10mois » y est chargé automatiquement à chaque ouverture du site. <b>Avant d'inscrire les lieux d'un autre projet</b>, il est nécessaire de l'effacer (🗑️ Effacer le carnet) ou de le sauvegarder au préalable (💾 dans l'onglet Road Trips), sous peine de mélanger plusieurs road trips dans le même carnet.</p>
+                    <p style="background:#fff3cd; border-left:4px solid #ffc107; color:#5c4500; padding:6px 10px; border-radius:6px;">⚠️ Par défaut, le road trip « ardeche2026 » y est chargé automatiquement à chaque ouverture du site. <b>Avant d'inscrire les lieux d'un autre projet</b>, il est nécessaire de l'effacer (🗑️ Effacer le carnet) ou de le sauvegarder au préalable (💾 dans l'onglet Road Trips), sous peine de mélanger plusieurs road trips dans le même carnet.</p>
                 </div>
             </div>
 
@@ -3349,7 +3411,7 @@
             // Le lieu n'est pas (encore) dans le carnet actuellement affiché : avant de se
             // contenter d'un simple repère minimal, on cherche sa fiche complète (description,
             // photo...) dans les road trips déjà connus sur cet appareil (personnels, ou
-            // partagés — notamment "Last10mois", dont ce lieu peut faire partie). On attend
+            // partagés — notamment "ardeche2026", dont ce lieu peut faire partie). On attend
             // ici que la liste des road trips partagés soit chargée (au cas où ce ne serait pas
             // encore terminé à cet instant précis), sans pour autant modifier le carnet actuel.
             try { await assurerRoadtripsGithubCharges(); } catch (e) {}
@@ -3389,16 +3451,14 @@
             }
         }
 
-        document.getElementById('cryptPhotoFile').addEventListener('change', (e) => {
+        document.getElementById('cryptPhotoFile').addEventListener('change', async (e) => {
             const file = e.target.files && e.target.files[0];
             if (!file) return;
-            const reader = new FileReader();
-            reader.onload = (ev) => {
-                currentShareImage = ev.target.result;
-                document.getElementById('cryptPhotoUrl').value = '';
-                majApercuPhotoCrypt();
-            };
-            reader.readAsDataURL(file);
+            const dataUrl = await traiterPhotoPourStockage(file);
+            if (!dataUrl) return;
+            currentShareImage = dataUrl;
+            document.getElementById('cryptPhotoUrl').value = '';
+            majApercuPhotoCrypt();
         });
 
         document.getElementById('cryptPhotoUrl').addEventListener('input', (e) => {
@@ -3773,7 +3833,7 @@
 
         // Mémorise, dans une clé localStorage séparée, une "dernière sauvegarde locale valide"
         // du Carnet Virtuel — prise juste avant tout remplacement automatique de son contenu
-        // (ex : chargement automatique du road trip "Last10mois" à chaque ouverture du site).
+        // (ex : chargement automatique du road trip "ardeche2026" à chaque ouverture du site).
         // Permet de revenir en arrière si ce remplacement automatique n'était pas voulu.
         function sauvegarderSnapshotCarnetActuel() {
             try {
@@ -4097,6 +4157,8 @@ if (btnToggleLieux) {
                     lieuxSelect.appendChild(option);
                 });
                 lieuxSelect.disabled = lieuxDBSpots.length === 0;
+
+                if (typeof remplirSelectSuppressionAdmin === 'function') remplirSelectSuppressionAdmin();
             } catch (err) {
                 lieuxSelect.innerHTML = '<option value="">⚠️ Base indisponible</option>';
                 lieuxSelect.disabled = true;
@@ -4241,6 +4303,24 @@ if (btnToggleLieux) {
             return iconesCarnetCache[numero];
         }
 
+        // Icône du repère "🏠 Barycentre du road trip" (voir plus bas, section BARYCENTRE),
+        // déclarée ICI pour la même raison que les 3 blocs ci-dessus : createMarker() (appelé
+        // par demarrerCarte dès le premier chargement) peut avoir besoin de cette icône
+        // immédiatement si le barycentre est déjà présent dans le carnet chargé au démarrage.
+        let barycentreIcon = null;
+        function getBarycentreIcon() {
+            if (!barycentreIcon && typeof L !== 'undefined') {
+                barycentreIcon = L.divIcon({
+                    html: '<div class="barycentre-icon"><span>🏠</span></div>',
+                    className: '',
+                    iconSize: [34, 34],
+                    iconAnchor: [17, 34],
+                    popupAnchor: [0, -34]
+                });
+            }
+            return barycentreIcon;
+        }
+
         function demarrerCarte(tentativesRestantes) {
             if (typeof L !== 'undefined') {
                 try {
@@ -4341,6 +4421,15 @@ if (btnToggleLieux) {
 
                     map.on('dblclick', function(e) {
                         afficherLieuClique(e.latlng);
+                    });
+
+
+                    // Clic simple : en mode admin, place un nouveau lieu à ajouter à la base.
+                    // Le double-clic continue de fonctionner normalement (ajout d'un lieu personnel "Secret Local").
+                    map.on('click', function(e) {
+                        if (ADMIN_MODE || adminModeForced) {
+                            showAdminPanel(e.latlng.lat, e.latlng.lng);
+                        }
                     });
                 } catch (e) {
                     console.error("Erreur de carte :", e);
@@ -5089,17 +5178,15 @@ if (btnToggleLieux) {
                 previewBox.style.display = 'none';
                 previewImg.src = '';
             };
-            const traiterFichier = (file, autreInput) => {
+            const traiterFichier = async (file, autreInput) => {
                 if (!file) return;
-                const reader = new FileReader();
-                reader.onload = (ev) => {
-                    photoTempStore[uid] = ev.target.result;
-                    urlInput.value = '';
-                    urlInput.style.display = 'none';
-                    if (autreInput) autreInput.value = '';
-                    afficherApercu(ev.target.result);
-                };
-                reader.readAsDataURL(file);
+                const dataUrl = await traiterPhotoPourStockage(file);
+                if (!dataUrl) return;
+                photoTempStore[uid] = dataUrl;
+                urlInput.value = '';
+                urlInput.style.display = 'none';
+                if (autreInput) autreInput.value = '';
+                afficherApercu(dataUrl);
             };
 
             galleryBtn.addEventListener('click', (e) => { e.stopPropagation(); galleryFile.click(); });
@@ -5249,6 +5336,82 @@ if (btnToggleLieux) {
         let edlPhotoTemp = null; // dataURL (fichier importé) ou URL web saisie, ou null (pas de photo)
         let edlEcouteursPhotoInitialises = false;
 
+        // ==========================================
+        // COMPRESSION DES PHOTOS AVANT STOCKAGE (canvas)
+        // ==========================================
+        // Une photo de smartphone pèse couramment 2 à 5 Mo. Stockée telle quelle en base64
+        // (comme c'était le cas avant ce correctif) dans le Carnet/les road trips personnels
+        // (localStorage, clé "tp_custom_spots" / "tp_roadtrips"), quelques photos suffisent à
+        // dépasser le quota du navigateur (5 à 10 Mo selon les cas) — et l'échec de
+        // localStorage.setItem() est alors avalé silencieusement (cf. try/catch autour de ces
+        // appels), donnant l'impression que "la sauvegarde a marché" alors que la photo (voire
+        // tout le road trip) n'a en réalité jamais été persistée.
+        //
+        // Cette fonction redimensionne l'image (plus grand côté ramené à TAILLE_MAX_PX) et la
+        // réencode en JPEG via <canvas>, ce qui réduit généralement une photo de plusieurs Mo à
+        // quelques dizaines/centaines de Ko. Résout la Promise avec le dataURL JPEG compressé,
+        // ou avec `null` en cas d'échec (fichier non lisible comme image, navigateur ancien...) —
+        // charge à l'appelant de retomber sur une lecture FileReader classique dans ce cas, pour
+        // ne jamais perdre la photo faute de compression possible.
+        //
+        // Note : volontairement PAS utilisée pour la fonctionnalité "Localiser à partir d'une
+        // photo" (recherche des coordonnées GPS dans l'EXIF) : réencoder l'image via canvas en
+        // efface les métadonnées EXIF, qui sont justement ce que cette fonctionnalité doit lire.
+        function compresserPhoto(file, tailleMaxPx = 1280, qualite = 0.75) {
+            return new Promise((resolve) => {
+                if (!file || !file.type || !file.type.startsWith('image/')) { resolve(null); return; }
+                const lecteur = new FileReader();
+                lecteur.onload = (ev) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        let largeur = img.naturalWidth || img.width;
+                        let hauteur = img.naturalHeight || img.height;
+                        if (!largeur || !hauteur) { resolve(null); return; }
+                        if (largeur > tailleMaxPx || hauteur > tailleMaxPx) {
+                            if (largeur >= hauteur) {
+                                hauteur = Math.round(hauteur * (tailleMaxPx / largeur));
+                                largeur = tailleMaxPx;
+                            } else {
+                                largeur = Math.round(largeur * (tailleMaxPx / hauteur));
+                                hauteur = tailleMaxPx;
+                            }
+                        }
+                        try {
+                            const canvas = document.createElement('canvas');
+                            canvas.width = largeur;
+                            canvas.height = hauteur;
+                            const ctx = canvas.getContext('2d');
+                            ctx.drawImage(img, 0, 0, largeur, hauteur);
+                            resolve(canvas.toDataURL('image/jpeg', qualite));
+                        } catch (e) {
+                            resolve(null); // ex. canvas "tainted" ou API indisponible : repli côté appelant
+                        }
+                    };
+                    img.onerror = () => resolve(null);
+                    img.src = ev.target.result;
+                };
+                lecteur.onerror = () => resolve(null);
+                lecteur.readAsDataURL(file);
+            });
+        }
+
+        // Repli commun : lit le fichier tel quel (non compressé) en dataURL. Utilisé quand
+        // compresserPhoto() résout sur null, pour ne jamais bloquer l'ajout d'une photo.
+        function lireFichierEnDataURL(file) {
+            return new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.onload = (ev) => resolve(ev.target.result);
+                reader.onerror = () => resolve(null);
+                reader.readAsDataURL(file);
+            });
+        }
+
+        // Essaie la compression, retombe sur le fichier original si elle échoue.
+        async function traiterPhotoPourStockage(file) {
+            const compresse = await compresserPhoto(file);
+            return compresse || await lireFichierEnDataURL(file);
+        }
+
         function edlInitEcouteursPhoto() {
             if (edlEcouteursPhotoInitialises) return;
             edlEcouteursPhotoInitialises = true;
@@ -5266,17 +5429,15 @@ if (btnToggleLieux) {
 
             const afficherApercu = (src) => { previewImg.src = src; previewBox.style.display = 'inline-block'; };
             const masquerApercu = () => { previewBox.style.display = 'none'; previewImg.src = ''; };
-            const traiterFichier = (file, autreInput) => {
+            const traiterFichier = async (file, autreInput) => {
                 if (!file) return;
-                const reader = new FileReader();
-                reader.onload = (ev) => {
-                    edlPhotoTemp = ev.target.result;
-                    urlInput.value = '';
-                    urlInput.style.display = 'none';
-                    if (autreInput) autreInput.value = '';
-                    afficherApercu(ev.target.result);
-                };
-                reader.readAsDataURL(file);
+                const dataUrl = await traiterPhotoPourStockage(file);
+                if (!dataUrl) return;
+                edlPhotoTemp = dataUrl;
+                urlInput.value = '';
+                urlInput.style.display = 'none';
+                if (autreInput) autreInput.value = '';
+                afficherApercu(dataUrl);
             };
 
             galleryBtn.addEventListener('click', () => galleryFile.click());
@@ -5598,7 +5759,10 @@ if (btnToggleLieux) {
                 const estBd = /mes-bd\.pages\.dev/i.test(href);
                 const libelle = estStegano ? '🔍 Parenthèse' : (estBd ? '🎨 Lire la BD' : urlTexte);
                 const titre = estStegano ? ' title="Ouvrir le jeu devinette"' : (estBd ? ' title="Lire la BD"' : '');
-                return `<a href="${href}" target="_blank" rel="noopener noreferrer"${titre}>${libelle}</a>${ponctuationFinale}`;
+                const lienIcone = `<a href="${href}" target="_blank" rel="noopener noreferrer"${titre}>${libelle}</a>`;
+                // Pour les liens à icône (🔍 / 🎨), l'icône est suivie d'un libellé court, le tout
+                // formant un seul lien cliquable (l'adresse complète n'est pas affichée).
+                return `${lienIcone}${ponctuationFinale}`;
             });
         }
 
@@ -7011,25 +7175,30 @@ if (btnToggleLieux) {
         // à équidistance de tous les lieux du road trip).
         const ID_BARYCENTRE = 'barycentre-roadtrip';
 
-        let barycentreIcon = null;
-        function getBarycentreIcon() {
-            if (!barycentreIcon && typeof L !== 'undefined') {
-                barycentreIcon = L.divIcon({
-                    html: '<div class="barycentre-icon"><span>🏠</span></div>',
-                    className: '',
-                    iconSize: [34, 34],
-                    iconAnchor: [17, 34],
-                    popupAnchor: [0, -34]
-                });
-            }
-            return barycentreIcon;
+        // Identifiant du repère "Barycentre" pour le road trip actuellement chargé : distinct
+        // par road trip nommé (roadtripEnCoursNom, mis à jour par chargerRoadtripParNom), pour
+        // qu'une photo/titre/description personnalisés via "✏️ Éditer" restent propres à CE
+        // road trip et ne s'appliquent pas aussi au barycentre d'un autre road trip chargé
+        // ensuite. Repli sur l'identifiant générique ID_BARYCENTRE pour un carnet sans road
+        // trip nommé (construit à la main, importé par lien...).
+        function idBarycentreCourant() {
+            return (typeof roadtripEnCoursNom !== 'undefined' && roadtripEnCoursNom)
+                ? ID_BARYCENTRE + ':' + roadtripEnCoursNom
+                : ID_BARYCENTRE;
         }
+
+        // Illustration générique du repère "Barycentre" : ce point est calculé (moyenne des
+        // coordonnées du carnet), il n'existe donc aucune vraie photo à lui associer. On lui
+        // donne quand même une image, sous forme de petit SVG encodé en data-URI (pas de
+        // dépendance réseau, ni de risque de cache CDN cassé comme pour les photos de lieux),
+        // pour que sa fiche ait le même rendu visuel que les autres lieux du carnet.
+        const BARYCENTRE_IMG = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMjYwIiB3aWR0aD0iNDAwIiBoZWlnaHQ9IjI2MCI+CiAgPGRlZnM+CiAgICA8cmFkaWFsR3JhZGllbnQgaWQ9ImNpZWwiIGN4PSI1MCUiIGN5PSIzMCUiIHI9IjgwJSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNlYWY2ZjIiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjY2ZlOWUwIi8+CiAgICA8L3JhZGlhbEdyYWRpZW50PgogIDwvZGVmcz4KICA8cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjI2MCIgZmlsbD0idXJsKCNjaWVsKSIvPgoKICA8IS0tIENlcmNsZXMgY29uY2VudHJpcXVlcyAocmF5b24gZCfDqXF1aWRpc3RhbmNlKSAtLT4KICA8Y2lyY2xlIGN4PSIyMDAiIGN5PSIxNTAiIHI9Ijk1IiBmaWxsPSJub25lIiBzdHJva2U9IiMyZTdkNmYiIHN0cm9rZS13aWR0aD0iMiIgb3BhY2l0eT0iMC4zNSIvPgogIDxjaXJjbGUgY3g9IjIwMCIgY3k9IjE1MCIgcj0iNjUiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzJlN2Q2ZiIgc3Ryb2tlLXdpZHRoPSIyIiBvcGFjaXR5PSIwLjUiLz4KICA8Y2lyY2xlIGN4PSIyMDAiIGN5PSIxNTAiIHI9IjM1IiBmaWxsPSJub25lIiBzdHJva2U9IiMyZTdkNmYiIHN0cm9rZS13aWR0aD0iMiIgb3BhY2l0eT0iMC43Ii8+CgogIDwhLS0gUGV0aXRzIHJlcMOocmVzIGRlcyAibGlldXgiIGF1dG91ciwgcmVsacOpcyBhdSBjZW50cmUgLS0+CiAgPGcgc3Ryb2tlPSIjMmU3ZDZmIiBzdHJva2Utd2lkdGg9IjIiIG9wYWNpdHk9IjAuNTUiPgogICAgPGxpbmUgeDE9IjIwMCIgeTE9IjE1MCIgeDI9IjkwIiB5Mj0iODAiLz4KICAgIDxsaW5lIHgxPSIyMDAiIHkxPSIxNTAiIHgyPSIzMjAiIHkyPSI3MCIvPgogICAgPGxpbmUgeDE9IjIwMCIgeTE9IjE1MCIgeDI9IjMzMCIgeTI9IjIwMCIvPgogICAgPGxpbmUgeDE9IjIwMCIgeTE9IjE1MCIgeDI9Ijk1IiB5Mj0iMjE1Ii8+CiAgPC9nPgogIDxnIGZpbGw9IiNlMDdhM2UiPgogICAgPGNpcmNsZSBjeD0iOTAiIGN5PSI4MCIgcj0iNyIvPgogICAgPGNpcmNsZSBjeD0iMzIwIiBjeT0iNzAiIHI9IjciLz4KICAgIDxjaXJjbGUgY3g9IjMzMCIgY3k9IjIwMCIgcj0iNyIvPgogICAgPGNpcmNsZSBjeD0iOTUiIGN5PSIyMTUiIHI9IjciLz4KICA8L2c+CgogIDwhLS0gUmVww6hyZSBjZW50cmFsIGVuIGZvcm1lIGRlIG1haXNvbiwgc3VyIHVuIHBpbiAtLT4KICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyMDAsMTUwKSI+CiAgICA8cGF0aCBkPSJNMCwtMzggQzIyLC0zOCAzOCwtMjIgMzgsMCBDMzgsMjYgMCw1OCAwLDU4IEMwLDU4IC0zOCwyNiAtMzgsMCBDLTM4LC0yMiAtMjIsLTM4IDAsLTM4IFoiCiAgICAgICAgICBmaWxsPSIjMGIzOTU0IiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iNCIvPgogICAgPHBhdGggZD0iTS0xOCw0IEwwLC0xMiBMMTgsNCBMMTgsMjAgTDcsMjAgTDcsOSBMLTcsOSBMLTcsMjAgTC0xOCwyMCBaIiBmaWxsPSIjZmZmZmZmIi8+CiAgPC9nPgoKICA8dGV4dCB4PSIyMDAiIHk9IjI0MCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE4IgogICAgICAgIGZvbnQtd2VpZ2h0PSJib2xkIiBmaWxsPSIjMGIzOTU0Ij7wn4+gIEJhcnljZW50cmUgZHUgcm9hZCB0cmlwPC90ZXh0Pgo8L3N2Zz4K';
 
         // Moyenne simple des coordonnées des lieux du carnet, à l'exclusion du repère
         // "barycentre" lui-même (sinon son propre ajout au carnet déplacerait le calcul
         // suivant, dans une boucle instable).
         function calculerBarycentreCarnet() {
-            const spotsCarnet = allSpots.filter(s => savedSpotIds.includes(s.id.toString()) && s.id !== ID_BARYCENTRE);
+            const spotsCarnet = allSpots.filter(s => savedSpotIds.includes(s.id.toString()) && !s.isBarycentre);
             if (spotsCarnet.length === 0) return null;
             const somme = spotsCarnet.reduce((acc, s) => {
                 acc.lat += s.lat; acc.lng += s.lng; return acc;
@@ -7139,14 +7308,15 @@ if (btnToggleLieux) {
         async function mettreAJourBarycentreCarnet() {
             if (!map || typeof L === 'undefined') return;
             const idRequete = ++compteurBarycentre;
+            const idBary = idBarycentreCourant();
 
             const centre = calculerBarycentreCarnet();
 
             if (!centre) {
-                if (markers[ID_BARYCENTRE]) { masquerMarqueurSpot(markers[ID_BARYCENTRE]); delete markers[ID_BARYCENTRE]; }
-                allSpots = allSpots.filter(s => s.id !== ID_BARYCENTRE);
-                customSpots = customSpots.filter(s => s.id !== ID_BARYCENTRE);
-                const idx = savedSpotIds.indexOf(ID_BARYCENTRE);
+                if (markers[idBary]) { masquerMarqueurSpot(markers[idBary]); delete markers[idBary]; }
+                allSpots = allSpots.filter(s => !s.isBarycentre);
+                customSpots = customSpots.filter(s => !s.isBarycentre);
+                const idx = savedSpotIds.indexOf(idBary);
                 if (idx > -1) savedSpotIds.splice(idx, 1);
                 return;
             }
@@ -7159,31 +7329,40 @@ if (btnToggleLieux) {
                 ? 'Recalé sur la terre ferme la plus proche (le point moyen tombait dans l\'eau ou en mer).'
                 : 'Idéal pour chercher un hébergement à équidistance (voir le bloc « 🏨 Hébergement » ci-dessous).');
 
-            const spotExistant = allSpots.find(s => s.id === ID_BARYCENTRE);
+            const spotExistant = allSpots.find(s => s.isBarycentre);
             if (spotExistant) {
-                // Toute ligne d'URL déjà présente (ex. livret du road trip, texte mystère) est
-                // conservée au recalcul, au lieu d'être écrasée par le texte générique.
+                // Toute ligne d'URL déjà présente dans la description (ex. lien vers un livret
+                // explicatif du road trip, ajouté à la main dans le JSON ou via "✏️ Éditer")
+                // est conservée : sans ça, elle serait perdue à chaque recalcul du barycentre,
+                // qui écrase normalement toute la description par le texte generique ci-dessus.
                 const liensConserves = (Array.isArray(spotExistant.desc) ? spotExistant.desc : [])
-                    .filter(l => typeof l === 'string' && /^https?:\/\//i.test(l.trim()));
+                    .filter(ligne => typeof ligne === 'string' && /^https?:\/\//i.test(ligne.trim()));
                 spotExistant.lat = point.lat;
                 spotExistant.lng = point.lng;
                 spotExistant.desc = liensConserves.length ? [...desc, ...liensConserves] : desc;
-                const cs = customSpots.find(s => s.id === ID_BARYCENTRE);
-                if (cs) { cs.lat = point.lat; cs.lng = point.lng; cs.desc = spotExistant.desc; }
-                if (markers[ID_BARYCENTRE]) markers[ID_BARYCENTRE].setLatLng([point.lat, point.lng]);
+                if (!spotExistant.img) spotExistant.img = BARYCENTRE_IMG; // reprise d'un carnet sauvegardé avant ce correctif
+                const cs = customSpots.find(s => s.isBarycentre);
+                if (cs) { cs.lat = point.lat; cs.lng = point.lng; cs.desc = spotExistant.desc; if (!cs.img) cs.img = BARYCENTRE_IMG; }
+                if (markers[spotExistant.id]) markers[spotExistant.id].setLatLng([point.lat, point.lng]);
             } else {
                 const spot = {
-                    id: ID_BARYCENTRE,
+                    id: idBary,
                     title: '🏠 Barycentre du road trip',
                     lat: point.lat,
                     lng: point.lng,
                     desc: desc,
-                    img: null,
+                    img: BARYCENTRE_IMG,
                     isCustom: true,
                     isBarycentre: true
                 };
+                // Comme pour tout autre lieu : si une photo (ou un titre/description) a déjà
+                // été enregistrée via "✏️ Éditer" pour CE road trip précis, on la réapplique ici
+                // — sans quoi elle était perdue à chaque rechargement de page, puisque ce repère
+                // est entièrement recréé à chaque fois (contrairement aux lieux venant d'un
+                // road trip ou de la Base de Lieux, qui passent par appliquerEditionsLocales()).
+                appliquerEditionLocale(spot);
                 allSpots.push(spot);
-                savedSpotIds.push(ID_BARYCENTRE);
+                savedSpotIds.push(idBary);
                 customSpots.push(spot);
                 createMarker(spot);
             }
@@ -7324,17 +7503,6 @@ if (btnToggleLieux) {
             // 3. On ajoute les repères sur la carte, on réaffiche les favoris du Top 12 / Base de lieux,
             // et on recadre la vue sur les nouveaux lieux personnalisés
             if (map) {
-                // Bug corrigé : sans ceci, un road trip chargé (menu, lien de partage ?rt=..., ou
-                // lien fixe ?roadtrip=...) inscrivait bien ses lieux personnalisés dans le carnet,
-                // mais leurs repères restaient invisibles sur la carte (createMarker() applique la
-                // visibilité de la catégorie "carnet" au moment de la création, or l'interrupteur
-                // "carnetVisibles" démarre à false tant qu'on n'a pas cliqué sur "🙈 Afficher le
-                // carnet sur la carte"). On active donc cet affichage automatiquement dès qu'un
-                // road trip contenant des lieux personnalisés vient d'être chargé.
-                if (!carnetVisibles && customSpots.length > 0) {
-                    carnetVisibles = true;
-                    if (typeof majBoutonCarnet === 'function') majBoutonCarnet();
-                }
                 customSpots.forEach(spot => createMarker(spot));
                 // On s'assure que les repères de la Base de Lieux admin sont bien présents
                 // (et respectent l'état courant du bouton "Masquer les lieux sur la carte")
@@ -7720,14 +7888,6 @@ if (btnToggleLieux) {
             return lien.length <= 6000 ? lien : null;
         }
 
-        // Lien FIXE et court vers un road trip par son nom (voir la note près de
-        // nomRoadtripDirectDemande plus bas dans le script pour les conditions de fonctionnement :
-        // il faut que ce nom existe déjà côté appareil qui ouvre le lien, GitHub ou local).
-        function genererLienRoadtripFixe(nom) {
-            const base = window.location.origin + window.location.pathname;
-            return `${base}?roadtrip=${encodeURIComponent(nom)}`;
-        }
-
         function construireListeSitesPourPartage(idsSites, spotsPersonnalises) {
             const spots = [];
             (spotsPersonnalises || []).forEach(s => spots.push(s));
@@ -7740,7 +7900,7 @@ if (btnToggleLieux) {
             return spots;
         }
 
-        function genererMessagePartageRoadtrip(nom, spots, lien, lienFixe) {
+        function genererMessagePartageRoadtrip(nom, spots, lien) {
             let message = `🚗 Road trip : ${nom}\n${spots.length} site${spots.length > 1 ? 's' : ''} au programme :\n\n`;
             spots.forEach((s, i) => {
                 const gMapsUrl = `https://www.google.com/maps/search/?api=1&query=${s.lat},${s.lng}`;
@@ -7751,9 +7911,6 @@ if (btnToggleLieux) {
             });
             if (lien) {
                 message += `🔗 Ouvrir directement ce road trip (le charge automatiquement) :\n${lien}\n`;
-            }
-            if (lienFixe) {
-                message += `\n📌 Lien fixe et court (fonctionne seulement si "${nom}" est publié côté serveur, ou déjà sauvegardé sur l'appareil qui l'ouvre) :\n${lienFixe}\n`;
             }
             return message.trim();
         }
@@ -7782,11 +7939,7 @@ if (btnToggleLieux) {
             if (spots.length === 0) { afficherStatutRoadtrip('Aucun site à partager.', false); return; }
 
             const lien = genererLienPartageRoadtrip(nomAffiche, rawSavedSpotIds, rawCustomSpots);
-            // Le lien fixe n'a de sens que pour un road trip nommé (sélectionné dans la liste) :
-            // "Mon road trip" (carnet en cours, non sauvegardé sous un nom) n'a pas de nom stable
-            // à référencer dans un lien ?roadtrip=... pour un chargement futur.
-            const lienFixe = nomChoisi ? genererLienRoadtripFixe(nomChoisi) : null;
-            const message = genererMessagePartageRoadtrip(nomAffiche, spots, lien, lienFixe);
+            const message = genererMessagePartageRoadtrip(nomAffiche, spots, lien);
             const output = document.getElementById('roadtrip-share-output');
             const panel = document.getElementById('roadtrip-share-panel');
             if (output) output.value = message;
@@ -7988,7 +8141,7 @@ if (btnToggleLieux) {
         // l'API est indisponible (hors ligne, limite de requêtes GitHub atteinte, etc.).
         const GITHUB_ROADTRIPS_API = 'https://api.github.com/repos/parisistiti-cell/Donn-es-partag-es/contents/';
         const GITHUB_ROADTRIPS_FICHIERS_SECOURS = [
-            'Last10mois.json',
+            'ardeche2026.json',
             'baronnie.json',
             'cevennes.json',
             'charente_maritime.json',
@@ -8021,8 +8174,12 @@ if (btnToggleLieux) {
                 if (!reponse.ok) throw new Error('API GitHub indisponible (' + reponse.status + ')');
                 const items = await reponse.json();
                 if (!Array.isArray(items)) throw new Error('Réponse API GitHub inattendue');
+                // Les sauvegardes/anciennes copies ("orgardeche2026.json", "paysbasqueorg.json"...)
+                // portent le MÊME nom de road trip que le fichier actuel : chargées à la suite,
+                // elles écrasaient la version à jour par l'ancienne. On les ignore.
                 const fichiers = items
-                    .filter(item => item && item.type === 'file' && /\.json$/i.test(item.name) && !/^org/i.test(item.name) && !/org\.json$/i.test(item.name))
+                    .filter(item => item && item.type === 'file' && /\.json$/i.test(item.name)
+                        && !/^org/i.test(item.name) && !/org\.json$/i.test(item.name))
                     .map(item => item.name);
                 return fichiers.length ? fichiers : GITHUB_ROADTRIPS_FICHIERS_SECOURS;
             } catch (e) {
@@ -8068,27 +8225,31 @@ if (btnToggleLieux) {
                     fichierVersNom[fichier] = nom;
 
                     if (roadtrips[nom]) {
-                        // Déjà présent localement. Deux cas :
-                        // - road trip "github" (source === 'github', ou source pas encore connue) :
-                        //   NON modifiable par l'utilisateur, donc on resynchronise son contenu
-                        //   avec la dernière version publiée (sinon la première version
-                        //   téléchargée resterait figée pour toujours).
-                        // - road trip personnel de même nom : on ne touche à rien, pour ne
-                        //   jamais écraser une modification locale de l'utilisateur.
+                        // Déjà présent localement. Deux cas bien distincts :
+                        // - road trip "github" (source === 'github', ou pas encore de source connue
+                        //   pour les road trips importés avant l'ajout de ce marquage) : NON
+                        //   modifiable par l'utilisateur (cf. aide du site), donc on resynchronise
+                        //   systématiquement son contenu avec la dernière version publiée — sinon
+                        //   la toute première version jamais téléchargée reste figée pour toujours,
+                        //   quoi que l'administrateur republie ensuite (c'était le bug : le
+                        //   contenu téléchargé ici était jusqu'ici toujours jeté).
+                        // - road trip personnel (créé par l'utilisateur, qui porte par coïncidence
+                        //   le même nom) : on ne touche à rien, pour ne jamais écraser une
+                        //   modification locale de l'utilisateur.
                         const estRoadtripGithub = !roadtrips[nom].source || roadtrips[nom].source === 'github';
                         if (!estRoadtripGithub) { continue; }
 
                         if (!roadtrips[nom].source) { roadtrips[nom].source = 'github'; migres++; }
-                        if (roadtrips[nom].sourceFichier !== fichier) { roadtrips[nom].sourceFichier = fichier; }
-                        // Comparaison sur le CONTENU réel (et non sur savedAt) : une modification du
-                        // JSON sur GitHub est reprise même si savedAt n'a pas changé.
+                        roadtrips[nom].sourceFichier = fichier;
+                        // Comparaison sur le CONTENU réel (et non plus seulement sur savedAt) : une
+                        // modification du JSON sur GitHub est reprise même si savedAt n'a pas changé.
                         const dejaAJour = JSON.stringify(roadtrips[nom].savedSpotIds) === JSON.stringify(payload.savedSpotIds) &&
                             JSON.stringify(roadtrips[nom].customSpots) === JSON.stringify(payload.customSpots);
                         if (!dejaAJour) {
                             roadtrips[nom].savedSpotIds = payload.savedSpotIds;
                             roadtrips[nom].customSpots = payload.customSpots;
                             roadtrips[nom].savedAt = payload.savedAt || new Date().toISOString();
-                            ajoutes++; // compteur "mis à jour" : déclenche setSavedRoadtrips plus bas
+                            ajoutes++; // réutilisé comme compteur "mis à jour" pour déclencher setSavedRoadtrips ci-dessous
                         }
                         continue;
                     }
@@ -8139,7 +8300,7 @@ if (btnToggleLieux) {
                 }
             }
         }
-        // Empêche le chargement automatique de "Last10mois" (ci-dessous) d'écraser un road
+        // Empêche le chargement automatique de "ardeche2026" (ci-dessous) d'écraser un road
         // trip tout juste ouvert via un lien de partage (?rt=...) : mis à true par
         // chargerRoadtripDepuisLienPartage() ci-dessous quand un tel lien est appliqué.
         let lienPartageAppliqueAuChargement = false;
@@ -8148,25 +8309,11 @@ if (btnToggleLieux) {
         // cf. ouvrirLieuDepuisLien() plus haut) : capturé ICI, de façon synchrone et tout en haut
         // du script, AVANT que ouvrirLieuDepuisLien() ne retire le paramètre de l'URL (elle ne le
         // fait qu'après avoir attendu que la carte soit prête, donc toujours après ce point-ci).
-        // Sans ce garde-fou, le chargement automatique de "Last10mois" ci-dessous — qui vide le
+        // Sans ce garde-fou, le chargement automatique de "ardeche2026" ci-dessous — qui vide le
         // carnet, ferme la fiche du lieu ouverte et recadre la carte sur tout le road trip —
         // s'exécutait juste après l'ouverture du lien et faisait disparaître le lieu aussitôt
         // affiché.
         const lienLieuDirectDemande = !!(new URLSearchParams(window.location.search).get('lieu'));
-
-        // Lien FIXE et COURT vers un road trip par son nom (?roadtrip=NOM), par opposition au
-        // lien ?rt=... ci-dessous qui encode tout le contenu dans l'URL (long, mais autonome).
-        // Ce lien fixe ne fonctionne que si "NOM" existe déjà côté navigateur qui l'ouvre : soit
-        // un road trip publié dans le dépôt GitHub partagé (visible sur tous les appareils, cf.
-        // assurerRoadtripsGithubCharges), soit un road trip personnel déjà sauvegardé localement
-        // sur CET appareil précis. Capturé ici de façon synchrone, avant que quoi que ce soit
-        // d'autre ne s'exécute, et retiré de l'URL tout de suite (comme pour ?rt= et ?lieu=) pour
-        // éviter qu'un rechargement de page ne redéclenche la même chose indéfiniment.
-        const nomRoadtripDirectDemande = new URLSearchParams(window.location.search).get('roadtrip');
-        if (nomRoadtripDirectDemande) {
-            const urlSansParamRoadtrip = window.location.origin + window.location.pathname + window.location.hash;
-            window.history.replaceState({}, '', urlSansParamRoadtrip);
-        }
 
         // ==========================================
         // INITIALISATION À CHAQUE CONSULTATION DU SITE
@@ -8184,24 +8331,12 @@ if (btnToggleLieux) {
         // "controllerchange") prévient ensuite l'utilisateur pour qu'il recharge et en profite.
         //
         // À chaque chargement de la page, on charge automatiquement le road trip partagé
-        // "Last10mois" dans le Carnet Virtuel — sauf si un lien de partage (?rt=...) ou un
+        // "ardeche2026" dans le Carnet Virtuel — sauf si un lien de partage (?rt=...) ou un
         // lien direct vers un seul lieu (?lieu=...) vient d'ouvrir autre chose à la place
         // (priorité à l'intention explicite du lien, cf. chargerRoadtripDepuisLienPartage /
         // ouvrirLieuDepuisLien).
         async function initialiserOuvertureSite() {
             await assurerRoadtripsGithubCharges();
-
-            // Lien fixe ?roadtrip=NOM : intention explicite de l'utilisateur, prioritaire sur le
-            // chargement automatique de "Last10mois" ci-dessous — qu'il ait abouti ou non (ex. nom
-            // introuvable : chargerRoadtripParNom affiche déjà le message d'erreur qui va bien).
-            if (nomRoadtripDirectDemande) {
-                const ok = chargerRoadtripParNom(nomRoadtripDirectDemande, { viaSelection: true });
-                if (ok) {
-                    const select = document.getElementById('roadtrip-select');
-                    if (select) select.value = nomRoadtripDirectDemande;
-                }
-                return;
-            }
 
             if (lienPartageAppliqueAuChargement || lienLieuDirectDemande) return;
 
@@ -8210,12 +8345,31 @@ if (btnToggleLieux) {
             // sauvegarde locale" si ce n'était pas voulu.
             sauvegarderSnapshotCarnetActuel();
 
-            // Nom exact du road trip par défaut tel qu'il existe dans la liste (insensible à la casse).
-            const nomParDefaut = Object.keys(getSavedRoadtrips()).find(k => k.toLowerCase() === 'last10mois') || 'Last10mois';
-            const ok = chargerRoadtripParNom(nomParDefaut, { viaSelection: true });
+            // Le road trip par défaut repart TOUJOURS de la version publiée sur GitHub, quelle que
+            // soit la copie déjà stockée sur l'appareil (importée à la main, ancienne, non marquée
+            // "github"...), que la synchronisation générale ci-dessus n'écraserait pas.
+            try {
+                const rep = await fetchAvecDelai(GITHUB_ROADTRIPS_BASE + 'ardeche2026.json?t=' + Date.now(), { cache: 'no-store' }, 8000);
+                if (rep.ok) {
+                    const p = await rep.json();
+                    if (p && Array.isArray(p.savedSpotIds) && Array.isArray(p.customSpots)) {
+                        const rts = getSavedRoadtrips();
+                        rts['ardeche2026'] = {
+                            savedSpotIds: p.savedSpotIds,
+                            customSpots: p.customSpots,
+                            savedAt: p.savedAt || new Date().toISOString(),
+                            source: 'github',
+                            sourceFichier: 'ardeche2026.json'
+                        };
+                        setSavedRoadtrips(rts);
+                    }
+                }
+            } catch (e) { console.warn('Rafraîchissement direct de ardeche2026.json impossible :', e); }
+
+            const ok = chargerRoadtripParNom('ardeche2026', { viaSelection: true });
             if (ok) {
                 const select = document.getElementById('roadtrip-select');
-                if (select) select.value = nomParDefaut;
+                if (select) select.value = 'ardeche2026';
             }
         }
         initialiserOuvertureSite();
@@ -9575,12 +9729,260 @@ if (btnToggleLieux) {
             if (typeof guideRoadtripNotifierAction === 'function') guideRoadtripNotifierAction('roadtripEdite');
         }
 
+        // ===================== MODE ADMINISTRATEUR =====================
+        // Permet à l'administrateur du site (TP) d'ajouter ou de supprimer des lieux
+        // directement dans la Base de Lieux publique (fichier lieux.json, via un backend).
+        // Réservé à l'administrateur : le secret d'accès n'est PAS écrit dans le code : il est demandé à l'activation du 🛠️ et gardé en mémoire uniquement (jusqu'à la désactivation ou au rechargement de la page).
+        const ADMIN_MODE = false;
+        const ADMIN_API_URL = "https://lieux.parisis-titi.workers.dev/";
+        let adminSecret = null; // saisi par l'administrateur à l'activation du mode, jamais stocké
+
+        let adminModeForced = false;
+        let adminCurrentLat = null;
+        let adminCurrentLng = null;
+        let adminMarker = null;
+
+        // Vérifie le secret auprès du serveur AVANT d'activer le mode : requête de suppression sur un
+        // identifiant inexistant (sans effet) ; le serveur répond 401/403 si le secret est faux.
+        // Renvoie true (accepté), false (refusé) ou null (serveur injoignable).
+        async function verifierSecretAdmin(secret) {
+            try {
+                const resp = await fetch(ADMIN_API_URL, {
+                    method: "DELETE",
+                    headers: { "Content-Type": "application/json", "x-admin-secret": secret },
+                    body: JSON.stringify({ id: "__verification_secret__" })
+                });
+                if (resp.status === 401 || resp.status === 403) return false;
+                return true;
+            } catch (e) { return null; }
+        }
+
+        async function toggleAdminMode() {
+            if (!adminModeForced) {
+                // Activation : on demande le secret (rien n'est écrit dans le code de la page).
+                const saisi = window.prompt("Mode administrateur : entrez le secret d'accès");
+                if (saisi === null || saisi.trim() === '') return; // annulé : le mode reste désactivé
+                const ok = await verifierSecretAdmin(saisi.trim());
+                if (ok === false) { alert("Secret incorrect : mode administrateur non activé."); return; }
+                if (ok === null) { alert("Impossible de vérifier le secret (serveur injoignable). Réessayez."); return; }
+                adminSecret = saisi.trim();
+                adminModeForced = true;
+            } else {
+                adminModeForced = false;
+                adminSecret = null; // désactivation : le secret est oublié
+            }
+            const btn = document.getElementById('btn-admin-toggle');
+            if (btn) {
+                btn.textContent = adminModeForced ? '🛠️ ON' : '🛠️';
+                btn.title = adminModeForced ? 'Quitter le mode administrateur' : 'Mode administrateur (écrire dans la Base de Lieux)';
+            }
+            const panel = document.getElementById('admin-panel');
+            if (panel) {
+                if (adminModeForced) {
+                    remplirSelectSuppressionAdmin();
+                } else {
+                    hideAdminPanel();
+                }
+            }
+        }
+
+        const adminBtn = document.getElementById('btn-admin-toggle');
+        if (adminBtn) {
+            adminBtn.addEventListener('click', function (e) {
+                e.stopPropagation();
+                toggleAdminMode();
+            });
+        }
+
+        // Secret refusé par le serveur : on l'oublie et on quitte le mode administrateur.
+        function adminSecretRefuse() {
+            adminSecret = null;
+            if (adminModeForced) toggleAdminMode();
+        }
+
+        function toggleAdminPanelCollapse() {
+            const panel = document.getElementById('admin-panel');
+            const arrow = document.getElementById('admin-panel-arrow');
+            if (!panel) return;
+            panel.classList.toggle('admin-panel-collapsed');
+            if (arrow) {
+                arrow.textContent = panel.classList.contains('admin-panel-collapsed') ? '▲ agrandir' : '▼ réduire';
+            }
+        }
+
+        function showAdminPanel(lat, lng) {
+            adminCurrentLat = lat;
+            adminCurrentLng = lng;
+            document.getElementById("admin-lat").value = lat.toFixed(6);
+            document.getElementById("admin-lng").value = lng.toFixed(6);
+            document.getElementById("admin-title").value = "";
+            document.getElementById("admin-desc").value = "";
+            document.getElementById("admin-img").value = "";
+            document.getElementById("admin-status").textContent = "";
+            document.getElementById("admin-panel").style.display = "block";
+
+            document.getElementById("admin-panel").classList.remove('admin-panel-collapsed');
+            const arrowReset = document.getElementById('admin-panel-arrow');
+            if (arrowReset) arrowReset.textContent = '▼ réduire';
+
+            if (adminMarker && map) map.removeLayer(adminMarker);
+            adminMarker = L.marker([lat, lng], { opacity: 0.9 }).addTo(map);
+            adminMarker.bindPopup("Nouveau lieu à enregistrer").openPopup();
+        }
+
+        function hideAdminPanel() {
+            document.getElementById("admin-panel").style.display = "none";
+            if (adminMarker && map) {
+                map.removeLayer(adminMarker);
+                adminMarker = null;
+            }
+        }
+
+        async function sendLieuToBackend(lieu) {
+            const resp = await fetch(ADMIN_API_URL, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "x-admin-secret": adminSecret || ""
+                },
+                body: JSON.stringify(lieu)
+            });
+
+            const data = await resp.json().catch(() => ({}));
+            if (resp.status === 401 || resp.status === 403) { adminSecretRefuse(); throw new Error("Secret refusé : mode administrateur désactivé."); }
+            if (!resp.ok || !data.ok) {
+                throw new Error(data.error || "Erreur d'enregistrement");
+            }
+        }
+
+        // NOTE : le <div id="admin-panel"> est défini dans le HTML APRÈS ce <script>,
+        // donc document.getElementById("admin-save") renverrait null si on l'appelait
+        // immédiatement ici. On attend que le document soit entièrement chargé.
+        document.addEventListener("DOMContentLoaded", () => {
+            const adminSaveBtn = document.getElementById("admin-save");
+            if (adminSaveBtn) {
+                adminSaveBtn.addEventListener("click", async () => {
+                    const title = document.getElementById("admin-title").value.trim();
+                    const desc = document.getElementById("admin-desc").value.trim();
+                    const img = document.getElementById("admin-img").value.trim();
+
+                    if (!title) {
+                        document.getElementById("admin-status").textContent = "Le nom du lieu est obligatoire.";
+                        return;
+                    }
+
+                    const lieu = {
+                        title,
+                        lat: adminCurrentLat,
+                        lng: adminCurrentLng,
+                        desc,
+                        img: img || null
+                    };
+
+                    const status = document.getElementById("admin-status");
+                    status.style.color = "#0b7a2a";
+                    status.textContent = "Envoi en cours...";
+
+                    try {
+                        await sendLieuToBackend(lieu);
+                        status.textContent = "Lieu enregistré.";
+                        setTimeout(() => hideAdminPanel(), 1000);
+                    } catch (err) {
+                        status.style.color = "#b00020";
+                        status.textContent = "Erreur : " + err.message;
+                    }
+                });
+            }
+
+            const adminCancelBtn = document.getElementById("admin-cancel");
+            if (adminCancelBtn) { adminCancelBtn.addEventListener("click", hideAdminPanel); }
+        });
+
+        async function deleteLieuFromBackend(lieuId) {
+            const resp = await fetch(ADMIN_API_URL, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                    "x-admin-secret": adminSecret || ""
+                },
+                body: JSON.stringify({ id: lieuId })
+            });
+
+            const data = await resp.json().catch(() => ({}));
+            if (resp.status === 401 || resp.status === 403) { adminSecretRefuse(); throw new Error("Secret refusé : mode administrateur désactivé."); }
+            if (!resp.ok || !data.ok) {
+                throw new Error(data.error || "Erreur de suppression");
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const adminDeleteBtn = document.getElementById("admin-delete-btn");
+            if (adminDeleteBtn) {
+                adminDeleteBtn.addEventListener("click", async () => {
+                    const sel = document.getElementById("admin-delete-select");
+                    const status = document.getElementById("admin-delete-status");
+                    const chosenId = sel ? sel.value : "";
+
+                    if (!chosenId) {
+                        status.style.color = "#b00020";
+                        status.textContent = "Choisissez un lieu à supprimer.";
+                        return;
+                    }
+
+                    const spot = lieuxDBSpots.find(s => s.id === chosenId);
+                    const nomAffiche = spot ? spot.title : chosenId;
+                    if (!confirm(`Supprimer définitivement "${nomAffiche}" de la base de lieux ?`)) return;
+
+                    status.style.color = "#0b7a2a";
+                    status.textContent = "Suppression en cours...";
+
+                    try {
+                        // L'identifiant transmis au backend correspond à celui stocké dans lieux.json
+                        // (préfixe "lieux-" retiré, car ce préfixe n'est ajouté que côté affichage)
+                        const rawId = chosenId.startsWith("lieux-") ? chosenId.slice(6) : chosenId;
+                        await deleteLieuFromBackend(rawId);
+
+                        // Mise à jour locale : marqueur, listes de lieux et menus déroulants
+                        if (markers[chosenId] && map) { map.removeLayer(markers[chosenId]); delete markers[chosenId]; }
+                        allSpots = allSpots.filter(s => s.id !== chosenId);
+                        lieuxDBSpots = lieuxDBSpots.filter(s => s.id !== chosenId);
+
+                        if (lieuxSelect) {
+                            const optASupprimer = Array.from(lieuxSelect.options).find(o => o.value === chosenId);
+                            if (optASupprimer) lieuxSelect.removeChild(optASupprimer);
+                        }
+                        remplirSelectSuppressionAdmin();
+
+                        status.style.color = "#0b7a2a";
+                        status.textContent = "Lieu supprimé.";
+                    } catch (err) {
+                        status.style.color = "#b00020";
+                        status.textContent = "Erreur : " + err.message;
+                    }
+                });
+            }
+        });
+
+        // Remplit la liste déroulante "Supprimer un lieu" du panneau admin
+        function remplirSelectSuppressionAdmin() {
+            const sel = document.getElementById('admin-delete-select');
+            if (!sel) return;
+            sel.innerHTML = '<option value="">— Choisir un lieu à supprimer —</option>';
+            lieuxDBSpots.forEach(spot => {
+                const opt = document.createElement('option');
+                opt.value = spot.id;
+                opt.innerText = spot.title;
+                sel.appendChild(opt);
+            });
+        }
+
+
         // ==========================================
-        // GUIDE DE PRÉSENTATION DU MENU 🔍 (lancé par le bouton 💡)
+        // GUIDE DE PRÉSENTATION DU MENU 🔍 (au lancement de la page, puis via le bouton 💡)
         // ==========================================
         // Présente la recherche d'un lieu puis chaque onglet du bandeau « Voir/gérer ».
         // Se ferme d'un clic en dehors de la fenêtre (sur le voile) ou avec la touche Échap.
-        // Lancé par le bouton 💡 (ou demarrerGuideMenu()) ; pas de lancement automatique sur ce site.
+        // Lancé automatiquement à l'ouverture, puis par le bouton 💡 (ou demarrerGuideMenu()).
         const GUIDE_MENU_ETAPES = [
             { cible: '#btn-reafficher-entete', entete: false, menu: false, titre: '🔍 La loupe',
               texte: `Au lancement, seule la loupe est affichée pour laisser toute la place à la carte. Touchez-la pour faire apparaître la barre de recherche et le menu « Voir/gérer ». Ils se masquent de nouveau quand vous touchez la carte.` },
@@ -9592,7 +9994,7 @@ if (btnToggleLieux) {
               texte: `Votre carnet de <b>travail</b> de la session : les lieux sur lesquels vous travaillez (le road trip en cours). Choisissez un lieu dans la liste pour le voir sur la carte, affichez ou masquez le carnet sur la carte, ou videz-le avec 🗑️.<br><b style="color:#b00020;">⚠️ Avant de commencer un autre projet, effacez-le ou sauvegardez-le (onglet Road Trips).</b>` },
             { cible: '#map', entete: false, menu: false, titre: '🙈 Afficher les points sur la carte',
               action: () => guideAfficherPointsCarnet(), rect: () => guideRectPointsCarnet(),
-              texte: `Voici les points du Carnet (road trip « Last10mois ») affichés sur la carte : ils sont entourés ici. Dans chaque onglet (Carnet, Top 12, Base de Lieux), le bouton « 🙈 Afficher … sur la carte » place les repères de la liste sur la carte ; il devient « 👁️ Masquer … » pour les retirer. Chaque catégorie a sa couleur (🎨 Légende, en bas de la carte).` },
+              texte: `Voici les points du Carnet (le road trip en cours) affichés sur la carte : ils sont entourés ici. Dans chaque onglet (Carnet, Top 12, Base de Lieux), le bouton « 🙈 Afficher … sur la carte » place les repères de la liste sur la carte ; il devient « 👁️ Masquer … » pour les retirer. Chaque catégorie a sa couleur (🎨 Légende, en bas de la carte).` },
             { cible: '#map', entete: false, menu: false, titre: "💬 La petite fenêtre d'un lieu",
               action: () => guideOuvrirPopupBarycentre(), rect: () => guideRectPopup(), garderPopup: true,
               texte: `Touchez un repère : une petite fenêtre s'ouvre. Ici, celle du <b>🏠 Barycentre du road trip</b>, ajouté automatiquement au Carnet dès 2 lieux inscrits, au point central de toutes vos étapes.<br>📖 <b>Inscrire</b> / ❤️ <b>Retirer</b> du Carnet · 🔗 <b>Partager</b> · 📍 <b>Lien direct</b> · ℹ️ <b>Détail</b> · ✏️ <b>Éditer</b> le nom, la description et la photo.` },
@@ -9606,7 +10008,7 @@ if (btnToggleLieux) {
             { cible: '.tabs-bar .tab-btn[data-tab="sous-menu-lieux"]', menu: true, onglet: 'sous-menu-lieux', titre: '📚 Base de Lieux',
               texte: `Les lieux enregistrés par l'administrateur (TP), modifiables par lui seul. Les lieux marqués « RT » appartiennent à un road trip.` },
             { cible: '#btn-guide-roadtrip', menu: false, titre: '🧭 Pour aller plus loin',
-              texte: `Le bouton vert 🧭 lance le guide pas à pas pour créer un road trip de A à Z, et le bouton ? ouvre l'aide générale.` },
+              texte: `Le bouton vert 🧭 lance le guide pas à pas pour créer un road trip de A à Z, le bouton ? ouvre l'aide générale et le bouton 🛠️ active le mode administrateur (réservé à TP).` },
             { cible: '#btn-nettoyer-carte', entete: false, menu: false, titre: '🧹 Nettoyer la carte',
               texte: `Le balai, sur le côté droit de la carte, retire d'un coup tous les repères affichés (sans rien supprimer de vos listes ni de vos réglages) : réaffichez ensuite une catégorie avec 🙈 et elle revient.<br><b style=\"color:#b00020;\">🔒 Toutes vos modifications (carnet, lieux édités, road trips…) restent sur votre appareil : elles ne sont jamais publiées.</b> Bonne exploration !` }
         ];
@@ -9789,10 +10191,7 @@ if (btnToggleLieux) {
         window.addEventListener('resize', positionnerGuideMenu);
         document.addEventListener('keydown', (ev) => { if (ev.key === 'Escape') fermerGuideMenu(); });
 
-        // PAS de lancement automatique sur ce site (il s'ouvre directement sur le road trip) : seule l'info-bulle
-        // sur la loupe / l'ampoule est proposée à l'ouverture, sauf ouverture directe d'un road trip / d'un lieu
-        // (?rt=, ?roadtrip=, ?lieu=) : ces paramètres sont retirés de l'URL par le script dès le chargement, d'où
-        // le test sur les variables dédiées. Dans ce cas rien n'est affiché, pour ne pas masquer ce qui s'ouvre.
+        // Lancement automatique à l'ouverture de la page (sauf lien direct ?... ou guide road trip déjà actif).
         // Info-bulle sur l'ampoule 💡 : rappelle où relancer la présentation (à la fermeture du guide,
         // ou dès l'ouverture si le lancement automatique est sauté). Disparaît au clic, avec Échap ou après quelques secondes.
         let timerBulleFonctionnalites = null;
@@ -9811,7 +10210,7 @@ if (btnToggleLieux) {
             const bulle = document.getElementById('bulle-fonctionnalites');
             if (!bulle || guideMenuActif || guideRoadtripActif) return;
             bulle.innerHTML = enteteCacheeGuideMenu()
-                ? '💡 Présentation du menu 🔍<br><small>Touchez la loupe 🔍 puis l\'ampoule 💡</small>'
+                ? '💡 Revoir la présentation du menu 🔍<br><small>Touchez la loupe 🔍 puis l\'ampoule 💡</small>'
                 : '💡 Fonctionnalités du menu 🔍<br><small>Cliquez sur l\'ampoule pour (re)voir la présentation</small>';
             bulle.style.display = 'block';
             positionnerBulleFonctionnalites();
@@ -9827,15 +10226,69 @@ if (btnToggleLieux) {
         document.addEventListener('keydown', (ev) => { if (ev.key === 'Escape') masquerBulleFonctionnalites(); });
         window.addEventListener('load', () => {
             setTimeout(() => {
-                const lienDirect = (typeof lienPartageAppliqueAuChargement !== 'undefined' && lienPartageAppliqueAuChargement)
-                    || (typeof lienLieuDirectDemande !== 'undefined' && lienLieuDirectDemande)
-                    || (typeof nomRoadtripDirectDemande !== 'undefined' && nomRoadtripDirectDemande);
-                if (lienDirect || guideRoadtripActif) return;
-                afficherBulleFonctionnalites(10000);
+                if (!window.location.search && !guideRoadtripActif) demarrerGuideMenu();
+                else afficherBulleFonctionnalites(12000);
             }, 1200);
         });
 
 </script>
 
+<div id="admin-panel" style="display:none; position:fixed; top:90px; right:20px; z-index:3000; width:320px; background:white; border:1px solid #ddd; border-radius:12px; box-shadow:0 8px 24px rgba(0,0,0,0.18); padding:14px;">
+  <div class="admin-panel-handle" id="admin-panel-handle" onclick="toggleAdminPanelCollapse()">
+    <div class="admin-panel-draghandle"></div>
+    <div class="admin-panel-handle-row">
+      <span class="admin-panel-handle-title">🛠️ Ajouter un lieu</span>
+      <span class="admin-panel-handle-arrow" id="admin-panel-arrow">▼ réduire</span>
+    </div>
+  </div>
+  <h3 id="admin-panel-title-ajouter" style="margin:0 0 10px 0; color:#0b3954;">Ajouter un lieu</h3>
+  <div style="font-size:0.85rem; margin-bottom:10px; color:#555;">
+    Cliquez sur la carte pour placer un lieu, puis complétez les champs.
+  </div>
+
+  <label style="display:block; font-size:0.85rem; font-weight:bold; margin-top:8px;">Latitude</label>
+  <input id="admin-lat" type="text" readonly style="width:100%; box-sizing:border-box; padding:8px; margin-top:4px;">
+
+  <label style="display:block; font-size:0.85rem; font-weight:bold; margin-top:8px;">Longitude</label>
+  <input id="admin-lng" type="text" readonly style="width:100%; box-sizing:border-box; padding:8px; margin-top:4px;">
+
+  <label style="display:block; font-size:0.85rem; font-weight:bold; margin-top:8px;">Nom</label>
+  <input id="admin-title" type="text" placeholder="Nom du lieu" style="width:100%; box-sizing:border-box; padding:8px; margin-top:4px;">
+
+  <label style="display:block; font-size:0.85rem; font-weight:bold; margin-top:8px;">Description courte</label>
+  <textarea id="admin-desc" rows="3" placeholder="Courte description" style="width:100%; box-sizing:border-box; padding:8px; margin-top:4px; resize:vertical;"></textarea>
+
+  <label style="display:block; font-size:0.85rem; font-weight:bold; margin-top:8px;">Photo optionnelle</label>
+  <input id="admin-img" type="url" placeholder="URL de l'image" style="width:100%; box-sizing:border-box; padding:8px; margin-top:4px;">
+
+  <div style="display:flex; gap:8px; margin-top:12px;">
+    <button id="admin-save" style="flex:1; padding:10px; border:none; border-radius:8px; background:#1d6fa5; color:white; font-weight:bold; cursor:pointer;">Enregistrer</button>
+    <button id="admin-cancel" style="flex:1; padding:10px; border:none; border-radius:8px; background:#adb5bd; color:#1a1a1a; font-weight:bold; cursor:pointer;">Annuler</button>
+  </div>
+
+  <div id="admin-status" style="margin-top:10px; font-size:0.85rem; min-height:18px; color:#b00020;"></div>
+
+  <hr style="margin:16px 0; border:none; border-top:1px solid #eee;">
+
+  <details id="admin-delete-details">
+    <summary style="cursor:pointer; font-weight:bold; color:#0b3954; font-size:1.05rem; padding:2px 0;">🗑️ Supprimer un lieu</summary>
+
+    <div style="font-size:0.85rem; margin:10px 0 10px 0; color:#555;">
+      Choisissez un lieu de la base, puis confirmez la suppression.
+    </div>
+
+    <select id="admin-delete-select" style="width:100%; box-sizing:border-box; padding:8px; margin-bottom:8px; border-radius:8px; border:1px solid #ccc;">
+      <option value="">— Choisir un lieu à supprimer —</option>
+    </select>
+
+    <button id="admin-delete-btn" style="width:100%; padding:10px; border:none; border-radius:8px; background:#d90429; color:white; font-weight:bold; cursor:pointer;">🗑️ Supprimer ce lieu</button>
+
+    <div id="admin-delete-status" style="margin-top:10px; font-size:0.85rem; min-height:18px; color:#b00020;"></div>
+  </details>
+</div>
+
+    <!-- Statistiques de visite (GoatCounter, respectueux de la vie privée, sans cookies) -->
+    <script data-goatcounter="https://carte-europe.goatcounter.com/count"
+            async src="//gc.zgo.at/count.js"></script>
 </body>
 </html>
