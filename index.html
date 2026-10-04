@@ -5684,7 +5684,7 @@ if (btnToggleLieux) {
                 // Cas particulier : les liens vers mes-bd.pages.dev (BD en ligne) sont
                 // affichés avec une icône 🎨 au lieu de l'URL complète.
                 const estBd = /mes-bd\.pages\.dev/i.test(href);
-                const libelle = estStegano ? '🔍 Texte mystère' : (estBd ? '🎨 Lire la BD' : urlTexte);
+                const libelle = estStegano ? '🔍 Texte Parenthèse' : (estBd ? '🎨 Lire la BD' : urlTexte);
                 const titre = estStegano ? ' title="Ouvrir le jeu devinette"' : (estBd ? ' title="Lire la BD"' : '');
                 const lienIcone = `<a href="${href}" target="_blank" rel="noopener noreferrer"${titre}>${libelle}</a>`;
                 // Pour les liens à icône (🔍 / 🎨), l'icône est suivie d'un libellé court, le tout
