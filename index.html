@@ -2588,7 +2588,7 @@
 
                     <p style="background:#e8f5e9; border-left:4px solid #2e7d32; padding:8px 12px; border-radius:6px; margin:0 0 14px 0;">
                         💡 <b>Nouveau : présentation guidée du menu 🔍</b><span class="badge-nouveau">NOUVEAU</span><br>
-                        Au lancement de la page, une courte présentation explique la loupe 🔍, la recherche d'un lieu puis chaque onglet du menu « 🔍 Voir/gérer » (Carnet, Top 12, Road Trips, Base de Lieux). Elle se ferme d'un clic en dehors de sa fenêtre ; une info-bulle indique alors le bouton bleu 💡 de la barre de recherche, qui permet de la relancer à tout moment.
+                        Au lancement de la page, une courte présentation explique la loupe 🔍, la recherche d'un lieu puis chaque onglet du menu « 🔍 Voir/gérer » (Carnet, affichage des points sur la carte, petite fenêtre et fenêtre « Détail » d'un lieu, Top 12, Road Trips, Base de Lieux), et se termine par le balai 🧹 et le rappel que vos modifications ne sont jamais publiées. Elle se ferme d'un clic en dehors de sa fenêtre ; une info-bulle indique alors le bouton bleu 💡 de la barre de recherche, qui permet de la relancer à tout moment.
                     </p>
 
                     <p style="background:#e8f5e9; border-left:4px solid #2e7d32; padding:8px 12px; border-radius:6px; margin:0 0 14px 0;">
@@ -2645,7 +2645,7 @@
 
                     <h4 style="color:var(--secondary);">📖 Planification &amp; Gestion de Road Trips</h4>
                     <ul>
-                        <li><b>💡 Fonctionnalités du menu 🔍</b><span class="badge-nouveau">NOUVEAU</span> : le bouton bleu 💡 (à côté du 🧭) relance la présentation du menu « Voir/gérer » : loupe, recherche d'un lieu, Carnet, Top 12, Road Trips et Base de Lieux. Elle s'affiche aussi automatiquement à l'ouverture de la page et se ferme d'un clic en dehors de sa fenêtre ou avec la touche Échap.</li>
+                        <li><b>💡 Fonctionnalités du menu 🔍</b><span class="badge-nouveau">NOUVEAU</span> : le bouton bleu 💡 (à côté du 🧭) relance la présentation du menu « Voir/gérer » : loupe, recherche d'un lieu, Carnet, affichage des points sur la carte, petite fenêtre et fenêtre « Détail » d'un lieu, Top 12, Road Trips, Base de Lieux, balai 🧹 et confidentialité des modifications. Elle s'affiche aussi automatiquement à l'ouverture de la page et se ferme d'un clic en dehors de sa fenêtre ou avec la touche Échap.</li>
                         <li><b>🧭 Guide pas à pas</b> : le bouton vert 🧭 en haut de l'écran lance un tutoriel interactif qui vous guide en direct sur le site pour créer un road trip de A à Z (voir encadré en haut de cette aide).</li>
                         <li><b>Carnet Virtuel Personnel</b> : au premier lancement, le Carnet est vide ; vous y inscrivez vos propres lieux (ou chargez un road trip via 📂, le vôtre ou un des road trips 🌐 Partagés).</li>
                         <li><b>Sauvegarde 💾</b> : un seul bouton « 💾 Sauvegarder » fait tout à la fois — il demande un nom, le mémorise dans ce navigateur (pour le retrouver d'un clic via 📂 Charger), PUIS ouvre aussitôt un vrai enregistrement dans un fichier sur votre appareil : choix du dossier et du nom de fichier sur PC (le navigateur se souvient du dernier dossier utilisé), ou sélecteur de partage natif sur mobile.</li>
@@ -5684,7 +5684,7 @@ if (btnToggleLieux) {
                 // Cas particulier : les liens vers mes-bd.pages.dev (BD en ligne) sont
                 // affichés avec une icône 🎨 au lieu de l'URL complète.
                 const estBd = /mes-bd\.pages\.dev/i.test(href);
-                const libelle = estStegano ? '🔍  Parenthèse' : (estBd ? '🎨 Lire la BD' : urlTexte);
+                const libelle = estStegano ? '🔍 Parenthèse' : (estBd ? '🎨 Lire la BD' : urlTexte);
                 const titre = estStegano ? ' title="Ouvrir le jeu devinette"' : (estBd ? ' title="Lire la BD"' : '');
                 const lienIcone = `<a href="${href}" target="_blank" rel="noopener noreferrer"${titre}>${libelle}</a>`;
                 // Pour les liens à icône (🔍 / 🎨), l'icône est suivie d'un libellé court, le tout
@@ -9671,6 +9671,12 @@ if (btnToggleLieux) {
               texte: `Touchez ce bandeau pour ouvrir ou replier le menu. Il regroupe quatre onglets : <b>Carnet</b>, <b>Top 12</b>, <b>Road Trips</b> et <b>Base de Lieux</b>. Les boutons <b>Trier</b> (listes classées par distance depuis votre position) et <b>Alerte</b> (notification à proximité d'un lieu du Top 12 ou du Carnet) s'y trouvent aussi.` },
             { cible: '.tabs-bar .tab-btn[data-tab="sous-menu-carnet"]', menu: true, onglet: 'sous-menu-carnet', titre: '📖 CARNET',
               texte: `Votre carnet de <b>travail</b> de la session : les lieux sur lesquels vous travaillez (par défaut le road trip « ardeche2026 »). Choisissez un lieu dans la liste pour le voir sur la carte, affichez ou masquez le carnet sur la carte, ou videz-le avec 🗑️.<br><b style="color:#b00020;">⚠️ Avant de commencer un autre projet, effacez-le ou sauvegardez-le (onglet Road Trips).</b>` },
+            { cible: '#btn-toggle-carnet', menu: true, onglet: 'sous-menu-carnet', titre: '🙈 Afficher les points sur la carte',
+              texte: `Dans chaque onglet (Carnet, Top 12, Base de Lieux), le bouton « 🙈 Afficher … sur la carte » place les repères de la liste sur la carte ; il devient « 👁️ Masquer … » pour les retirer. Chaque catégorie a sa couleur (voir 🎨 Légende, en bas de la carte) et s'affiche ou se masque indépendamment des autres.` },
+            { cible: '#map', entete: false, menu: false, titre: '💬 La petite fenêtre d\'un lieu',
+              texte: `Touchez un repère sur la carte : une petite fenêtre s'ouvre avec le nom du lieu. Exemple : le repère <b>🏠 Barycentre du road trip</b>, ajouté automatiquement au Carnet dès 2 lieux inscrits, au point central de toutes vos étapes.<br>📖 <b>Inscrire</b> / ❤️ <b>Retirer</b> du Carnet · 🔗 <b>Partager</b> (message, WhatsApp, e-mail ou texte crypté) · 📍 <b>Lien direct</b> vers ce lieu · ℹ️ <b>Détail</b> · ✏️ <b>Éditer</b> le nom, la description et la photo.` },
+            { cible: '#map', entete: false, menu: false, titre: 'ℹ️ La fenêtre « Détail »',
+              texte: `Le bouton ℹ️ ouvre la fiche complète du lieu (⤢ pour l'agrandir) :<br>• photo (touchez-la pour l'agrandir), nom, 📋 coordonnées GPS à copier et 🌡️ météo du moment ;<br>• 🔥 alerte feu à proximité, 🎥 webcams à moins de 20 km, 🌐 site officiel et réseaux sociaux, description du lieu ;<br>• 🚩 à visiter, 🥾 à faire et 🏨 hébergement autour du lieu ;<br>• en bas : 🗺️ Itinéraire, 📖 Inscrire dans mon Carnet, 📸 Photos, 📥 Carte IGN (hors ligne), 🔗 Partager et ✏️ Éditer ce lieu.` },
             { cible: '.tabs-bar .tab-btn[data-tab="sous-menu-top12"]', menu: true, onglet: 'sous-menu-top12', titre: '⭐ Top 12',
               texte: `Les 12 lieux sélectionnés par l'administrateur (TP), modifiables par lui seul. Choisissez-en un dans la liste pour aller le voir, ou affichez les 12 repères d'un coup sur la carte avec le bouton prévu.` },
             { cible: '.tabs-bar .tab-btn[data-tab="sous-menu-roadtrips"]', menu: true, onglet: 'sous-menu-roadtrips', titre: '💾 Road Trips',
@@ -9678,7 +9684,9 @@ if (btnToggleLieux) {
             { cible: '.tabs-bar .tab-btn[data-tab="sous-menu-lieux"]', menu: true, onglet: 'sous-menu-lieux', titre: '📚 Base de Lieux',
               texte: `Les lieux enregistrés par l'administrateur (TP), modifiables par lui seul. Les lieux marqués « RT » appartiennent à un road trip.` },
             { cible: '#btn-guide-roadtrip', menu: false, titre: '🧭 Pour aller plus loin',
-              texte: `Le bouton vert 🧭 lance le guide pas à pas pour créer un road trip de A à Z, et le bouton ? ouvre l'aide générale. Bonne exploration !` }
+              texte: `Le bouton vert 🧭 lance le guide pas à pas pour créer un road trip de A à Z, et le bouton ? ouvre l'aide générale.` },
+            { cible: '#btn-nettoyer-carte', entete: false, menu: false, titre: '🧹 Nettoyer la carte',
+              texte: `Le balai, en haut à droite de la carte, retire d'un coup tous les repères affichés (sans rien supprimer de vos listes ni de vos réglages) : réaffichez ensuite une catégorie avec 🙈 et elle revient.<br><b style=\"color:#b00020;\">🔒 Toutes vos modifications (carnet, lieux édités, road trips…) restent sur votre appareil : elles ne sont jamais publiées.</b> Bonne exploration !` }
         ];
         let guideMenuActif = false;
         let guideMenuIdx = 0;
