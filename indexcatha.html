@@ -2322,6 +2322,13 @@
             .dropdown-overlay.collapsed-menu {
                 max-height: 42px !important;
             }
+            /* Le balai 🧹 (en haut à droite sur grand écran) recouvrait ici le bout de la barre de
+               recherche, donc l'ampoule 💡 : on le descend sous le bandeau « Voir/gérer » replié,
+               à droite, et sous le menu lorsqu'il est ouvert (z-index inférieur à 1050). */
+            .btn-nettoyer-carte {
+                top: 114px;
+                z-index: 1000;
+            }
             /* En-tête plus compact : sur un petit écran, on laisse le maximum
                de hauteur disponible à la carte plutôt qu'au titre. */
             header {
@@ -2587,7 +2594,7 @@
 
                     <p style="background:#e8f5e9; border-left:4px solid #2e7d32; padding:8px 12px; border-radius:6px; margin:0 0 14px 0;">
                         💡 <b>Nouveau : présentation guidée du menu 🔍</b><span class="badge-nouveau">NOUVEAU</span><br>
-                        Le bouton bleu 💡 de la barre de recherche (une info-bulle le signale à l'ouverture du site) lance une courte présentation : la loupe 🔍, la recherche d'un lieu puis chaque onglet du menu « 🔍 Voir/gérer » (Carnet, Top 12, Road Trips, Base de Lieux). Elle ne s'ouvre pas toute seule et se ferme d'un clic en dehors de sa fenêtre.
+                        Le bouton bleu 💡 de la barre de recherche (une info-bulle le signale à l'ouverture du site) lance une courte présentation : la loupe 🔍, la recherche d'un lieu puis chaque onglet du menu « 🔍 Voir/gérer » (Carnet, affichage des points sur la carte, petite fenêtre et fenêtre « Détail » d'un lieu, Top 12, Road Trips, Base de Lieux), et se termine par le balai 🧹 et le rappel que vos modifications ne sont jamais publiées. Elle ne s'ouvre pas toute seule et se ferme d'un clic en dehors de sa fenêtre.
                     </p>
 
                     <p style="background:#e8f5e9; border-left:4px solid #2e7d32; padding:8px 12px; border-radius:6px; margin:0 0 14px 0;">
@@ -2644,7 +2651,7 @@
 
                     <h4 style="color:var(--secondary);">📖 Planification &amp; Gestion de Road Trips</h4>
                     <ul>
-                        <li><b>💡 Fonctionnalités du menu 🔍</b><span class="badge-nouveau">NOUVEAU</span> : le bouton bleu 💡 (à côté du 🧭) lance la présentation du menu « Voir/gérer » : loupe, recherche d'un lieu, Carnet, Top 12, Road Trips et Base de Lieux. Elle ne s'ouvre pas toute seule (une info-bulle signale le bouton à l'ouverture du site) ; elle se ferme d'un clic en dehors de sa fenêtre ou avec la touche Échap.</li>
+                        <li><b>💡 Fonctionnalités du menu 🔍</b><span class="badge-nouveau">NOUVEAU</span> : le bouton bleu 💡 (à côté du 🧭) lance la présentation du menu « Voir/gérer » : loupe, recherche d'un lieu, Carnet, affichage des points sur la carte, petite fenêtre et fenêtre « Détail » d'un lieu, Top 12, Road Trips, Base de Lieux, balai 🧹 et confidentialité des modifications. Elle ne s'ouvre pas toute seule (une info-bulle signale le bouton à l'ouverture du site) ; elle se ferme d'un clic en dehors de sa fenêtre ou avec la touche Échap.</li>
                         <li><b>🧭 Guide pas à pas</b> : le bouton vert 🧭 en haut de l'écran lance un tutoriel interactif qui vous guide en direct sur le site pour créer un road trip de A à Z (voir encadré en haut de cette aide).</li>
                         <li><b>Carnet Virtuel Personnel</b> : au premier lancement, le Carnet est vide ; vous y inscrivez vos propres lieux (ou chargez un road trip via 📂, le vôtre ou un des road trips 🌐 Partagés).</li>
                         <li><b>Sauvegarde 💾</b> : un seul bouton « 💾 Sauvegarder » fait tout à la fois — il demande un nom, le mémorise dans ce navigateur (pour le retrouver d'un clic via 📂 Charger), PUIS ouvre aussitôt un vrai enregistrement dans un fichier sur votre appareil : choix du dossier et du nom de fichier sur PC (le navigateur se souvient du dernier dossier utilisé), ou sélecteur de partage natif sur mobile.</li>
@@ -9763,7 +9770,16 @@ if (btnToggleLieux) {
             { cible: '.menu-toggle-handle', menu: false, titre: '🔍 Le menu « Voir/gérer »',
               texte: `Touchez ce bandeau pour ouvrir ou replier le menu. Il regroupe quatre onglets : <b>Carnet</b>, <b>Top 12</b>, <b>Road Trips</b> et <b>Base de Lieux</b>. Les boutons <b>Trier</b> (listes classées par distance depuis votre position) et <b>Alerte</b> (notification à proximité d'un lieu du Top 12 ou du Carnet) s'y trouvent aussi.` },
             { cible: '.tabs-bar .tab-btn[data-tab="sous-menu-carnet"]', menu: true, onglet: 'sous-menu-carnet', titre: '📖 CARNET',
-              texte: `Votre carnet de <b>travail</b> de la session : les lieux sur lesquels vous travaillez (par défaut le road trip « chateaux_cathares »). Choisissez un lieu dans la liste pour le voir sur la carte, affichez ou masquez le carnet sur la carte, ou videz-le avec 🗑️.<br><b style="color:#b00020;">⚠️ Avant de commencer un autre projet, effacez-le ou sauvegardez-le (onglet Road Trips).</b>` },
+              texte: `Votre carnet de <b>travail</b> de la session : les lieux sur lesquels vous travaillez (le road trip en cours). Choisissez un lieu dans la liste pour le voir sur la carte, affichez ou masquez le carnet sur la carte, ou videz-le avec 🗑️.<br><b style="color:#b00020;">⚠️ Avant de commencer un autre projet, effacez-le ou sauvegardez-le (onglet Road Trips).</b>` },
+            { cible: '#map', entete: false, menu: false, titre: '🙈 Afficher les points sur la carte',
+              action: () => guideAfficherPointsCarnet(), rect: () => guideRectPointsCarnet(),
+              texte: `Voici les points du Carnet (le road trip en cours) affichés sur la carte : ils sont entourés ici. Dans chaque onglet (Carnet, Top 12, Base de Lieux), le bouton « 🙈 Afficher … sur la carte » place les repères de la liste sur la carte ; il devient « 👁️ Masquer … » pour les retirer. Chaque catégorie a sa couleur (🎨 Légende, en bas de la carte).` },
+            { cible: '#map', entete: false, menu: false, titre: "💬 La petite fenêtre d'un lieu",
+              action: () => guideOuvrirPopupBarycentre(), rect: () => guideRectPopup(), garderPopup: true,
+              texte: `Touchez un repère : une petite fenêtre s'ouvre. Ici, celle du <b>🏠 Barycentre du road trip</b>, ajouté automatiquement au Carnet dès 2 lieux inscrits, au point central de toutes vos étapes.<br>📖 <b>Inscrire</b> / ❤️ <b>Retirer</b> du Carnet · 🔗 <b>Partager</b> · 📍 <b>Lien direct</b> · ℹ️ <b>Détail</b> · ✏️ <b>Éditer</b> le nom, la description et la photo.` },
+            { cible: '#details-panel', entete: false, menu: false, titre: 'ℹ️ La fenêtre « Détail »',
+              action: () => guideOuvrirDetailBarycentre(), garderDetails: true,
+              texte: `Le bouton ℹ️ ouvre cette fiche complète (⤢ pour l'agrandir) : photo (touchez-la pour l'agrandir), 📋 coordonnées GPS à copier, 🌡️ météo, 🔥 feu, 🎥 webcams, réseaux sociaux, description, 🚩 à visiter, 🥾 à faire, 🏨 hébergement. En bas : 🗺️ Itinéraire, 📖 Carnet, 📸 Photos, 📥 Carte IGN, 🔗 Partager, ✏️ Éditer ce lieu.<br>⏳ <b>Les blocs 🚩 à visiter, 🥾 à faire et 🏨 hébergement peuvent mettre quelques secondes à s'afficher</b> (chargement en ligne).` },
             { cible: '.tabs-bar .tab-btn[data-tab="sous-menu-top12"]', menu: true, onglet: 'sous-menu-top12', titre: '⭐ Top 12',
               texte: `Les 12 lieux sélectionnés par l'administrateur (TP), modifiables par lui seul. Choisissez-en un dans la liste pour aller le voir, ou affichez les 12 repères d'un coup sur la carte avec le bouton prévu.` },
             { cible: '.tabs-bar .tab-btn[data-tab="sous-menu-roadtrips"]', menu: true, onglet: 'sous-menu-roadtrips', titre: '💾 Road Trips',
@@ -9771,8 +9787,83 @@ if (btnToggleLieux) {
             { cible: '.tabs-bar .tab-btn[data-tab="sous-menu-lieux"]', menu: true, onglet: 'sous-menu-lieux', titre: '📚 Base de Lieux',
               texte: `Les lieux enregistrés par l'administrateur (TP), modifiables par lui seul. Les lieux marqués « RT » appartiennent à un road trip.` },
             { cible: '#btn-guide-roadtrip', menu: false, titre: '🧭 Pour aller plus loin',
-              texte: `Le bouton vert 🧭 lance le guide pas à pas pour créer un road trip de A à Z, et le bouton ? ouvre l'aide générale. Bonne exploration !` }
+              texte: `Le bouton vert 🧭 lance le guide pas à pas pour créer un road trip de A à Z, et le bouton ? ouvre l'aide générale.` },
+            { cible: '#btn-nettoyer-carte', entete: false, menu: false, titre: '🧹 Nettoyer la carte',
+              texte: `Le balai, sur le côté droit de la carte, retire d'un coup tous les repères affichés (sans rien supprimer de vos listes ni de vos réglages) : réaffichez ensuite une catégorie avec 🙈 et elle revient.<br><b style=\"color:#b00020;\">🔒 Toutes vos modifications (carnet, lieux édités, road trips…) restent sur votre appareil : elles ne sont jamais publiées.</b> Bonne exploration !` }
         ];
+        // --- Actions du guide : chaque étape peut agir sur la carte (afficher les points du carnet,
+        // ouvrir la petite fenêtre du barycentre, ouvrir la fiche détail) et entoure l'élément expliqué.
+        // Tout est remis dans l'état initial à la fermeture du guide.
+        let guideCarnetActive = false, guideOuvertPopup = false, guideOuvertDetails = false, guideMenuJeton = 0;
+        function guideSpotCarnet() { return customSpots.filter(s => !s.isLieuxDB && isFinite(s.lat) && isFinite(s.lng)); }
+        function guideSpotBarycentre() { return allSpots.find(s => s.isBarycentre) || guideSpotCarnet()[0] || null; }
+        function guideAssurerCarnetVisible() {
+            if (!map) return;
+            if (!carnetVisibles) { toggleCarnet(); guideCarnetActive = true; }
+        }
+        function guideAfficherPointsCarnet() {
+            if (!map) return;
+            if (!carnetVisibles) { toggleCarnet(); guideCarnetActive = true; }
+            else centrerCarteSur(guideSpotCarnet());
+        }
+        function guideRectPointsCarnet() {
+            if (!map) return null;
+            const b = map.getBounds();
+            const pts = guideSpotCarnet().filter(s => b.contains([s.lat, s.lng])).map(s => map.latLngToContainerPoint([s.lat, s.lng]));
+            if (!pts.length) return null;
+            const off = map.getContainer().getBoundingClientRect();
+            const xs = pts.map(q => q.x), ys = pts.map(q => q.y), pad = 30;
+            const x0 = Math.min(...xs) - pad, y0 = Math.min(...ys) - pad;
+            return { left: off.left + x0, top: off.top + y0, width: Math.max(...xs) - Math.min(...xs) + 2 * pad, height: Math.max(...ys) - Math.min(...ys) + 2 * pad };
+        }
+        function guideOuvrirPopupBarycentre() {
+            const spot = guideSpotBarycentre();
+            const m = spot && markers[spot.id];
+            if (!map || !m) return;
+            guideAssurerCarnetVisible();
+            const ouvrir = () => { map.setView(m.getLatLng(), Math.max(map.getZoom(), 11), { animate: false }); m.openPopup(); guideOuvertPopup = true; };
+            if (clusterGroupSpots && clusterGroupSpots.zoomToShowLayer && clusterGroupSpots.hasLayer(m)) clusterGroupSpots.zoomToShowLayer(m, ouvrir);
+            else ouvrir();
+        }
+        function guideRectPopup() {
+            const spot = guideSpotBarycentre();
+            const m = spot && markers[spot.id];
+            const pop = m && m.getPopup && m.getPopup();
+            const els = [pop && pop._container, m && m._icon].filter(Boolean);
+            if (!pop || !pop._container || !m.isPopupOpen()) return null;
+            const rs = els.map(el => el.getBoundingClientRect()).filter(r => r.width > 0);
+            if (!rs.length) return null;
+            const l = Math.min(...rs.map(r => r.left)) - 6, t = Math.min(...rs.map(r => r.top)) - 6;
+            return { left: l, top: t, width: Math.max(...rs.map(r => r.right)) + 6 - l, height: Math.max(...rs.map(r => r.bottom)) + 6 - t };
+        }
+        function guideOuvrirDetailBarycentre() {
+            const spot = guideSpotBarycentre();
+            if (!spot) return;
+            afficherDetails(spot);
+            guideOuvertDetails = true;
+        }
+        function guideNettoyerEffets(garderPopup, garderDetails) {
+            if (map && guideOuvertPopup && !garderPopup) { map.closePopup(); guideOuvertPopup = false; }
+            if (guideOuvertDetails && !garderDetails) {
+                const pd = document.getElementById('details-panel');
+                if (pd && pd.style.display !== 'none') closeDetails();
+                guideOuvertDetails = false;
+            }
+        }
+        function guideRestaurerEffets() {
+            guideNettoyerEffets(false, false);
+            if (map && guideCarnetActive) { if (carnetVisibles) toggleCarnet(); guideCarnetActive = false; }
+            const e = guideMenuEtatInitial;
+            if (map && e && e.vue) map.setView(e.vue, e.zoom, { animate: false });
+        }
+        function guidePlacerPanneau(r) {
+            const pp = document.getElementById('pres-panel');
+            if (!pp) return;
+            const haut = r && (r.top + r.height / 2) > innerHeight * 0.55;
+            pp.style.top = haut ? '12px' : '';
+            pp.style.bottom = haut ? 'auto' : '';
+            pp.style.maxHeight = haut ? '34vh' : '';
+        }
         let guideMenuActif = false;
         let guideMenuIdx = 0;
         let guideMenuEtatInitial = null;
@@ -9798,7 +9889,9 @@ if (btnToggleLieux) {
             guideMenuEtatInitial = {
                 replie: !menu || menu.classList.contains('collapsed-menu'),
                 enteteCachee: enteteCacheeGuideMenu(),
-                onglet: document.querySelector('.tabs-bar .tab-btn.active')
+                onglet: document.querySelector('.tabs-bar .tab-btn.active'),
+                vue: (typeof map !== 'undefined' && map) ? map.getCenter() : null,
+                zoom: (typeof map !== 'undefined' && map) ? map.getZoom() : null
             };
             guideMenuActif = true;
             guideMenuIdx = 0;
@@ -9810,6 +9903,8 @@ if (btnToggleLieux) {
         function fermerGuideMenu() {
             if (!guideMenuActif) return;
             guideMenuActif = false;
+            guideRestaurerEffets();
+            guidePlacerPanneau(null);
             document.getElementById('pres-overlay').classList.remove('visible');
             document.getElementById('pres-panel').style.display = 'none';
             const menu = document.getElementById('search-dropdown-menu');
@@ -9844,17 +9939,27 @@ if (btnToggleLieux) {
             document.getElementById('pres-texte').innerHTML = e.texte;
             document.getElementById('pres-prec').disabled = (guideMenuIdx === 0);
             document.getElementById('pres-suiv').textContent = (guideMenuIdx === GUIDE_MENU_ETAPES.length - 1) ? 'Terminer ✓' : 'Suivant ▶';
+            guideNettoyerEffets(!!e.garderPopup, !!e.garderDetails);
+            const jeton = ++guideMenuJeton;
+            if (e.action) { try { e.action(); } catch (err) { console.warn('Guide : action impossible', err); } }
             positionnerGuideMenu();
-            setTimeout(positionnerGuideMenu, 300); // après l'animation d'ouverture/fermeture du menu
+            // après l'animation d'ouverture/fermeture du menu, de la carte et de la fiche (chargements asynchrones)
+            [300, 700, 1300, 2200].forEach(d => setTimeout(() => { if (guideMenuActif && jeton === guideMenuJeton) positionnerGuideMenu(); }, d));
         }
 
         function positionnerGuideMenu() {
             if (!guideMenuActif) return;
             const e = GUIDE_MENU_ETAPES[guideMenuIdx];
             const sp = document.getElementById('pres-spot');
-            const c = document.querySelector(e.cible);
+            let r = null;
+            if (e.rect) { try { r = e.rect(); } catch (err) { r = null; } }
+            const c = r ? null : document.querySelector(e.cible);
             if (c) c.scrollIntoView({ block: 'nearest', inline: 'center' });
-            const r = c ? c.getBoundingClientRect() : { left: innerWidth / 2, top: innerHeight / 2, width: 0, height: 0 };
+            if (!r) {
+                const rc = c ? c.getBoundingClientRect() : null;
+                r = (rc && (rc.width > 0 || rc.height > 0)) ? rc : { left: innerWidth / 2, top: innerHeight / 2, width: 0, height: 0 };
+            }
+            guidePlacerPanneau(r);
             const m = 4;
             sp.style.left = (r.left - m) + 'px';
             sp.style.top = (r.top - m) + 'px';
