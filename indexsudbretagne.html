@@ -269,7 +269,7 @@
 
         /* Mise en évidence de l'onglet CARNET, placé en premier et en majuscules pour bien
            le différencier des autres : c'est le carnet de TRAVAIL de la session en cours
-           (par défaut le road trip "ardeche2026"), à distinguer des collections figées
+           (par défaut le road trip "sudbretagne"), à distinguer des collections figées
            Top 12 / Base de Lieux et de la liste des Road Trips sauvegardés. */
         .tabs-bar .tab-btn.tab-btn-carnet-principal {
             letter-spacing: 0.03em;
@@ -279,7 +279,7 @@
         }
 
         /* Rappel visible en haut de l'onglet Carnet : ce carnet est celui sur lequel on
-           travaille pendant la session (chargé par défaut avec "ardeche2026"), à effacer ou
+           travaille pendant la session (chargé par défaut avec "sudbretagne"), à effacer ou
            sauvegarder avant d'y inscrire les lieux d'un autre projet/road trip. */
         .carnet-avertissement-travail {
             background: #fff3cd;
@@ -2441,7 +2441,7 @@
                 <div class="tabs-bar" role="tablist" aria-label="Catégories de lieux">
                     <button type="button" class="tab-btn tab-btn-carnet-principal active" role="tab" aria-selected="true" aria-controls="sous-menu-carnet" data-tab="sous-menu-carnet" onclick="activerOngletMenu(this)">
                         <span class="menu-categorie-badge badge-carnet">C</span> CARNET (<span id="nb-count">0</span>)
-                        <span class="aide-icone" title="⚠️ Carnet de TRAVAIL de la session en cours : il contient les lieux sur lesquels vous travaillez actuellement (par défaut le road trip « ardeche2026 », chargé automatiquement à l'ouverture du site). Avant d'y inscrire d'autres lieux pour un nouveau projet, pensez à l'effacer (🗑️ Effacer le carnet) ou à le sauvegarder (💾 Road Trips), sous peine de mélanger plusieurs road trips dans le même carnet." onclick="event.stopPropagation(); ouvrirAideCarnet();" role="button" tabindex="0" aria-label="Aide sur le Carnet Virtuel">?</span>
+                        <span class="aide-icone" title="⚠️ Carnet de TRAVAIL de la session en cours : il contient les lieux sur lesquels vous travaillez actuellement (par défaut le road trip « sudbretagne », chargé automatiquement à l'ouverture du site). Avant d'y inscrire d'autres lieux pour un nouveau projet, pensez à l'effacer (🗑️ Effacer le carnet) ou à le sauvegarder (💾 Road Trips), sous peine de mélanger plusieurs road trips dans le même carnet." onclick="event.stopPropagation(); ouvrirAideCarnet();" role="button" tabindex="0" aria-label="Aide sur le Carnet Virtuel">?</span>
                     </button>
                     <button type="button" class="tab-btn" role="tab" aria-selected="false" aria-controls="sous-menu-top12" data-tab="sous-menu-top12" onclick="activerOngletMenu(this)">
                         <span class="menu-categorie-badge badge-top12">T</span> Top 12
@@ -2460,7 +2460,7 @@
                 <div class="tabs-panels">
                 <div class="dropdown-group">
                     <div class="sous-menu-contenu tab-panel active" id="sous-menu-carnet" role="tabpanel">
-                    <p class="carnet-avertissement-travail">⚠️ Carnet de <b>travail</b> de cette session (par défaut « ardeche2026 »). Effacez-le (🗑️) ou sauvegardez-le (💾 Road Trips) avant d'y inscrire les lieux d'un autre projet.</p>
+                    <p class="carnet-avertissement-travail">⚠️ Carnet de <b>travail</b> de cette session (par défaut « sudbretagne »). Effacez-le (🗑️) ou sauvegardez-le (💾 Road Trips) avant d'y inscrire les lieux d'un autre projet.</p>
                     <div id="carnet-roadtrip-en-cours" class="roadtrip-en-cours-label" style="display:none;"></div>
                     <select id="notebook-select" class="top10-select">
                         <option value="">— Choisir un spot dans le carnet —</option>
@@ -2498,7 +2498,7 @@
                             <div class="roadtrip-glisser-indice">Charge automatiquement dans le carnet le road trip sélectionné ci-dessus (remplace le contenu actuel).</div>
                             <div class="roadtrip-save-row">
                                 <button type="button" id="btn-delete-roadtrip" class="btn-vider-carnet" title="Supprimer ce road trip sauvegardé">🗑️ Supprimer</button>
-                                <button type="button" id="btn-restaurer-sauvegarde" class="btn-charger-roadtrip" title="Restaure le contenu du Carnet Virtuel tel qu'il était juste avant le dernier remplacement automatique (ex : chargement automatique du road trip « ardeche2026 » à l'ouverture du site)">♻️ Restaurer la dernière sauvegarde locale</button>
+                                <button type="button" id="btn-restaurer-sauvegarde" class="btn-charger-roadtrip" title="Restaure le contenu du Carnet Virtuel tel qu'il était juste avant le dernier remplacement automatique (ex : chargement automatique du road trip « sudbretagne » à l'ouverture du site)">♻️ Restaurer la dernière sauvegarde locale</button>
                             </div>
                         </div>
                     </div>
@@ -2604,17 +2604,17 @@
 
                     <p style="background:#e8f5e9; border-left:4px solid #2e7d32; padding:8px 12px; border-radius:6px; margin:0 0 14px 0;">
                         📍 <b>Correctif : lien direct vers un lieu</b><span class="badge-nouveau">NOUVEAU</span><br>
-                        Le lieu ouvert via un « 📍 Lien direct » (ou un lien de partage de road trip ?rt=...) reste désormais correctement affiché : il n'est plus fermé/effacé aussitôt par le chargement automatique du road trip « ardeche2026 » à l'ouverture du site.
+                        Le lieu ouvert via un « 📍 Lien direct » (ou un lien de partage de road trip ?rt=...) reste désormais correctement affiché : il n'est plus fermé/effacé aussitôt par le chargement automatique du road trip « sudbretagne » à l'ouverture du site.
                     </p>
 
                     <p style="background:#fff3cd; border-left:4px solid #ffc107; padding:8px 12px; border-radius:6px; margin:0 0 14px 0;">
                         📖 <b>CARNET en premier, en majuscules</b><span class="badge-nouveau">NOUVEAU</span><br>
-                        L'onglet <b>CARNET</b> est désormais placé en tout premier dans le bandeau « Voir/gérer » et affiché en majuscules pour bien le différencier des autres : c'est le carnet de <b>travail de la session en cours</b>, chargé par défaut avec le road trip « ardeche2026 ». Avant d'y inscrire les lieux d'un autre projet, pensez à l'<b>effacer</b> (🗑️ Effacer le carnet) ou à le <b>sauvegarder</b> (💾 Road Trips), sous peine de mélanger plusieurs road trips dans le même carnet.
+                        L'onglet <b>CARNET</b> est désormais placé en tout premier dans le bandeau « Voir/gérer » et affiché en majuscules pour bien le différencier des autres : c'est le carnet de <b>travail de la session en cours</b>, chargé par défaut avec le road trip « sudbretagne ». Avant d'y inscrire les lieux d'un autre projet, pensez à l'<b>effacer</b> (🗑️ Effacer le carnet) ou à le <b>sauvegarder</b> (💾 Road Trips), sous peine de mélanger plusieurs road trips dans le même carnet.
                     </p>
 
                     <p style="background:#fff3cd; border-left:4px solid #ffc107; padding:8px 12px; border-radius:6px; margin:0 0 14px 0;">
                         🛟 <b>Nouveau : protection contre la perte de données</b><span class="badge-nouveau">NOUVEAU</span><br>
-                        Un avertissement s'affiche désormais si vous tentez de fermer ou de recharger la page alors que des modifications du Carnet (ajout/retrait de lieux, édition...) n'ont pas encore été mises à l'abri dans un vrai fichier. En cas de remplacement automatique du carnet à l'ouverture du site (chargement du road trip « ardeche2026 »), le bouton « ♻️ Restaurer la dernière sauvegarde locale » (onglet Road Trips) permet de retrouver le contenu précédent.
+                        Un avertissement s'affiche désormais si vous tentez de fermer ou de recharger la page alors que des modifications du Carnet (ajout/retrait de lieux, édition...) n'ont pas encore été mises à l'abri dans un vrai fichier. En cas de remplacement automatique du carnet à l'ouverture du site (chargement du road trip « sudbretagne »), le bouton « ♻️ Restaurer la dernière sauvegarde locale » (onglet Road Trips) permet de retrouver le contenu précédent.
                     </p>
 
                     <p style="background:#e8f5e9; border-left:4px solid #2e7d32; padding:8px 12px; border-radius:6px; margin:0 0 14px 0;">
@@ -2633,7 +2633,7 @@
 
                     <h4 style="color:var(--accent);">🗺️ Bandeau « Voir/gérer »</h4>
                     <ul>
-                        <li><span class="menu-categorie-badge badge-carnet">C</span><b>CARNET 📖 (carnet de travail de la session)</b> : placé en premier et en majuscules pour le différencier des autres catégories. Il contient les lieux sur lesquels vous travaillez actuellement (par défaut le road trip « ardeche2026 », chargé automatiquement à l'ouverture du site). <span style="color:#b00020;">Pensez à l'effacer (🗑️) ou à le sauvegarder (💾 Road Trips) avant d'y inscrire les lieux d'un autre projet</span>, pour ne pas mélanger plusieurs road trips dans le même carnet.</li>
+                        <li><span class="menu-categorie-badge badge-carnet">C</span><b>CARNET 📖 (carnet de travail de la session)</b> : placé en premier et en majuscules pour le différencier des autres catégories. Il contient les lieux sur lesquels vous travaillez actuellement (par défaut le road trip « sudbretagne », chargé automatiquement à l'ouverture du site). <span style="color:#b00020;">Pensez à l'effacer (🗑️) ou à le sauvegarder (💾 Road Trips) avant d'y inscrire les lieux d'un autre projet</span>, pour ne pas mélanger plusieurs road trips dans le même carnet.</li>
                         <li><span class="menu-categorie-badge badge-top12">T</span><b>12 Spots « Fraîcheur » 🌊</b> : une sélection fixe de 12 lieux préservés en Dordogne, choisie par l'administrateur du site.</li>
                         <li><span class="menu-categorie-badge badge-lieux"></span><b>Base de Lieux 📚</b> : catalogue de lieux officiels enregistrés par l'administrateur (chargé dynamiquement).</li>
                         <li><b>💾 Road Trips sauvegardés</b> : vos itinéraires personnels (📍), ainsi que des road trips partagés ajoutés automatiquement (🌐, identifiés « Partagés (TP) », non modifiables par le bouton « Charger »). Le menu déroulant « Charger » les regroupe et les repère par ces deux badges.</li>
@@ -2773,7 +2773,7 @@
                     <h3>📖 Mon CARNET (carnet de travail)</h3>
                     <p>Le <b>CARNET</b> est placé en premier dans le bandeau « Voir/gérer » et affiché en <b>majuscules</b> pour bien le différencier des autres catégories (Top 12, Base de Lieux, Road Trips sauvegardés).</p>
                     <p>C'est le carnet sur lequel vous <b>travaillez pendant la session en cours</b> : il contient les lieux qu'on recherche et qu'on inscrit, ainsi que les derniers lieux chargés. On peut en inscrire plusieurs et les sauvegarder dans un « Road Trip ».</p>
-                    <p style="background:#fff3cd; border-left:4px solid #ffc107; color:#5c4500; padding:6px 10px; border-radius:6px;">⚠️ Par défaut, le road trip « ardeche2026 » y est chargé automatiquement à chaque ouverture du site. <b>Avant d'inscrire les lieux d'un autre projet</b>, il est nécessaire de l'effacer (🗑️ Effacer le carnet) ou de le sauvegarder au préalable (💾 dans l'onglet Road Trips), sous peine de mélanger plusieurs road trips dans le même carnet.</p>
+                    <p style="background:#fff3cd; border-left:4px solid #ffc107; color:#5c4500; padding:6px 10px; border-radius:6px;">⚠️ Par défaut, le road trip « sudbretagne » y est chargé automatiquement à chaque ouverture du site. <b>Avant d'inscrire les lieux d'un autre projet</b>, il est nécessaire de l'effacer (🗑️ Effacer le carnet) ou de le sauvegarder au préalable (💾 dans l'onglet Road Trips), sous peine de mélanger plusieurs road trips dans le même carnet.</p>
                 </div>
             </div>
 
@@ -3777,7 +3777,7 @@
 
         // Mémorise, dans une clé localStorage séparée, une "dernière sauvegarde locale valide"
         // du Carnet Virtuel — prise juste avant tout remplacement automatique de son contenu
-        // (ex : chargement automatique du road trip "ardeche2026" à chaque ouverture du site).
+        // (ex : chargement automatique du road trip "sudbretagne" à chaque ouverture du site).
         // Permet de revenir en arrière si ce remplacement automatique n'était pas voulu.
         function sauvegarderSnapshotCarnetActuel() {
             try {
@@ -8233,7 +8233,7 @@ if (btnToggleLieux) {
                 }
             }
         }
-        // Empêche le chargement automatique de "ardeche2026" (ci-dessous) d'écraser un road
+        // Empêche le chargement automatique de "sudbretagne" (ci-dessous) d'écraser un road
         // trip tout juste ouvert via un lien de partage (?rt=...) : mis à true par
         // chargerRoadtripDepuisLienPartage() ci-dessous quand un tel lien est appliqué.
         let lienPartageAppliqueAuChargement = false;
@@ -8242,7 +8242,7 @@ if (btnToggleLieux) {
         // cf. ouvrirLieuDepuisLien() plus haut) : capturé ICI, de façon synchrone et tout en haut
         // du script, AVANT que ouvrirLieuDepuisLien() ne retire le paramètre de l'URL (elle ne le
         // fait qu'après avoir attendu que la carte soit prête, donc toujours après ce point-ci).
-        // Sans ce garde-fou, le chargement automatique de "ardeche2026" ci-dessous — qui vide le
+        // Sans ce garde-fou, le chargement automatique de "sudbretagne" ci-dessous — qui vide le
         // carnet, ferme la fiche du lieu ouverte et recadre la carte sur tout le road trip —
         // s'exécutait juste après l'ouverture du lien et faisait disparaître le lieu aussitôt
         // affiché.
@@ -8278,7 +8278,7 @@ if (btnToggleLieux) {
         // "controllerchange") prévient ensuite l'utilisateur pour qu'il recharge et en profite.
         //
         // À chaque chargement de la page, on charge automatiquement le road trip partagé
-        // "ardeche2026" dans le Carnet Virtuel — sauf si un lien de partage (?rt=...) ou un
+        // "sudbretagne" dans le Carnet Virtuel — sauf si un lien de partage (?rt=...) ou un
         // lien direct vers un seul lieu (?lieu=...) vient d'ouvrir autre chose à la place
         // (priorité à l'intention explicite du lien, cf. chargerRoadtripDepuisLienPartage /
         // ouvrirLieuDepuisLien).
@@ -8296,27 +8296,27 @@ if (btnToggleLieux) {
             // soit la copie déjà stockée sur l'appareil (importée à la main, ancienne, non marquée
             // "github"...), que la synchronisation générale ci-dessus n'écraserait pas.
             try {
-                const rep = await fetch(GITHUB_ROADTRIPS_BASE + 'ardeche2026.json?t=' + Date.now(), { cache: 'no-store' });
+                const rep = await fetch(GITHUB_ROADTRIPS_BASE + ROADTRIP_PAR_DEFAUT + '.json?t=' + Date.now(), { cache: 'no-store' });
                 if (rep.ok) {
                     const p = await rep.json();
                     if (p && Array.isArray(p.savedSpotIds) && Array.isArray(p.customSpots)) {
                         const rts = getSavedRoadtrips();
-                        rts['ardeche2026'] = {
+                        rts[ROADTRIP_PAR_DEFAUT] = {
                             savedSpotIds: p.savedSpotIds,
                             customSpots: p.customSpots,
                             savedAt: p.savedAt || new Date().toISOString(),
                             source: 'github',
-                            sourceFichier: 'ardeche2026.json'
+                            sourceFichier: ROADTRIP_PAR_DEFAUT + '.json'
                         };
                         setSavedRoadtrips(rts);
                     }
                 }
-            } catch (e) { console.warn('Rafraîchissement direct de ardeche2026.json impossible :', e); }
+            } catch (e) { console.warn('Rafraîchissement direct de ' + ROADTRIP_PAR_DEFAUT + '.json impossible :', e); }
 
-            const ok = chargerRoadtripParNom('ardeche2026', { viaSelection: true });
+            const ok = chargerRoadtripParNom(ROADTRIP_PAR_DEFAUT, { viaSelection: true });
             if (ok) {
                 const select = document.getElementById('roadtrip-select');
-                if (select) select.value = 'ardeche2026';
+                if (select) select.value = ROADTRIP_PAR_DEFAUT;
             }
         }
         initialiserOuvertureSite();
