@@ -1845,6 +1845,8 @@
             width: min(94vw, 420px); background: white; border-radius: 14px; border-top: 5px solid #2e7d32;
             box-shadow: 0 6px 24px rgba(0,0,0,0.3); padding: 16px 18px; max-height: 60vh; overflow-y: auto;
         }
+        /* Boutons Précédent / Suivant toujours visibles, même si le texte de l'étape défile. */
+        #pres-panel .pres-actions { position: sticky; bottom: -16px; background: white; padding: 8px 0 4px; margin-bottom: 0; }
         #pres-panel .pres-etape { font-size: .75rem; color: #2e7d32; font-weight: bold; text-transform: uppercase; letter-spacing: .03em; margin-bottom: 4px; }
         #pres-panel h4 { margin: 0 0 8px 0; font-size: 1.05rem; color: #222; }
         #pres-panel p { margin: 0 0 14px 0; font-size: .9rem; color: #444; line-height: 1.45; }
@@ -9598,7 +9600,7 @@ if (btnToggleLieux) {
               texte: `Touchez un repère : une petite fenêtre s'ouvre. Ici, celle du <b>🏠 Barycentre du road trip</b>, ajouté automatiquement au Carnet dès 2 lieux inscrits, au point central de toutes vos étapes.<br>📖 <b>Inscrire</b> / ❤️ <b>Retirer</b> du Carnet · 🔗 <b>Partager</b> · 📍 <b>Lien direct</b> · ℹ️ <b>Détail</b> · ✏️ <b>Éditer</b> le nom, la description et la photo.` },
             { cible: '#details-panel', entete: false, menu: false, titre: 'ℹ️ La fenêtre « Détail »',
               action: () => guideOuvrirDetailBarycentre(), garderDetails: true,
-              texte: `Le bouton ℹ️ ouvre cette fiche complète (⤢ pour l'agrandir) : photo (touchez-la pour l'agrandir), 📋 coordonnées GPS à copier, 🌡️ météo, 🔥 feu, 🎥 webcams, réseaux sociaux, description, 🚩 à visiter, 🥾 à faire, 🏨 hébergement. En bas : 🗺️ Itinéraire, 📖 Carnet, 📸 Photos, 📥 Carte IGN, 🔗 Partager, ✏️ Éditer ce lieu.<br>⏳ <b>Les blocs 🚩 à visiter, 🥾 à faire et 🏨 hébergement peuvent mettre quelques secondes à s'afficher</b> (chargement en ligne).` },
+              texte: `Le bouton ℹ️ ouvre la fiche complète (⤢ pour l'agrandir) : photo, 📋 coordonnées GPS, 🌡️ météo, 🔥 feu, 🎥 webcams, description, 🚩 à visiter, 🥾 à faire, 🏨 hébergement. En bas : 🗺️ Itinéraire, 📖 Carnet, 📸 Photos, 📥 Carte IGN, 🔗 Partager, ✏️ Éditer.<br>⏳ <b>🚩 à visiter, 🥾 à faire et 🏨 hébergement peuvent mettre quelques secondes à s'afficher.</b>` },
             { cible: '.tabs-bar .tab-btn[data-tab="sous-menu-top12"]', menu: true, onglet: 'sous-menu-top12', titre: '⭐ Top 12',
               texte: `Les 12 lieux sélectionnés par l'administrateur (TP), modifiables par lui seul. Choisissez-en un dans la liste pour aller le voir, ou affichez les 12 repères d'un coup sur la carte avec le bouton prévu.` },
             { cible: '.tabs-bar .tab-btn[data-tab="sous-menu-roadtrips"]', menu: true, onglet: 'sous-menu-roadtrips', titre: '💾 Road Trips',
@@ -9681,7 +9683,7 @@ if (btnToggleLieux) {
             const haut = r && (r.top + r.height / 2) > innerHeight * 0.55;
             pp.style.top = haut ? '12px' : '';
             pp.style.bottom = haut ? 'auto' : '';
-            pp.style.maxHeight = haut ? '34vh' : '';
+            pp.style.maxHeight = haut ? '38vh' : '';
         }
         let guideMenuActif = false;
         let guideMenuIdx = 0;
@@ -9831,11 +9833,10 @@ if (btnToggleLieux) {
                     || (typeof lienLieuDirectDemande !== 'undefined' && lienLieuDirectDemande)
                     || (typeof nomRoadtripDirectDemande !== 'undefined' && nomRoadtripDirectDemande);
                 if (guideRoadtripActif) return;
-                // Ouverture « normale » du site (sans lien direct ni paramètre) : la présentation 💡
-                // démarre toute seule. Avec un lien direct (?lieu=, ?roadtrip=, lien de partage…),
-                // on ne masque pas le lieu demandé : seule l'info-bulle signale le bouton 💡.
-                if (!lienDirect && !window.location.search) demarrerGuideMenu();
-                else if (!lienDirect) afficherBulleFonctionnalites(10000);
+                // Ouverture « normale » du site : la présentation 💡 démarre toute seule, même si l'adresse
+                // porte un paramètre sans rapport (?v=2, ?utm_source=…, ?fbclid=…). Avec un lien direct
+                // (?lieu=, ?roadtrip=, lien de partage…), on ne masque pas le lieu demandé.
+                if (!lienDirect) demarrerGuideMenu();
             }, 1200);
         });
 
