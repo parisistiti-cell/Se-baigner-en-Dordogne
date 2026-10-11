@@ -2596,7 +2596,7 @@
 
                     <p style="background:#e8f5e9; border-left:4px solid #2e7d32; padding:8px 12px; border-radius:6px; margin:0 0 14px 0;">
                         💡 <b>Nouveau : présentation guidée du menu 🔍</b><span class="badge-nouveau">NOUVEAU</span><br>
-                        Le bouton bleu 💡 de la barre de recherche lance une courte présentation, qui s'ouvre aussi toute seule au lancement de la page : la loupe 🔍, la recherche d'un lieu puis chaque onglet du menu « 🔍 Voir/gérer » (Carnet, affichage des points sur la carte, petite fenêtre et fenêtre « Détail » d'un lieu, Top 12, Road Trips, Base de Lieux), et se termine par le balai 🧹 et le rappel que vos modifications ne sont jamais publiées. Au lancement, elle s'ouvre toute seule (sauf si vous arrivez par un lien direct vers un lieu ou un road trip) et se ferme d'un clic en dehors de sa fenêtre ; une info-bulle indique alors le bouton à utiliser pour la relancer.
+                        Le bouton bleu 💡 de la barre de recherche lance une courte présentation, qui s'ouvre aussi toute seule au lancement de la page : la loupe 🔍, la recherche d'un lieu puis chaque onglet du menu « 🔍 Voir/gérer » (Carnet, affichage des points sur la carte, petite fenêtre et fenêtre « Détail » d'un lieu, Top 12, Road Trips, Base de Lieux), et se termine par le balai 🧹 et le rappel que vos modifications ne sont jamais publiées. Elle s'ouvre toute seule à chaque lancement du site et quand vous y revenez après une absence (sauf si vous arrivez par un lien direct vers un lieu ou un road trip) ; elle se ferme d'un clic en dehors de sa fenêtre, et une info-bulle indique alors le bouton à utiliser pour la relancer.
                     </p>
 
                     <p style="background:#e8f5e9; border-left:4px solid #2e7d32; padding:8px 12px; border-radius:6px; margin:0 0 14px 0;">
@@ -2648,7 +2648,7 @@
 
                     <h4 style="color:var(--secondary);">📖 Planification &amp; Gestion de Road Trips</h4>
                     <ul>
-                        <li><b>💡 Fonctionnalités du menu 🔍</b><span class="badge-nouveau">NOUVEAU</span> : le bouton bleu 💡 (à côté du 🧭) lance la présentation du menu « Voir/gérer » : loupe, recherche d'un lieu, Carnet, affichage des points sur la carte, petite fenêtre et fenêtre « Détail » d'un lieu, Top 12, Road Trips, Base de Lieux, balai 🧹 et confidentialité des modifications. Au lancement de la page, elle s'ouvre toute seule (sauf avec un lien direct) ; elle se ferme d'un clic en dehors de sa fenêtre ou avec la touche Échap, et une info-bulle signale alors le bouton 💡 pour la relancer.</li>
+                        <li><b>💡 Fonctionnalités du menu 🔍</b><span class="badge-nouveau">NOUVEAU</span> : le bouton bleu 💡 (à côté du 🧭) lance la présentation du menu « Voir/gérer » : loupe, recherche d'un lieu, Carnet, affichage des points sur la carte, petite fenêtre et fenêtre « Détail » d'un lieu, Top 12, Road Trips, Base de Lieux, balai 🧹 et confidentialité des modifications. Elle s'ouvre toute seule au lancement de la page et au retour sur le site après une absence (sauf avec un lien direct) ; elle se ferme d'un clic en dehors de sa fenêtre ou avec la touche Échap, et une info-bulle signale alors le bouton 💡 pour la relancer.</li>
                         <li><b>🧭 Guide pas à pas</b> : le bouton vert 🧭 en haut de l'écran lance un tutoriel interactif qui vous guide en direct sur le site pour créer un road trip de A à Z (voir encadré en haut de cette aide).</li>
                         <li><b>Carnet Virtuel Personnel</b> : au premier lancement, le Carnet est vide ; vous y inscrivez vos propres lieux (ou chargez un road trip via 📂, le vôtre ou un des road trips 🌐 Partagés).</li>
                         <li><b>Sauvegarde 💾</b> : un seul bouton « 💾 Sauvegarder » fait tout à la fois — il demande un nom, le mémorise dans ce navigateur (pour le retrouver d'un clic via 📂 Charger), PUIS ouvre aussitôt un vrai enregistrement dans un fichier sur votre appareil : choix du dossier et du nom de fichier sur PC (le navigateur se souvient du dernier dossier utilisé), ou sélecteur de partage natif sur mobile.</li>
@@ -9827,18 +9827,40 @@ if (btnToggleLieux) {
         window.addEventListener('resize', positionnerBulleFonctionnalites);
         document.addEventListener('click', masquerBulleFonctionnalites);
         document.addEventListener('keydown', (ev) => { if (ev.key === 'Escape') masquerBulleFonctionnalites(); });
+        // La présentation 💡 se lance à chaque ouverture « normale » du site, sauf avec un lien direct
+        // (?lieu=, ?roadtrip=, lien de partage…) pour ne pas masquer le lieu demandé.
+        function guideLienDirectDemande() {
+            return (typeof lienPartageAppliqueAuChargement !== 'undefined' && lienPartageAppliqueAuChargement)
+                || (typeof lienLieuDirectDemande !== 'undefined' && lienLieuDirectDemande)
+                || (typeof nomRoadtripDirectDemande !== 'undefined' && nomRoadtripDirectDemande);
+        }
         window.addEventListener('load', () => {
             setTimeout(() => {
-                const lienDirect = (typeof lienPartageAppliqueAuChargement !== 'undefined' && lienPartageAppliqueAuChargement)
-                    || (typeof lienLieuDirectDemande !== 'undefined' && lienLieuDirectDemande)
-                    || (typeof nomRoadtripDirectDemande !== 'undefined' && nomRoadtripDirectDemande);
                 if (guideRoadtripActif) return;
-                // Ouverture « normale » du site : la présentation 💡 démarre toute seule, même si l'adresse
-                // porte un paramètre sans rapport (?v=2, ?utm_source=…, ?fbclid=…). Avec un lien direct
-                // (?lieu=, ?roadtrip=, lien de partage…), on ne masque pas le lieu demandé.
-                if (!lienDirect) demarrerGuideMenu();
+                if (!guideLienDirectDemande()) demarrerGuideMenu();
             }, 1200);
         });
+        // Retour sur le site SANS rechargement de la page : sur smartphone, quitter le navigateur ou l'app
+        // installée puis revenir ne relance pas l'événement « load » (la page reste en mémoire), et un retour
+        // arrière peut aussi restaurer la page telle quelle. On relance donc la présentation :
+        //  - au retour depuis le cache de navigation (événement pageshow « persisted ») ;
+        //  - au retour après une absence d'au moins DELAI_RELANCE_GUIDE_MS (changement d'appli, écran verrouillé…).
+        const DELAI_RELANCE_GUIDE_MS = 30000;
+        let guideMasqueDepuis = 0;
+        function relancerGuideAuRetour() {
+            if (guideMenuActif || guideRoadtripActif || guideLienDirectDemande()) return;
+            const pd = document.getElementById('details-panel');
+            if (pd && pd.style.display !== 'none' && pd.offsetHeight > 0) return; // ne pas interrompre la lecture d'une fiche
+            masquerBulleFonctionnalites();
+            demarrerGuideMenu();
+        }
+        document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'hidden') { guideMasqueDepuis = Date.now(); return; }
+            const absence = guideMasqueDepuis ? Date.now() - guideMasqueDepuis : 0;
+            guideMasqueDepuis = 0;
+            if (absence >= DELAI_RELANCE_GUIDE_MS) relancerGuideAuRetour();
+        });
+        window.addEventListener('pageshow', (ev) => { if (ev.persisted) relancerGuideAuRetour(); });
 
 </script>
 
