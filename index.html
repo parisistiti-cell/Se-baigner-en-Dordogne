@@ -9982,7 +9982,11 @@ if (btnToggleLieux) {
         document.addEventListener('keydown', (ev) => { if (ev.key === 'Escape') masquerBulleFonctionnalites(); });
         window.addEventListener('load', () => {
             setTimeout(() => {
-                if (!window.location.search && !guideRoadtripActif) demarrerGuideMenu();
+                // Le guide est sauté seulement pour un vrai lien direct (?lieu=, ?rt=, ?carnet=) ;
+                // les paramètres de suivi (fbclid, utm_*, gclid...) ne doivent pas le bloquer.
+                const _p = new URLSearchParams(window.location.search);
+                const lienDirect = _p.has('lieu') || _p.has('rt') || _p.has('carnet');
+                if (!lienDirect && !guideRoadtripActif) demarrerGuideMenu();
                 else afficherBulleFonctionnalites(12000);
             }, 1200);
         });
