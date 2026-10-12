@@ -3,12 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pays basque — Carte du road trip</title>
+    <meta name="robots" content="index, follow">
+    <title>Pays basque : carte du road trip | TP</title>
+    <meta name="description" content="Carte interactive du road trip au Pays basque : lieux à visiter, carnet personnel, itinéraires et recherche de lieux en Europe.">
+    <link rel="canonical" href="https://parisistiti-cell.github.io/Se-baigner-en-Dordogne/indexpaysbasque.html">
 
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://votre-domaine.fr/">
-    <meta property="og:title" content="TP - Top Baignades & Recherche Dordogne">
-    <meta property="og:description" content="Découvrez les spots de baignade secrets de la Dordogne, créez votre carnet virtuel et trouvez votre itinéraire.">
+    <meta property="og:url" content="https://parisistiti-cell.github.io/Se-baigner-en-Dordogne/indexpaysbasque.html">
+    <meta property="og:site_name" content="TP - Top Baignades">
+    <meta property="og:title" content="Pays basque : carte du road trip">
+    <meta property="og:description" content="Carte interactive du road trip au Pays basque : lieux à visiter, carnet personnel et itinéraires.">
+    <meta name="twitter:card" content="summary_large_image">
     <meta property="og:image" content="https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=1200&auto=format&fit=crop&q=80">
     <meta property="og:locale" content="fr_FR">
 
@@ -2651,7 +2656,7 @@
 
                     <h4 style="color:var(--secondary);">📖 Planification &amp; Gestion de Road Trips</h4>
                     <ul>
-                        <li><b>💡 Fonctionnalités du menu 🔍</b><span class="badge-nouveau">NOUVEAU</span> : le bouton bleu 💡 (à côté du 🧭) lance la présentation du menu « Voir/gérer » : loupe, recherche d'un lieu, Carnet, affichage des points sur la carte, petite fenêtre et fenêtre « Détail » d'un lieu, Top 12, Road Trips, Base de Lieux, balai 🧹 et confidentialité des modifications. Elle ne s'ouvre pas toute seule (une info-bulle signale le bouton à l'ouverture du site) ; elle se ferme d'un clic en dehors de sa fenêtre ou avec la touche Échap.</li>
+                        <li><b>💡 Fonctionnalités du menu 🔍</b><span class="badge-nouveau">NOUVEAU</span> : le bouton bleu 💡 (à côté du 🧭) lance la présentation du menu « Voir/gérer » : loupe, recherche d'un lieu, Carnet, affichage des points sur la carte, petite fenêtre et fenêtre « Détail » d'un lieu, Top 12, Road Trips, Base de Lieux, chat 💬, balai 🧹 et confidentialité des modifications. Elle ne s'ouvre pas toute seule (une info-bulle signale le bouton à l'ouverture du site) ; elle se ferme d'un clic en dehors de sa fenêtre ou avec la touche Échap.</li>
                         <li><b>🧭 Guide pas à pas</b> : le bouton vert 🧭 en haut de l'écran lance un tutoriel interactif qui vous guide en direct sur le site pour créer un road trip de A à Z (voir encadré en haut de cette aide).</li>
                         <li><b>Carnet Virtuel Personnel</b> : au premier lancement, le Carnet est vide ; vous y inscrivez vos propres lieux (ou chargez un road trip via 📂, le vôtre ou un des road trips 🌐 Partagés).</li>
                         <li><b>Sauvegarde 💾</b> : un seul bouton « 💾 Sauvegarder » fait tout à la fois — il demande un nom, le mémorise dans ce navigateur (pour le retrouver d'un clic via 📂 Charger), PUIS ouvre aussitôt un vrai enregistrement dans un fichier sur votre appareil : choix du dossier et du nom de fichier sur PC (le navigateur se souvient du dernier dossier utilisé), ou sélecteur de partage natif sur mobile.</li>
@@ -2675,6 +2680,7 @@
                     <ul>
                         <li><b>Respect de la vie privée 🔒</b> : vos recherches et les nouveaux repères que vous placez restent strictement privés — rien n'est envoyé ni diffusé sur un serveur public.</li>
                         <li style="color:#b00020;"><b>Le Top 12, les road trips partagés (🌐) et la base des lieux sont publics</b>, et modifiables par le seul administrateur du site (TP).</li>
+                        <li><b>Chat 💬</b> : le chat est hébergé par Cbox (service tiers) : aucun compte requis, seul un nom ou pseudo suffit. Les messages y sont publics et visibles de tous : ne communiquez aucune information personnelle.</li>
                         <li><b>Stockage local</b> : vos données personnelles (carnet, road trips personnels 📍, recherches récentes...) restent mémorisées uniquement sur votre appareil (stockage local du navigateur utilisé pour consulter le site) — jamais transmises ailleurs, et non partagées entre plusieurs appareils ou navigateurs.</li>
                         <li><b>Prévention 🌿</b> : un bandeau rappelle la sécurité et le respect des réglementations liées à la baignade.</li>
                         <li style="color:green;"><b>Site libre</b> : le code peut être repris et adapté à toute autre recherche de lieux (coins à champignons, road trip, etc.).</li>
@@ -8363,7 +8369,7 @@ if (btnToggleLieux) {
             return (t || '').toString().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
                 .toLowerCase().replace(/\.json$/, '').replace(/[^a-z0-9]/g, '');
         }
-        (async function ouvrirRoadtripDepuisLien() {
+        const promesseRoadtripOuvert = (async function ouvrirRoadtripDepuisLien() {
             if (!lienRoadtripNomDemande) return;
 
             const urlSansParam = window.location.origin + window.location.pathname + window.location.hash;
@@ -9788,6 +9794,8 @@ if (btnToggleLieux) {
               texte: `Les lieux enregistrés par l'administrateur (TP), modifiables par lui seul. Les lieux marqués « RT » appartiennent à un road trip.` },
             { cible: '#btn-guide-roadtrip', menu: false, titre: '🧭 Pour aller plus loin',
               texte: `Le bouton vert 🧭 lance le guide pas à pas pour créer un road trip de A à Z, et le bouton ? ouvre l'aide générale.` },
+            { cible: '#chat-btn', entete: false, menu: false, titre: '💬 Le chat',
+              texte: `Le bouton rond <b>💬</b>, en bas à droite de la carte, ouvre le <b>chat public</b> du site pour échanger avec les autres visiteurs (conseils de baignade, bons plans…).<br>✅ <b>Aucun compte requis</b> : il suffit de saisir un nom ou pseudo, puis votre message (200 caractères maximum, les liens ne sont pas cliquables).<br>👀 Les messages sont <b>publics</b> et hébergés par Cbox : ne donnez aucune information personnelle. Le chat est modéré et nécessite une connexion Internet.` },
             { cible: '#btn-nettoyer-carte', entete: false, menu: false, titre: '🧹 Nettoyer la carte',
               texte: `Le balai, sur le côté droit de la carte, retire d'un coup tous les repères affichés (sans rien supprimer de vos listes ni de vos réglages) : réaffichez ensuite une catégorie avec 🙈 et elle revient.<br><b style=\"color:#b00020;\">🔒 Toutes vos modifications (carnet, lieux édités, road trips…) restent sur votre appareil : elles ne sont jamais publiées.</b> Bonne exploration !` }
         ];
@@ -10012,11 +10020,94 @@ if (btnToggleLieux) {
                     || (typeof lienLieuDirectDemande !== 'undefined' && lienLieuDirectDemande)
                     || (typeof nomRoadtripDirectDemande !== 'undefined' && nomRoadtripDirectDemande);
                 if (lienDirect || guideRoadtripActif) return;
+                // Arrivée sans aucun paramètre dans l'adresse : page dédiée au road trip par défaut.
+                // On laisse d'abord le road trip s'afficher (points + fiche du barycentre), puis la
+                // présentation de l'ampoule s'ouvre automatiquement (attente maximale : 8 s).
+                const sansParametre = [..._paramsRt.keys()].length === 0;
+                if (sansParametre && lienRoadtripNomDemande) {
+                    Promise.race([
+                        promesseRoadtripOuvert.catch(() => {}),
+                        new Promise(r => setTimeout(r, 8000))
+                    ]).then(() => setTimeout(() => {
+                        if (!guideRoadtripActif) demarrerGuideMenu();
+                    }, 1200));
+                    return;
+                }
                 afficherBulleFonctionnalites(10000);
             }, 1200);
         });
 
 </script>
+
+    <!-- Statistiques de visite (GoatCounter, respectueux de la vie privée, sans cookies) -->
+    <script data-goatcounter="https://carte-europe.goatcounter.com/count"
+            async src="//gc.zgo.at/count.js"></script>
+    <!-- ===== Chat public (Cbox) : bouton flottant + fenêtre, chargé à la première ouverture ===== -->
+    <style>
+        #chat-btn {
+            position: fixed; right: 12px; bottom: 96px; z-index: 900;
+            width: 48px; height: 48px; border: none; border-radius: 50%;
+            background: #0b3954; color: #fff; font-size: 1.4rem; cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+        }
+        #chat-modal {
+            display: none; position: fixed; inset: 0; z-index: 10000;
+            background: rgba(0,0,0,0.6); overflow: auto; padding: 12px; box-sizing: border-box;
+        }
+        #chat-modal.visible { display: block; }
+        #chat-modal .chat-box {
+            max-width: 700px; margin: 4vh auto; background: #fff;
+            border-radius: 12px; padding: 14px; box-sizing: border-box;
+        }
+        #chat-modal .chat-head { display: flex; justify-content: space-between; align-items: center; }
+        #chat-modal .chat-head h3 { margin: 0; color: #0b3954; }
+        #chat-close { border: none; background: none; font-size: 28px; line-height: 1; cursor: pointer; }
+        #chat-modal .chat-note { font-size: 0.8rem; color: #555; margin: 6px 0 10px; }
+        #chat-container iframe { width: 100%; height: 450px; border: 0; }
+    </style>
+
+    <button id="chat-btn" type="button" title="Ouvrir le chat" aria-label="Ouvrir le chat">💬</button>
+
+    <div id="chat-modal" role="dialog" aria-modal="true" aria-label="Chat public">
+        <div class="chat-box">
+            <div class="chat-head">
+                <h3>💬 Discussion</h3>
+                <button id="chat-close" type="button" aria-label="Fermer le chat">×</button>
+            </div>
+            <p class="chat-note">Chat public hébergé par Cbox : aucun compte requis, seul un nom ou pseudo suffit. Les messages sont visibles de tous, ne communiquez aucune information personnelle. Connexion Internet requise.</p>
+            <div id="chat-container"></div>
+        </div>
+    </div>
+
+    <script>
+        (function () {
+            var CHAT_URL = 'https://www5.cbox.ws/box/?boxid=967777&boxtag=Yceynw';
+            var modal = document.getElementById('chat-modal');
+            var loaded = false;
+            function ouvrir() {
+                modal.classList.add('visible');
+                if (loaded) return;
+                if (!navigator.onLine) {
+                    document.getElementById('chat-container').textContent = '📡 Le chat nécessite une connexion Internet.';
+                    return;
+                }
+                loaded = true;
+                var f = document.createElement('iframe');
+                f.src = CHAT_URL;
+                f.setAttribute('allowtransparency', 'yes');
+                f.setAttribute('allow', 'autoplay');
+                f.setAttribute('frameborder', '0');
+                f.setAttribute('scrolling', 'auto');
+                f.setAttribute('title', 'Chat Cbox');
+                document.getElementById('chat-container').appendChild(f);
+            }
+            function fermer() { modal.classList.remove('visible'); }
+            document.getElementById('chat-btn').addEventListener('click', ouvrir);
+            document.getElementById('chat-close').addEventListener('click', fermer);
+            modal.addEventListener('click', function (e) { if (e.target === modal) fermer(); });
+            document.addEventListener('keydown', function (e) { if (e.key === 'Escape') fermer(); });
+        })();
+    </script>
 
     <!-- Statistiques de visite (GoatCounter, respectueux de la vie privée, sans cookies) -->
     <script data-goatcounter="https://carte-europe.goatcounter.com/count"
