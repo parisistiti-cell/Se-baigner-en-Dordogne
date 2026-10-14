@@ -3,11 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TP - Top Baignades & Recherche Dordogne</title>
+    <meta name="robots" content="index, follow">
+    <title>Se baigner en Dordogne : carte des meilleurs spots de baignade | TP</title>
+    <meta name="description" content="Carte interactive des meilleurs spots de baignade en Dordogne : rivières, lacs et plages sauvages. Carnet personnel, itinéraires et recherche de lieux en Europe.">
+    <link rel="canonical" href="https://parisistiti-cell.github.io/Se-baigner-en-Dordogne/">
 
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://votre-domaine.fr/">
-    <meta property="og:title" content="TP - Top Baignades & Recherche Dordogne">
+    <meta property="og:url" content="https://parisistiti-cell.github.io/Se-baigner-en-Dordogne/">
+    <meta property="og:site_name" content="TP - Top Baignades">
+    <meta property="og:title" content="Se baigner en Dordogne : carte des meilleurs spots de baignade">
+    <meta name="twitter:card" content="summary_large_image">
     <meta property="og:description" content="Découvrez les spots de baignade secrets de la Dordogne, créez votre carnet virtuel et trouvez votre itinéraire.">
     <meta property="og:image" content="https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=1200&auto=format&fit=crop&q=80">
     <meta property="og:locale" content="fr_FR">
@@ -2435,6 +2440,36 @@
             from { transform: translateX(100%); opacity: 0; }
             to { transform: translateX(0); opacity: 1; }
         }
+
+        /* --- Présentation (texte réel pour les moteurs de recherche et les visiteurs) ---
+           Barre repliée en bas de page ; une fois ouverte, son contenu défile dans une
+           zone limitée pour que la carte reste visible. */
+        #presentation {
+            flex: 0 0 auto;
+            background: #fff;
+            border-top: 1px solid #dee2e6;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: var(--text);
+        }
+        #presentation summary {
+            padding: 7px 14px;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--secondary);
+            list-style-position: inside;
+        }
+        #presentation .presentation-contenu {
+            max-height: 40vh;
+            overflow-y: auto;
+            padding: 4px 16px 14px;
+            max-width: 900px;
+        }
+        #presentation h2 { font-size: 1.15rem; margin: 8px 0 6px; color: var(--secondary); }
+        #presentation h3 { font-size: 1rem; margin: 14px 0 4px; color: var(--secondary); }
+        #presentation p { margin: 6px 0; }
+        #presentation ol { margin: 6px 0; padding-left: 22px; }
+        #presentation li { margin: 3px 0; }
     </style>
 </head>
 <body>
@@ -2632,7 +2667,7 @@
                 <div class="modal-confidentialite modal-aide-generale">
                     <button class="close-btn-modal" onclick="fermerAideGenerale()" aria-label="Fermer l'aide">×</button>
                     <h3>❓ Ce que permet ce site</h3>
-                    <p style="font-size:0.8rem; color:#666; margin:-6px 0 14px 0;">Dernière mise à jour de cette version du site : 02/10/2026 à 13h30.</p>
+                    <p style="font-size:0.8rem; color:#666; margin:-6px 0 14px 0;">Dernière mise à jour de cette version du site : 14/10/2026.</p>
 
                     <p style="background:#e8f5e9; border-left:4px solid #2e7d32; padding:8px 12px; border-radius:6px; margin:0 0 14px 0;">
                         💡 <b>Nouveau : présentation guidée du menu 🔍</b><span class="badge-nouveau">NOUVEAU</span><br>
@@ -2707,7 +2742,7 @@
 
                     <h4 style="color:var(--secondary);">📖 Planification &amp; Gestion de Road Trips</h4>
                     <ul>
-                        <li><b>💡 Fonctionnalités du menu 🔍</b><span class="badge-nouveau">NOUVEAU</span> : le bouton bleu 💡 (à côté du 🧭) relance la présentation du menu « Voir/gérer » : loupe, recherche d'un lieu, Carnet, affichage des points sur la carte, petite fenêtre et fenêtre « Détail » d'un lieu, Top 12, Road Trips, Base de Lieux, balai 🧹 et confidentialité des modifications. Elle s'affiche aussi automatiquement à l'ouverture de la page et se ferme d'un clic en dehors de sa fenêtre ou avec la touche Échap.</li>
+                        <li><b>💡 Fonctionnalités du menu 🔍</b><span class="badge-nouveau">NOUVEAU</span> : le bouton bleu 💡 (à côté du 🧭) relance la présentation du menu « Voir/gérer » : loupe, recherche d'un lieu, Carnet, affichage des points sur la carte, petite fenêtre et fenêtre « Détail » d'un lieu, Top 12, Road Trips, Base de Lieux, chat 💬, balai 🧹 et confidentialité des modifications. Elle s'affiche aussi automatiquement à l'ouverture de la page et se ferme d'un clic en dehors de sa fenêtre ou avec la touche Échap.</li>
                         <li><b>🧭 Guide pas à pas</b> : le bouton vert 🧭 en haut de l'écran lance un tutoriel interactif qui vous guide en direct sur le site pour créer un road trip de A à Z (voir encadré en haut de cette aide).</li>
                         <li><b>Carnet Virtuel Personnel</b> : au premier lancement, le Carnet est vide ; vous y inscrivez vos propres lieux (ou chargez un road trip via 📂, le vôtre ou un des road trips 🌐 Partagés).</li>
                         <li><b>Sauvegarde 💾</b> : un seul bouton « 💾 Sauvegarder » fait tout à la fois — il demande un nom, le mémorise dans ce navigateur (pour le retrouver d'un clic via 📂 Charger), PUIS ouvre aussitôt un vrai enregistrement dans un fichier sur votre appareil : choix du dossier et du nom de fichier sur PC (le navigateur se souvient du dernier dossier utilisé), ou sélecteur de partage natif sur mobile.</li>
@@ -2731,6 +2766,7 @@
                     <ul>
                         <li><b>Respect de la vie privée 🔒</b> : vos recherches et les nouveaux repères que vous placez restent strictement privés — rien n'est envoyé ni diffusé sur un serveur public.</li>
                         <li style="color:#b00020;"><b>Le Top 12, les road trips partagés (🌐) et la base des lieux sont publics</b>, et modifiables par le seul administrateur du site (TP).</li>
+                        <li><b>Chat 💬</b> : le chat est hébergé par Cbox (service tiers) : aucun compte requis, seul un nom ou pseudo suffit. Les messages y sont publics et visibles de tous : ne communiquez aucune information personnelle.</li>
                         <li><b>Stockage local</b> : vos données personnelles (carnet, road trips personnels 📍, recherches récentes...) restent mémorisées uniquement sur votre appareil (stockage local du navigateur utilisé pour consulter le site) — jamais transmises ailleurs, et non partagées entre plusieurs appareils ou navigateurs.</li>
                         <li><b>Prévention 🌿</b> : un bandeau rappelle la sécurité et le respect des réglementations liées à la baignade.</li>
                         <li style="color:green;"><b>Site libre</b> : le code peut être repris et adapté à toute autre recherche de lieux (coins à champignons, road trip, etc.).</li>
@@ -2809,7 +2845,7 @@
                         <li><a href="https://parisistiti-cell.github.io/titimessenger/" target="_blank" rel="noopener noreferrer" style="color:#b00020;">Messagerie chiffrée — ThierryParisis</a></li>
                     </ul>
 
-                    <p style="font-size:0.75rem; color:#888; text-align:center; margin-top:16px; border-top:1px solid #eee; padding-top:10px;">Aide relue et mise à jour le 2 octobre 2026 à 13h30</p>
+                    <p style="font-size:0.75rem; color:#888; text-align:center; margin-top:16px; border-top:1px solid #eee; padding-top:10px;">Aide relue et mise à jour le 14 octobre 2026</p>
                 </div>
             </div>
 
@@ -3105,6 +3141,38 @@
             </div>
         </div>
     </div>
+
+    <section id="presentation" aria-label="Présentation du site">
+        <details ontoggle="window.dispatchEvent(new Event('resize'))">
+            <summary>ℹ️ Se baigner en Dordogne : présentation et liste des spots</summary>
+            <div class="presentation-contenu">
+                <h2>Se baigner en Dordogne : carte des spots de baignade</h2>
+                <p>Ce site propose une carte interactive pour trouver des coins de baignade en Dordogne, en rivière ou au bord d'un lac, de préférence loin des plages les plus fréquentées. Il met en avant une sélection de 12 lieux (le « Top 12 »), choisis pour leur calme et leur cadre naturel : petites plages, criques sous les falaises, berges tranquilles et plages aménagées pour les familles.</p>
+
+                <h3>Les 12 spots du Top 12</h3>
+                <ol>
+                    <li><strong>Saint-Julien-de-Lampon</strong> : petite plage naturelle discrète, très peu de monde, avec une eau large et agréable.</li>
+                    <li><strong>Carsac-Aillac, Rocher de la Cave</strong> : criques naturelles et coins ombragés sous les arbres, en s'éloignant de la zone la plus connue.</li>
+                    <li><strong>Vitrac, amont et aval</strong> : à environ 200 m de la plage principale, des bancs de sable isolés et un calme total.</li>
+                    <li><strong>La Roque-Gageac</strong> : petites criques cachées sous les falaises, avec une ambiance magique en fin de journée.</li>
+                    <li><strong>Beynac, berges secondaires</strong> : accès discret à la rivière, dans des zones calmes derrière les embarcadères.</li>
+                    <li><strong>Limeuil, côté Vézère</strong> : la confluence de la Dordogne et de la Vézère, avec un côté Vézère beaucoup plus calme.</li>
+                    <li><strong>Tamniès</strong> : un plan d'eau connu, dont les berges secondaires restent tranquilles, hors de la plage principale.</li>
+                    <li><strong>Groléjac, contours du lac</strong> : un spot familial, où le contour gauche du lac est beaucoup moins fréquenté.</li>
+                    <li><strong>Castelnaud, en aval du pont</strong> : un endroit moins connu des touristes, avec de petites plages naturelles.</li>
+                    <li><strong>Coux-et-Bigaroque</strong> : des berges sauvages, l'un des coins les plus « nature » pour une baignade 100 % sauvage.</li>
+                    <li><strong>Route des Guignes, Les Eyzies</strong> : un petit chemin mène aux berges de la Vézère, loin de l'agitation du centre des Eyzies.</li>
+                    <li><strong>Cubjac</strong> : plage fluviale aménagée au-dessus du barrage sur l'Auvézère, avec pataugeoire pour enfants et parking sur les deux rives.</li>
+                </ol>
+
+                <h3>Ce que permet le site</h3>
+                <p>Chaque lieu apparaît sur la carte avec une fiche de description. Vous pouvez créer votre carnet personnel de lieux, préparer des road trips, consulter une base de lieux, chercher un endroit ou des coordonnées GPS en Europe, et trier les listes par distance depuis votre position. Le site peut s'installer sur un téléphone ou un ordinateur et reste consultable hors ligne pour les données et cartes déjà chargées.</p>
+
+                <h3>Sécurité et respect des lieux</h3>
+                <p>Respectez les règles de sécurité et les autorisations en matière de baignade : la baignade en rivière ou en plan d'eau présente des risques (courant, profondeur variable, accès parfois difficile). Renseignez-vous sur place avant de vous baigner, et laissez les lieux propres.</p>
+            </div>
+        </details>
+    </section>
 
     <script>
         function chargerLeaflet(sources, index) {
@@ -9991,10 +10059,10 @@ if (btnToggleLieux) {
             { cible: '.menu-toggle-handle', menu: false, titre: '🔍 Le menu « Voir/gérer »',
               texte: `Touchez ce bandeau pour ouvrir ou replier le menu. Il regroupe quatre onglets : <b>Carnet</b>, <b>Top 12</b>, <b>Road Trips</b> et <b>Base de Lieux</b>. Les boutons <b>Trier</b> (listes classées par distance depuis votre position) et <b>Alerte</b> (notification à proximité d'un lieu du Top 12 ou du Carnet) s'y trouvent aussi.` },
             { cible: '.tabs-bar .tab-btn[data-tab="sous-menu-carnet"]', menu: true, onglet: 'sous-menu-carnet', titre: '📖 CARNET',
-              texte: `Votre carnet de <b>travail</b> de la session : les lieux sur lesquels vous travaillez (le road trip en cours). Choisissez un lieu dans la liste pour le voir sur la carte, affichez ou masquez le carnet sur la carte, ou videz-le avec 🗑️.<br><b style="color:#b00020;">⚠️ Avant de commencer un autre projet, effacez-le ou sauvegardez-le (onglet Road Trips).</b>` },
+              texte: `Votre carnet de <b>travail</b> de la session : les lieux sur lesquels vous travaillez (par défaut le road trip « ardeche2026 »). Choisissez un lieu dans la liste pour le voir sur la carte, affichez ou masquez le carnet sur la carte, ou videz-le avec 🗑️.<br><b style="color:#b00020;">⚠️ Avant de commencer un autre projet, effacez-le ou sauvegardez-le (onglet Road Trips).</b>` },
             { cible: '#map', entete: false, menu: false, titre: '🙈 Afficher les points sur la carte',
               action: () => guideAfficherPointsCarnet(), rect: () => guideRectPointsCarnet(),
-              texte: `Voici les points du Carnet (le road trip en cours) affichés sur la carte : ils sont entourés ici. Dans chaque onglet (Carnet, Top 12, Base de Lieux), le bouton « 🙈 Afficher … sur la carte » place les repères de la liste sur la carte ; il devient « 👁️ Masquer … » pour les retirer. Chaque catégorie a sa couleur (🎨 Légende, en bas de la carte).` },
+              texte: `Voici les points du Carnet (par défaut le road trip « ardeche2026 ») affichés sur la carte : ils sont entourés ici. Dans chaque onglet (Carnet, Top 12, Base de Lieux), le bouton « 🙈 Afficher … sur la carte » place les repères de la liste sur la carte ; il devient « 👁️ Masquer … » pour les retirer. Chaque catégorie a sa couleur (🎨 Légende, en bas de la carte).` },
             { cible: '#map', entete: false, menu: false, titre: "💬 La petite fenêtre d'un lieu",
               action: () => guideOuvrirPopupBarycentre(), rect: () => guideRectPopup(), garderPopup: true,
               texte: `Touchez un repère : une petite fenêtre s'ouvre. Ici, celle du <b>🏠 Barycentre du road trip</b>, ajouté automatiquement au Carnet dès 2 lieux inscrits, au point central de toutes vos étapes.<br>📖 <b>Inscrire</b> / ❤️ <b>Retirer</b> du Carnet · 🔗 <b>Partager</b> · 📍 <b>Lien direct</b> · ℹ️ <b>Détail</b> · ✏️ <b>Éditer</b> le nom, la description et la photo.` },
@@ -10008,7 +10076,11 @@ if (btnToggleLieux) {
             { cible: '.tabs-bar .tab-btn[data-tab="sous-menu-lieux"]', menu: true, onglet: 'sous-menu-lieux', titre: '📚 Base de Lieux',
               texte: `Les lieux enregistrés par l'administrateur (TP), modifiables par lui seul. Les lieux marqués « RT » appartiennent à un road trip.` },
             { cible: '#btn-guide-roadtrip', menu: false, titre: '🧭 Pour aller plus loin',
-              texte: `Le bouton vert 🧭 lance le guide pas à pas pour créer un road trip de A à Z, le bouton ? ouvre l'aide générale et le bouton 🛠️ active le mode administrateur (réservé à TP).` },
+              texte: `Le bouton vert 🧭 lance le guide pas à pas pour créer un road trip de A à Z, et le bouton ? ouvre l'aide générale.` },
+            { cible: '#btn-admin-toggle', entete: false, menu: false, titre: '🛠️ Mode administrateur',
+              texte: `Le bouton 🛠️ active le <b>mode administrateur</b>, <b>réservé à TP</b> : après saisie d'un secret, un clic sur la carte permet d'<b>ajouter</b> un lieu à la Base de Lieux publique, et un panneau permet d'en <b>supprimer</b>. Sans le secret, rien ne se passe : vous n'avez pas besoin de ce bouton pour utiliser le site.` },
+            { cible: '#chat-btn', entete: false, menu: false, titre: '💬 Le chat',
+              texte: `Le bouton rond <b>💬</b>, en bas à droite de la carte, ouvre le <b>chat public</b> du site pour échanger avec les autres visiteurs (conseils de baignade, bons plans…).<br>✅ <b>Aucun compte requis</b> : il suffit de saisir un nom ou pseudo, puis votre message (200 caractères maximum, les liens ne sont pas cliquables).<br>👀 Les messages sont <b>publics</b> et hébergés par Cbox : ne donnez aucune information personnelle. Le chat est modéré et nécessite une connexion Internet.` },
             { cible: '#btn-nettoyer-carte', entete: false, menu: false, titre: '🧹 Nettoyer la carte',
               texte: `Le balai, sur le côté droit de la carte, retire d'un coup tous les repères affichés (sans rien supprimer de vos listes ni de vos réglages) : réaffichez ensuite une catégorie avec 🙈 et elle revient.<br><b style=\"color:#b00020;\">🔒 Toutes vos modifications (carnet, lieux édités, road trips…) restent sur votre appareil : elles ne sont jamais publiées.</b> Bonne exploration !` }
         ];
@@ -10226,12 +10298,83 @@ if (btnToggleLieux) {
         document.addEventListener('keydown', (ev) => { if (ev.key === 'Escape') masquerBulleFonctionnalites(); });
         window.addEventListener('load', () => {
             setTimeout(() => {
-                if (!window.location.search && !guideRoadtripActif) demarrerGuideMenu();
+                // Le guide est sauté seulement pour un vrai lien direct (?lieu=, ?rt=, ?carnet=) ;
+                // les paramètres de suivi (fbclid, utm_*, gclid...) ne doivent pas le bloquer.
+                const _p = new URLSearchParams(window.location.search);
+                const lienDirect = _p.has('lieu') || _p.has('rt') || _p.has('carnet');
+                if (!lienDirect && !guideRoadtripActif) demarrerGuideMenu();
                 else afficherBulleFonctionnalites(12000);
             }, 1200);
         });
 
 </script>
+
+    <!-- ===== Chat public (Cbox) : bouton flottant + fenêtre, chargé à la première ouverture ===== -->
+    <style>
+        #chat-btn {
+            position: fixed; right: 12px; bottom: 96px; z-index: 900;
+            width: 48px; height: 48px; border: none; border-radius: 50%;
+            background: #0b3954; color: #fff; font-size: 1.4rem; cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+        }
+        #chat-modal {
+            display: none; position: fixed; inset: 0; z-index: 10000;
+            background: rgba(0,0,0,0.6); overflow: auto; padding: 12px; box-sizing: border-box;
+        }
+        #chat-modal.visible { display: block; }
+        #chat-modal .chat-box {
+            max-width: 700px; margin: 4vh auto; background: #fff;
+            border-radius: 12px; padding: 14px; box-sizing: border-box;
+        }
+        #chat-modal .chat-head { display: flex; justify-content: space-between; align-items: center; }
+        #chat-modal .chat-head h3 { margin: 0; color: #0b3954; }
+        #chat-close { border: none; background: none; font-size: 28px; line-height: 1; cursor: pointer; }
+        #chat-modal .chat-note { font-size: 0.8rem; color: #555; margin: 6px 0 10px; }
+        #chat-container iframe { width: 100%; height: 450px; border: 0; }
+    </style>
+
+    <button id="chat-btn" type="button" title="Ouvrir le chat" aria-label="Ouvrir le chat">💬</button>
+
+    <div id="chat-modal" role="dialog" aria-modal="true" aria-label="Chat public">
+        <div class="chat-box">
+            <div class="chat-head">
+                <h3>💬 Discussion</h3>
+                <button id="chat-close" type="button" aria-label="Fermer le chat">×</button>
+            </div>
+            <p class="chat-note">Chat public hébergé par Cbox : aucun compte requis, seul un nom ou pseudo suffit. Les messages sont visibles de tous, ne communiquez aucune information personnelle. Connexion Internet requise.</p>
+            <div id="chat-container"></div>
+        </div>
+    </div>
+
+    <script>
+        (function () {
+            var CHAT_URL = 'https://www5.cbox.ws/box/?boxid=967777&boxtag=Yceynw';
+            var modal = document.getElementById('chat-modal');
+            var loaded = false;
+            function ouvrir() {
+                modal.classList.add('visible');
+                if (loaded) return;
+                if (!navigator.onLine) {
+                    document.getElementById('chat-container').textContent = '📡 Le chat nécessite une connexion Internet.';
+                    return;
+                }
+                loaded = true;
+                var f = document.createElement('iframe');
+                f.src = CHAT_URL;
+                f.setAttribute('allowtransparency', 'yes');
+                f.setAttribute('allow', 'autoplay');
+                f.setAttribute('frameborder', '0');
+                f.setAttribute('scrolling', 'auto');
+                f.setAttribute('title', 'Chat Cbox');
+                document.getElementById('chat-container').appendChild(f);
+            }
+            function fermer() { modal.classList.remove('visible'); }
+            document.getElementById('chat-btn').addEventListener('click', ouvrir);
+            document.getElementById('chat-close').addEventListener('click', fermer);
+            modal.addEventListener('click', function (e) { if (e.target === modal) fermer(); });
+            document.addEventListener('keydown', function (e) { if (e.key === 'Escape') fermer(); });
+        })();
+    </script>
 
 <div id="admin-panel" style="display:none; position:fixed; top:90px; right:20px; z-index:3000; width:320px; background:white; border:1px solid #ddd; border-radius:12px; box-shadow:0 8px 24px rgba(0,0,0,0.18); padding:14px;">
   <div class="admin-panel-handle" id="admin-panel-handle" onclick="toggleAdminPanelCollapse()">
