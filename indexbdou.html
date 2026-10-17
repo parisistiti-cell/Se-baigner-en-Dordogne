@@ -7310,18 +7310,37 @@ if (btnToggleLieux) {
         function ajusterSurTerreFerme(lat, lng) {
             if (pointEstSurTerre(lat, lng) !== false) return { lat, lng, ajuste: false }; // sur terre, ou fichier de contour indisponible : on ne touche à rien
 
+            // Les contours embarqués sont simplifiés (~450 m) : un point posé pile sur le rivage peut
+            // donc s'afficher dans l'eau sur le fond de carte. On cherche donc le point de terre le
+            // plus proche qui soit « bien à l'intérieur » : lui-même et 8 points tout autour, à
+            // MARGE_RIVAGE_KM, doivent être sur terre. Si aucun point ne satisfait cette marge
+            // (presqu'île étroite, petite île), on se replie sur le premier point de terre trouvé.
+            const MARGE_RIVAGE_KM = 1.5;
             const degresParKm = 1 / 111; // approximation suffisante à cette échelle
+            const decaler = (r, angle) => {
+                const rad = angle * Math.PI / 180;
+                return [lat + Math.cos(rad) * r * degresParKm,
+                        lng + (Math.sin(rad) * r * degresParKm) / Math.cos(lat * Math.PI / 180)];
+            };
+            const bienALInterieur = (la, ln) => {
+                for (let a = 0; a < 360; a += 45) {
+                    const dLat = Math.cos(a * Math.PI / 180) * MARGE_RIVAGE_KM * degresParKm;
+                    const dLng = (Math.sin(a * Math.PI / 180) * MARGE_RIVAGE_KM * degresParKm) / Math.cos(la * Math.PI / 180);
+                    if (!pointEstSurTerre(la + dLat, ln + dLng)) return false;
+                }
+                return true;
+            };
+
+            let premierSurTerre = null;
             for (let r = 0.2; r <= 30; r += 0.2) {
                 for (let angle = 0; angle < 360; angle += 22.5) { // 16 directions
-                    const rad = angle * Math.PI / 180;
-                    const dLat = Math.cos(rad) * r * degresParKm;
-                    const dLng = (Math.sin(rad) * r * degresParKm) / Math.cos(lat * Math.PI / 180);
-                    const candLat = lat + dLat, candLng = lng + dLng;
-                    if (pointEstSurTerre(candLat, candLng)) {
-                        return { lat: candLat, lng: candLng, ajuste: true };
-                    }
+                    const [candLat, candLng] = decaler(r, angle);
+                    if (!pointEstSurTerre(candLat, candLng)) continue;
+                    if (!premierSurTerre) premierSurTerre = { lat: candLat, lng: candLng, ajuste: true };
+                    if (bienALInterieur(candLat, candLng)) return { lat: candLat, lng: candLng, ajuste: true, marge: true };
                 }
             }
+            if (premierSurTerre) return premierSurTerre;
             console.warn('[Barycentre] Point en mer/eau mais aucune terre ferme trouvée jusqu\'à 30 km, conservation du point calculé.');
             return { lat, lng, ajuste: false };
         }
@@ -7356,7 +7375,7 @@ if (btnToggleLieux) {
 
             const desc = [`Point central calculé automatiquement à partir des ${centre.nbLieux} lieu${centre.nbLieux > 1 ? 'x' : ''} de ce road trip.`];
             desc.push(point.ajuste
-                ? 'Recalé sur la terre ferme la plus proche (le point moyen tombait dans l\'eau ou en mer).'
+                ? (point.marge ? 'Recalé sur la terre ferme la plus proche (le point moyen tombait dans l\'eau ou en mer), avec une marge d\'environ 1,5 km à l\'intérieur des terres.' : 'Recalé sur la terre ferme la plus proche (le point moyen tombait dans l\'eau ou en mer).')
                 : 'Idéal pour chercher un hébergement à équidistance (voir le bloc « 🏨 Hébergement » ci-dessous).');
 
             const spotExistant = allSpots.find(s => s.isBarycentre);
@@ -9770,6 +9789,7 @@ if (btnToggleLieux) {
         // Présente la recherche d'un lieu puis chaque onglet du bandeau « Voir/gérer ».
         // Se ferme d'un clic en dehors de la fenêtre (sur le voile) ou avec la touche Échap.
         // Lancé automatiquement à l'ouverture, puis par le bouton 💡 (ou demarrerGuideMenu()).
+        const GUIDE_TEXTE_CLUSTER = `Quand plusieurs points sont trop proches pour tenir à l'écran, ils sont <b>regroupés dans un rond</b> (vert pour un petit groupe, jaune puis orange pour les gros) qui affiche un <b>nombre</b> : c'est le <b>nombre de points cachés</b> sous ce rond.<br><b>En zoomant</b> (molette, pincement, ou en cliquant sur le rond), il se sépare : <b>ce nombre exact de points</b> s'affiche alors un à un, avec leur couleur et leur numéro. Essayez : la zone éclairée est cliquable.`;
         const GUIDE_MENU_ETAPES = [
             { cible: '#btn-reafficher-entete', entete: false, menu: false, titre: '🔍 Recherche de lieux',
               texte: `Au lancement, seule la loupe est affichée pour laisser toute la place à la carte. Touchez-la pour faire apparaître la barre de recherche et le menu « Voir/gérer ». Ils se masquent de nouveau quand vous touchez la carte.` },
@@ -9792,6 +9812,12 @@ if (btnToggleLieux) {
             { cible: '#map', entete: false, menu: false, titre: '🙈 Afficher les points sur la carte',
               action: () => guideAfficherPointsCarnet(), rect: () => guideRectPointsCarnet(),
               texte: `Voici les points du road trip chargé dans le Carnet, affichés sur la carte : ils sont entourés ici. Dans chaque onglet (Carnet, Top 12, Base de Lieux), le bouton « 🙈 Afficher … sur la carte » place les repères de la liste sur la carte ; il devient « 👁️ Masquer … » pour les retirer. Chaque catégorie a sa couleur (🎨 Légende, en bas de la carte).` },
+            { cible: '#map-legend', entete: false, menu: false, legende: true, titre: '🎨 La légende : couleurs et numéros',
+              action: () => { guideAfficherPointsCarnet(); guideOuvrirLegende(); },
+              texte: `La <b>légende 🎨</b> (en bas à gauche de la carte, dépliée ici) explique les <b>couleurs</b> des points : <b style="color:#e07a3e;">orange</b> = Top 12, <b style="color:#d90429;">rouge</b> = Carnet Virtuel, <b style="color:#2e7d6f;">vert</b> = Base de Lieux, <b style="color:#c9a000;">jaune</b> = Base de Lieux « RT » (lieux d'un road trip).<br>Le <b>numéro écrit dans chaque repère</b> est celui du lieu dans sa liste : <b>1T, 2T… 12T</b> pour le Top 12, <b>1C, 2C…</b> pour le Carnet (dans l'ordre du carnet), et un simple <b>1, 2, 3…</b> pour la Base de Lieux. Le même numéro se retrouve dans la liste et sur la carte : c'est ainsi qu'on repère un lieu.` },
+            { cible: '#map', entete: false, menu: false, cluster: true, titre: '🟢 Les nombres dans les ronds',
+              action: () => guideMontrerClusters(), rect: () => guideRectCluster(),
+              texte: GUIDE_TEXTE_CLUSTER },
             { cible: '#map', entete: false, menu: false, titre: "💬 La petite fenêtre d'un lieu",
               action: () => guideOuvrirPopupBarycentre(), rect: () => guideRectPopup(), garderPopup: true,
               texte: `Touchez un repère : une petite fenêtre s'ouvre. Ici, celle du <b>🏠 Barycentre du road trip</b>, ajouté automatiquement au Carnet dès 2 lieux inscrits, au point central de toutes vos étapes.<br>📖 <b>Inscrire</b> / ❤️ <b>Retirer</b> du Carnet · 🔗 <b>Partager</b> · 📍 <b>Lien direct</b> · ℹ️ <b>Détail</b> · ✏️ <b>Éditer</b> le nom, la description et la photo.` },
@@ -9833,6 +9859,59 @@ if (btnToggleLieux) {
             const xs = pts.map(q => q.x), ys = pts.map(q => q.y), pad = 30;
             const x0 = Math.min(...xs) - pad, y0 = Math.min(...ys) - pad;
             return { left: off.left + x0, top: off.top + y0, width: Math.max(...xs) - Math.min(...xs) + 2 * pad, height: Math.max(...ys) - Math.min(...ys) + 2 * pad };
+        }
+        // Légende dépliée pour l'étape « légende » (et repliée ensuite, comme à l'origine).
+        let guideLegendeOuverte = false;
+        function guideOuvrirLegende() {
+            const lg = document.getElementById('map-legend'), tg = document.getElementById('map-legend-toggle');
+            if (lg && lg.classList.contains('collapsed')) {
+                lg.classList.remove('collapsed');
+                if (tg) tg.setAttribute('aria-expanded', 'true');
+                guideLegendeOuverte = true;
+            }
+            setTimeout(() => { if (guideMenuActif) positionnerGuideMenu(); }, 150);
+        }
+        function guideFermerLegende() {
+            if (!guideLegendeOuverte) return;
+            const lg = document.getElementById('map-legend'), tg = document.getElementById('map-legend-toggle');
+            if (lg && !lg.classList.contains('collapsed')) { lg.classList.add('collapsed'); if (tg) tg.setAttribute('aria-expanded', 'false'); }
+            guideLegendeOuverte = false;
+        }
+        // Ronds de regroupement (Leaflet.markercluster) : on dézoome jusqu'à ce qu'un rond apparaisse,
+        // puis on entoure le plus gros et on annonce le nombre de points qu'il regroupe.
+        function guideClusterPrincipal() {
+            const els = [...document.querySelectorAll('#map .marker-cluster')].filter(el => el.getBoundingClientRect().width > 0);
+            if (!els.length) return null;
+            const nb = el => parseInt((el.textContent || '').trim(), 10) || 0;
+            return els.reduce((a, b) => nb(b) > nb(a) ? b : a);
+        }
+        function guideMajTexteCluster() {
+            const el = guideClusterPrincipal();
+            const txt = document.getElementById('pres-texte');
+            if (!txt) return;
+            if (!el) { txt.innerHTML = GUIDE_TEXTE_CLUSTER; return; }
+            const n = parseInt((el.textContent || '').trim(), 10) || 0;
+            const couleur = el.classList.contains('marker-cluster-large') ? 'orange' : el.classList.contains('marker-cluster-medium') ? 'jaune' : 'vert';
+            txt.innerHTML = `Ici, le rond ${couleur} <b>« ${n} »</b> regroupe <b>${n} points</b> très proches : c'est le <b>nombre inscrit</b> dans le rond.<br><b>En zoomant</b> (molette, pincement, ou en cliquant sur le rond), il se sépare et ces <b>${n} points</b> s'affichent un à un, avec leur couleur et leur numéro. Les ronds jaunes et orange fonctionnent de la même façon pour de plus gros groupes. Essayez : la zone éclairée est cliquable.`;
+        }
+        function guideMontrerClusters() {
+            if (!map) return;
+            guideAfficherPointsCarnet();   // repart d'une vue centrée sur les points du Carnet
+            let essais = 0;
+            const pas = () => {
+                if (!guideMenuActif || !GUIDE_MENU_ETAPES[guideMenuIdx].cluster) return;
+                if (guideClusterPrincipal() || essais >= 8 || map.getZoom() <= 2) { guideMajTexteCluster(); positionnerGuideMenu(); return; }
+                essais++;
+                map.setZoom(map.getZoom() - 1, { animate: false });
+                setTimeout(pas, 200);
+            };
+            setTimeout(pas, 700);
+        }
+        function guideRectCluster() {
+            const el = guideClusterPrincipal();
+            if (!el) return null;
+            const r = el.getBoundingClientRect(), pad = 8;
+            return { left: r.left - pad, top: r.top - pad, width: r.width + 2 * pad, height: r.height + 2 * pad };
         }
         function guideOuvrirPopupBarycentre() {
             const spot = guideSpotBarycentre();
@@ -9888,6 +9967,7 @@ if (btnToggleLieux) {
         function guideRestaurerEffets() {
             guideNettoyerEffets(false, false);
             guideRestaurerRoadtrip();
+            guideFermerLegende();
             if (map && guideCarnetActive) { if (carnetVisibles) toggleCarnet(); guideCarnetActive = false; }
             const e = guideMenuEtatInitial;
             if (map && e && e.vue) map.setView(e.vue, e.zoom, { animate: false });
@@ -10108,6 +10188,7 @@ if (btnToggleLieux) {
             guideNettoyerEffets(!!e.garderPopup, !!e.garderDetails);
             if (!e.listeRt) guideListeRoadtrips(false);
             if (!e.listeCarnet) guideListeCarnet(false);
+            if (!e.legende) guideFermerLegende();
             const jeton = ++guideMenuJeton;
             if (e.action) { try { e.action(); } catch (err) { console.warn('Guide : action impossible', err); } }
             positionnerGuideMenu();
