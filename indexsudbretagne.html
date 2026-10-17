@@ -1837,7 +1837,9 @@
         }
 
         /* --- Guide de présentation du menu 🔍 (lancé par le bouton 💡) : se ferme d'un clic en dehors de la fenêtre --- */
-        #pres-overlay { display: none; position: fixed; inset: 0; z-index: 5000; cursor: pointer; }
+        #pres-overlay { display: none; position: fixed; inset: 0; z-index: 5000; pointer-events: none; }
+        /* 4 bandes autour de la zone éclairée : un clic dessus quitte la présentation ; la zone éclairée, elle, reste cliquable */
+        .pres-bloc { position: fixed; left: 0; top: 0; width: 0; height: 0; pointer-events: auto; cursor: pointer; }
         #pres-overlay.visible { display: block; }
         #pres-spot {
             position: fixed; border-radius: 10px; border: 3px solid #4caf50;
@@ -1860,8 +1862,24 @@
         #pres-prec { background: #eee; color: #333; }
         #pres-prec:disabled { opacity: .4; cursor: default; }
         #pres-suiv { background: #2e7d32; color: white; }
+        #pres-avertissement { display: none; margin-top: 10px; padding: 8px 10px; border-radius: 8px; background: #fff3e0;
+            border: 1px solid #ffb74d; color: #7a4500; font-size: .8rem; line-height: 1.35; }
+        #pres-avertissement.visible { display: block; }
         #pres-panel .pres-hint { margin-top: 10px; font-size: .72rem; color: #999; text-align: center; }
         @media (max-width: 480px) { #pres-panel { bottom: 8px; padding: 14px; } }
+        /* Choix proposé quand on sort de la présentation en cours de route */
+        #pres-sortie { display: none; position: fixed; inset: 0; z-index: 5002; background: rgba(0,20,10,0.55);
+            align-items: center; justify-content: center; padding: 16px; cursor: pointer; }
+        #pres-sortie.visible { display: flex; }
+        #pres-sortie-carte { cursor: default; background: white; border-radius: 14px; border-top: 5px solid #2e7d32;
+            box-shadow: 0 6px 24px rgba(0,0,0,0.35); padding: 18px; width: min(92vw, 360px); text-align: center; }
+        #pres-sortie-carte h4 { margin: 0 0 4px 0; font-size: 1.05rem; color: #222; }
+        #pres-sortie-carte p { margin: 0 0 14px 0; font-size: .85rem; color: #555; }
+        #pres-sortie-carte button { display: block; width: 100%; margin-top: 8px; border: none; border-radius: 8px;
+            padding: 10px 14px; font-size: .9rem; font-weight: bold; cursor: pointer; }
+        #pres-sortie-reprendre { background: #2e7d32; color: white; }
+        #pres-sortie-debut { background: #e3f2fd; color: #0d47a1; }
+        #pres-sortie-quitter { background: #eee; color: #444; }
 
         /* Bouton micro (recherche vocale) */
         .btn-micro-recherche {
@@ -2595,11 +2613,16 @@
                 <div class="modal-confidentialite modal-aide-generale">
                     <button class="close-btn-modal" onclick="fermerAideGenerale()" aria-label="Fermer l'aide">×</button>
                     <h3>❓ Ce que permet ce site</h3>
-                    <p style="font-size:0.8rem; color:#666; margin:-6px 0 14px 0;">Dernière mise à jour de cette version du site : 02/10/2026 à 10h53.</p>
+                    <p style="font-size:0.8rem; color:#666; margin:-6px 0 14px 0;">Dernière mise à jour de cette version du site : 17/10/2026.</p>
 
                     <p style="background:#e8f5e9; border-left:4px solid #2e7d32; padding:8px 12px; border-radius:6px; margin:0 0 14px 0;">
                         💡 <b>Nouveau : présentation guidée du menu 🔍</b><span class="badge-nouveau">NOUVEAU</span><br>
-                        Le bouton bleu 💡 de la barre de recherche (une info-bulle le signale à l'ouverture du site) lance une courte présentation : la loupe 🔍, la recherche d'un lieu puis chaque onglet du menu « 🔍 Voir/gérer » (Carnet, affichage des points sur la carte, petite fenêtre et fenêtre « Détail » d'un lieu, Top 12, Road Trips, Base de Lieux), et se termine par le balai 🧹 et le rappel que vos modifications ne sont jamais publiées. Elle ne s'ouvre pas toute seule et se ferme d'un clic en dehors de sa fenêtre.
+                        Le bouton bleu 💡 de la barre de recherche (une info-bulle le signale à l'ouverture du site) lance une présentation en 18 étapes qui explique la loupe 🔍, la recherche d'un lieu, le menu « 🔍 Voir/gérer », puis le road trip <b>« sudbretagne »</b> (sa sélection dans la liste des road trips, sa protection en lecture seule et son chargement automatique dans le Carnet), le Carnet, l'affichage des points sur la carte, la légende des couleurs et numéros, les ronds de regroupement, la petite fenêtre et la fenêtre « Détail » d'un lieu, le Top 12, la Base de Lieux, le chat 💬 et le balai 🧹, avec le rappel que vos modifications ne sont jamais publiées. <b>La zone éclairée reste cliquable</b> : vous pouvez ouvrir un menu, suivre un lien (il s'ouvre dans un nouvel onglet) ou faire défiler, et la présentation reste là. Un clic en dehors de sa fenêtre propose de <b>reprendre</b>, de la <b>revoir depuis le début</b> ou de la <b>quitter</b> ; le guide de création de road trip 🧭 ne peut pas être lancé pendant la présentation. Elle peut être relancée à tout moment avec ce même bouton.
+                    </p>
+
+                    <p style="background:#fff3e0; border-left:4px solid #ef6c00; padding:8px 12px; border-radius:6px; margin:0 0 14px 0;">
+                        🔒 <b>Road trip protégé : « sudbretagne »</b><br>
+                        Le road trip officiel de cette page est en lecture seule. Vous pouvez le charger dans le Carnet, le parcourir, l'exporter ou le partager, mais il est impossible de le <b>modifier</b> (éditeur ✏️), de l'<b>écraser</b> (💾 Sauvegarder, import d'un fichier portant ce nom) ou de le <b>supprimer</b>. Pour en faire votre propre version, sauvegardez le Carnet sous un autre nom.
                     </p>
 
                     <p style="background:#e8f5e9; border-left:4px solid #2e7d32; padding:8px 12px; border-radius:6px; margin:0 0 14px 0;">
@@ -2759,7 +2782,7 @@
                         <li><a href="https://parisistiti-cell.github.io/titimessenger/" target="_blank" rel="noopener noreferrer" style="color:#b00020;">Messagerie chiffrée — ThierryParisis</a></li>
                     </ul>
 
-                    <p style="font-size:0.75rem; color:#888; text-align:center; margin-top:16px; border-top:1px solid #eee; padding-top:10px;">Aide relue et mise à jour le 2 octobre 2026 à 10h53</p>
+                    <p style="font-size:0.75rem; color:#888; text-align:center; margin-top:16px; border-top:1px solid #eee; padding-top:10px;">Aide relue et mise à jour le 17 octobre 2026</p>
                 </div>
             </div>
 
@@ -2843,19 +2866,29 @@
             <!-- Guide de présentation du menu 🔍.
                  Un clic sur le voile (donc en dehors de la fenêtre #pres-panel) le ferme. Lancé par le bouton 💡. -->
             <div id="bulle-fonctionnalites" style="display:none;" onclick="demarrerGuideMenu()" role="tooltip">💡 Fonctionnalités du menu 🔍<br><small>Cliquez sur l'ampoule pour (re)voir la présentation</small></div>
-            <div id="pres-overlay" onclick="fermerGuideMenu()"><div id="pres-spot"></div></div>
+            <div id="pres-overlay"><div class="pres-bloc" id="pres-bloc-h" onclick="sortirGuideMenu()"></div><div class="pres-bloc" id="pres-bloc-b" onclick="sortirGuideMenu()"></div><div class="pres-bloc" id="pres-bloc-g" onclick="sortirGuideMenu()"></div><div class="pres-bloc" id="pres-bloc-d" onclick="sortirGuideMenu()"></div><div id="pres-spot"></div></div>
             <div id="pres-panel" style="display:none;" role="dialog" aria-label="Présentation du menu de recherche">
                 <div class="pres-etape" id="pres-etape"></div>
                 <h4 id="pres-titre"></h4>
                 <p id="pres-texte"></p>
                 <div class="pres-actions">
-                    <button type="button" id="pres-quitter" onclick="fermerGuideMenu()">Fermer</button>
+                    <button type="button" id="pres-quitter" onclick="sortirGuideMenu()">Fermer</button>
                     <span>
                         <button type="button" id="pres-prec" onclick="naviguerGuideMenu(-1)">◀ Précédent</button>
                         <button type="button" id="pres-suiv" onclick="naviguerGuideMenu(1)">Suivant ▶</button>
                     </span>
                 </div>
-                <div class="pres-hint">Cliquez en dehors de cette fenêtre pour la fermer.</div>
+                <div id="pres-avertissement" role="alert"></div>
+                <div class="pres-hint">👆 Vous pouvez cliquer dans la zone éclairée pour essayer (menu, lien, ascenseur…) : la présentation reste là. Cliquez en dehors pour la quitter, la reprendre ou la revoir depuis le début.</div>
+            </div>
+            <div id="pres-sortie" onclick="if(event.target===this) reprendreGuideMenu();" role="dialog" aria-label="Quitter la présentation ?">
+                <div id="pres-sortie-carte">
+                    <h4>Quitter la présentation ?</h4>
+                    <p id="pres-sortie-etape"></p>
+                    <button type="button" id="pres-sortie-reprendre" onclick="reprendreGuideMenu()">▶ Reprendre là où j'en étais</button>
+                    <button type="button" id="pres-sortie-debut" onclick="revoirGuideMenuDepuisDebut()">↺ Revoir depuis le début</button>
+                    <button type="button" id="pres-sortie-quitter" onclick="quitterGuideMenu()">✖ Quitter la présentation</button>
+                </div>
             </div>
 
             <!-- Éditeur de road trip (JSON) avancé : ouvert via la barre verte "✏️ Éditer un
@@ -7219,18 +7252,37 @@ if (btnToggleLieux) {
         function ajusterSurTerreFerme(lat, lng) {
             if (pointEstSurTerre(lat, lng) !== false) return { lat, lng, ajuste: false }; // sur terre, ou fichier de contour indisponible : on ne touche à rien
 
+            // Les contours embarqués sont simplifiés (~450 m) : un point posé pile sur le rivage peut
+            // donc s'afficher dans l'eau sur le fond de carte. On cherche donc le point de terre le
+            // plus proche qui soit « bien à l'intérieur » : lui-même et 8 points tout autour, à
+            // MARGE_RIVAGE_KM, doivent être sur terre. Si aucun point ne satisfait cette marge
+            // (presqu'île étroite, petite île), on se replie sur le premier point de terre trouvé.
+            const MARGE_RIVAGE_KM = 1.5;
             const degresParKm = 1 / 111; // approximation suffisante à cette échelle
+            const decaler = (r, angle) => {
+                const rad = angle * Math.PI / 180;
+                return [lat + Math.cos(rad) * r * degresParKm,
+                        lng + (Math.sin(rad) * r * degresParKm) / Math.cos(lat * Math.PI / 180)];
+            };
+            const bienALInterieur = (la, ln) => {
+                for (let a = 0; a < 360; a += 45) {
+                    const dLat = Math.cos(a * Math.PI / 180) * MARGE_RIVAGE_KM * degresParKm;
+                    const dLng = (Math.sin(a * Math.PI / 180) * MARGE_RIVAGE_KM * degresParKm) / Math.cos(la * Math.PI / 180);
+                    if (!pointEstSurTerre(la + dLat, ln + dLng)) return false;
+                }
+                return true;
+            };
+
+            let premierSurTerre = null;
             for (let r = 0.2; r <= 30; r += 0.2) {
                 for (let angle = 0; angle < 360; angle += 22.5) { // 16 directions
-                    const rad = angle * Math.PI / 180;
-                    const dLat = Math.cos(rad) * r * degresParKm;
-                    const dLng = (Math.sin(rad) * r * degresParKm) / Math.cos(lat * Math.PI / 180);
-                    const candLat = lat + dLat, candLng = lng + dLng;
-                    if (pointEstSurTerre(candLat, candLng)) {
-                        return { lat: candLat, lng: candLng, ajuste: true };
-                    }
+                    const [candLat, candLng] = decaler(r, angle);
+                    if (!pointEstSurTerre(candLat, candLng)) continue;
+                    if (!premierSurTerre) premierSurTerre = { lat: candLat, lng: candLng, ajuste: true };
+                    if (bienALInterieur(candLat, candLng)) return { lat: candLat, lng: candLng, ajuste: true, marge: true };
                 }
             }
+            if (premierSurTerre) return premierSurTerre;
             console.warn('[Barycentre] Point en mer/eau mais aucune terre ferme trouvée jusqu\'à 30 km, conservation du point calculé.');
             return { lat, lng, ajuste: false };
         }
@@ -7265,7 +7317,7 @@ if (btnToggleLieux) {
 
             const desc = [`Point central calculé automatiquement à partir des ${centre.nbLieux} lieu${centre.nbLieux > 1 ? 'x' : ''} de ce road trip.`];
             desc.push(point.ajuste
-                ? 'Recalé sur la terre ferme la plus proche (le point moyen tombait dans l\'eau ou en mer).'
+                ? (point.marge ? 'Recalé sur la terre ferme la plus proche (le point moyen tombait dans l\'eau ou en mer), avec une marge d\'environ 1,5 km à l\'intérieur des terres.' : 'Recalé sur la terre ferme la plus proche (le point moyen tombait dans l\'eau ou en mer).')
                 : 'Idéal pour chercher un hébergement à équidistance (voir le bloc « 🏨 Hébergement » ci-dessous).');
 
             const spotExistant = allSpots.find(s => s.isBarycentre);
@@ -7584,6 +7636,23 @@ if (btnToggleLieux) {
             status.textContent = message;
         }
 
+        // --- Road trip verrouillé : « sudbretagne » (ROADTRIP_PAR_DEFAUT) ---
+        // Ce road trip officiel ne peut être ni modifié (éditeur ✏️), ni écrasé (sauvegarde, import),
+        // ni supprimé. Le test est tolérant sur la saisie : « Sud Bretagne », « sud-bretagne »,
+        // « SUDBRETAGNE », « sudbretagne.json »… sont tous reconnus. Charger ce road trip
+        // dans le Carnet reste possible, et on peut sauvegarder sa propre version sous un autre nom.
+        function cleRoadtripVerrouille(texte) {
+            return normaliserNomRoadtrip(texte);
+        }
+        function estRoadtripVerrouille(nom, rt) {
+            const cible = cleRoadtripVerrouille(ROADTRIP_PAR_DEFAUT);
+            if (nom && cleRoadtripVerrouille(nom) === cible) return true;
+            return !!(rt && rt.sourceFichier && cleRoadtripVerrouille(rt.sourceFichier) === cible);
+        }
+        function messageRoadtripVerrouille(nom) {
+            return `🔒 Le road trip « ${nom || 'sudbretagne'} » est protégé : il ne peut être ni modifié, ni écrasé, ni supprimé. Chargez-le dans le Carnet pour le consulter, et sauvegardez votre propre version sous un autre nom.`;
+        }
+
         async function sauvegarderRoadtripActuel(options) {
             options = options || {};
 
@@ -7599,6 +7668,10 @@ if (btnToggleLieux) {
             // secondes), le geste avait le temps d'expirer avant l'ouverture du sélecteur —
             // d'où l'erreur "Must be handling a user gesture". En récupérant la "poignée" du
             // fichier ici, immédiatement après le clic, le sélecteur s'ouvre bien à chaque fois.
+            if (options.nomForce && estRoadtripVerrouille(options.nomForce)) {
+                afficherStatutRoadtrip(messageRoadtripVerrouille(options.nomForce), false);
+                return;
+            }
             let handleFichierPreouvert = null;
             let selectionFichierAnnulee = false;
             if ('showSaveFilePicker' in window) {
@@ -7634,6 +7707,11 @@ if (btnToggleLieux) {
             }
 
             const roadtrips = getSavedRoadtrips();
+
+            if (estRoadtripVerrouille(nom, roadtrips[nom])) {
+                afficherStatutRoadtrip(messageRoadtripVerrouille(nom), false);
+                return;
+            }
 
             // Un road trip "github" (partagé, non modifiable localement) ne doit jamais être
             // silencieusement écrasé par une sauvegarde personnelle du même nom : sans ce
@@ -7739,6 +7817,7 @@ if (btnToggleLieux) {
             const select = document.getElementById('roadtrip-select');
             const nom = select ? select.value : '';
             if (!nom) { afficherStatutRoadtrip('Choisissez un road trip à supprimer.', false); return; }
+            if (estRoadtripVerrouille(nom, getSavedRoadtrips()[nom])) { afficherStatutRoadtrip(messageRoadtripVerrouille(nom), false); return; }
 
             if (!confirm(`Supprimer définitivement le road trip sauvegardé "${nom}" ?\n(Cela ne touche pas au carnet actuellement affiché.)`)) return;
 
@@ -8621,6 +8700,10 @@ if (btnToggleLieux) {
                 }
 
                 let nom = (payload.nom || fichier.name.replace(/\.json$/i, '') || 'Road trip importé').trim();
+                if (estRoadtripVerrouille(nom) || estRoadtripVerrouille(fichier.name)) {
+                    afficherStatutRoadtrip(messageRoadtripVerrouille(nom), false);
+                    return;
+                }
 
                 // Déduplication par sécurité dès l'import : un même lieu présent
                 // plusieurs fois dans le fichier ne sera retenu qu'une seule fois.
@@ -8809,6 +8892,7 @@ if (btnToggleLieux) {
                 }
 
                 const nom = (payload.nom || 'Road trip partagé').trim();
+                if (estRoadtripVerrouille(nom)) { afficherStatutRoadtrip(messageRoadtripVerrouille(nom), false); return; }
 
                 // On l'enregistre aussi dans "Mes Road Trips sauvegardés", pour le retrouver plus tard
                 const roadtrips = getSavedRoadtrips();
@@ -9199,6 +9283,11 @@ if (btnToggleLieux) {
         }
 
         function demarrerGuideRoadtrip() {
+            // Impossible de lancer ce guide pendant la présentation du menu (les deux se superposeraient).
+            if (typeof guideMenuActif !== 'undefined' && guideMenuActif) {
+                guideAvertir('🧭 Le guide de création de road trip ne peut pas être lancé pendant la présentation. Terminez-la (ou quittez-la), puis cliquez sur le bouton 🧭.');
+                return;
+            }
             guideRoadtripActif = true;
             guideRoadtripEtapeIndex = 0;
             guideRoadtripModeLecture = false;
@@ -9534,6 +9623,14 @@ if (btnToggleLieux) {
             try {
                 edrtDonneesActuelles = JSON.parse(texteJson);
 
+                // Road trip protégé : impossible de l'ouvrir pour le modifier.
+                if (estRoadtripVerrouille(edrtDonneesActuelles.nom) || estRoadtripVerrouille(edrtNomFichierOriginal)) {
+                    const nomProtege = edrtDonneesActuelles.nom || edrtNomFichierOriginal;
+                    edrtFermerEdition();
+                    edrtAfficherStatut(messageRoadtripVerrouille(nomProtege), false);
+                    return;
+                }
+
                 // Détection dynamique du préfixe des IDs à partir du premier spot s'il existe
                 if (edrtDonneesActuelles.customSpots && edrtDonneesActuelles.customSpots.length > 0) {
                     const premierId = edrtDonneesActuelles.customSpots[0].id || '';
@@ -9682,6 +9779,12 @@ if (btnToggleLieux) {
         }
 
         async function edrtEnregistrerFichierDirect() {
+            // Même un autre fichier ne peut pas être renommé en « sudbretagne » pour le remplacer.
+            const nomSaisi = document.getElementById('edrt-field-nom').value;
+            if (estRoadtripVerrouille(nomSaisi) || estRoadtripVerrouille(edrtNomFichierOriginal)) {
+                edrtAfficherStatut(messageRoadtripVerrouille(nomSaisi || edrtNomFichierOriginal), false);
+                return;
+            }
             const jsonString = edrtPreparerDonnees();
 
             // Propose (une fois par session) d'enregistrer aussi une copie de ce road trip
@@ -9749,6 +9852,7 @@ if (btnToggleLieux) {
         // Présente la recherche d'un lieu puis chaque onglet du bandeau « Voir/gérer ».
         // Se ferme d'un clic en dehors de la fenêtre (sur le voile) ou avec la touche Échap.
         // Lancé par le bouton 💡 (ou demarrerGuideMenu()) ; pas de lancement automatique sur ce site.
+        const GUIDE_TEXTE_CLUSTER = `Quand plusieurs points sont trop proches pour tenir à l'écran, ils sont <b>regroupés dans un rond</b> (vert pour un petit groupe, jaune puis orange pour les gros) qui affiche un <b>nombre</b> : c'est le <b>nombre de points cachés</b> sous ce rond.<br><b>En zoomant</b> (molette, pincement, ou en cliquant sur le rond), il se sépare : <b>ce nombre exact de points</b> s'affiche alors un à un, avec leur couleur et leur numéro. Essayez : la zone éclairée est cliquable.`;
         const GUIDE_MENU_ETAPES = [
             { cible: '#btn-reafficher-entete', entete: false, menu: false, titre: '🔍 La loupe',
               texte: `Au lancement, seule la loupe est affichée pour laisser toute la place à la carte. Touchez-la pour faire apparaître la barre de recherche et le menu « Voir/gérer ». Ils se masquent de nouveau quand vous touchez la carte.` },
@@ -9756,25 +9860,41 @@ if (btnToggleLieux) {
               texte: `Tapez le nom d'un lieu (village, rivière, plage…) ou des coordonnées GPS (ex : 44.8645, 1.3532), puis choisissez un résultat : la carte se centre dessus et sa fiche s'ouvre.<br>🎤 recherche vocale · ➕ ajoute un lieu au centre de la carte · ? aide générale.` },
             { cible: '.menu-toggle-handle', menu: false, titre: '🔍 Le menu « Voir/gérer »',
               texte: `Touchez ce bandeau pour ouvrir ou replier le menu. Il regroupe quatre onglets : <b>Carnet</b>, <b>Top 12</b>, <b>Road Trips</b> et <b>Base de Lieux</b>. Les boutons <b>Trier</b> (listes classées par distance depuis votre position) et <b>Alerte</b> (notification à proximité d'un lieu du Top 12 ou du Carnet) s'y trouvent aussi.` },
-            { cible: '.tabs-bar .tab-btn[data-tab="sous-menu-carnet"]', menu: true, onglet: 'sous-menu-carnet', titre: '📖 CARNET',
-              texte: `Votre carnet de <b>travail</b> de la session : les lieux sur lesquels vous travaillez (le road trip en cours). Choisissez un lieu dans la liste pour le voir sur la carte, affichez ou masquez le carnet sur la carte, ou videz-le avec 🗑️.<br><b style="color:#b00020;">⚠️ Avant de commencer un autre projet, effacez-le ou sauvegardez-le (onglet Road Trips).</b>` },
+            { cible: '.tabs-bar .tab-btn[data-tab="sous-menu-roadtrips"]', menu: true, onglet: 'sous-menu-roadtrips', titre: '💾 Road Trips',
+              texte: `Sauvegardez le contenu du Carnet sous forme de road trip (📍 les vôtres, 🌐 les road trips partagés), rechargez-en un dans le carnet, importez un fichier .json, partagez par lien, WhatsApp, e-mail ou PDF, ou modifiez-les avec ✏️. Pensez à choisir un dossier de sauvegarde. Ils restent consultables hors ligne.<br>🔒 Le road trip <b>« sudbretagne »</b> est <b>protégé</b> : vous pouvez le charger et le consulter, mais il ne peut être ni modifié, ni écrasé, ni supprimé.` },
+            { cible: '#roadtrip-select', menu: true, onglet: 'sous-menu-roadtrips', listeRt: true, titre: '📂 Le road trip « sudbretagne »',
+              action: () => guidePreparerListeRoadtrips(),
+              texte: `Cette page est consacrée au road trip <b>« sudbretagne »</b> (🌐 partagé) : il est <b>sélectionné</b> dans la liste des road trips, ici dépliée. Les autres parcours partagés et vos propres road trips (📍) figurent dans la même liste.` },
+            { cible: '#roadtrip-select', menu: true, onglet: 'sous-menu-roadtrips', titre: '🔒 Un road trip protégé',
+              action: () => guideAfficherSelectionRtPage(),
+              texte: `Le road trip <b>« sudbretagne »</b> est <b>protégé</b> : vous pouvez le charger, le parcourir, l'exporter ou le partager (lien, WhatsApp, e-mail, PDF), mais il ne peut être ni <b>modifié</b> (éditeur ✏️), ni <b>écrasé</b> (💾 Sauvegarder, import d'un fichier portant ce nom), ni <b>supprimé</b>. Pour en faire votre propre version, sauvegardez le Carnet sous un autre nom.` },
+            { cible: '#roadtrip-select', menu: true, onglet: 'sous-menu-roadtrips', titre: '📖 Chargement dans le Carnet',
+              action: () => guideChargerRtPage(),
+              texte: `Le road trip <b>« sudbretagne »</b> est <b>chargé automatiquement dans le Carnet</b> dès qu'il est sélectionné dans la liste, sans bouton « Charger » à presser.` },
+            { cible: '#notebook-select', menu: true, onglet: 'sous-menu-carnet', listeCarnet: true, titre: '📖 CARNET',
+              action: () => guideDeployerCarnet(),
+              texte: `Le <b>Carnet</b> contient maintenant les lieux du road trip chargé : <b>la liste est déroulée</b> pour en montrer tout le contenu. C'est votre carnet de <b>travail</b> de la session : choisissez un lieu dans la liste pour le voir sur la carte, affichez ou masquez le carnet sur la carte, ou videz-le avec 🗑️.<br><b style="color:#b00020;">⚠️ Avant de commencer un autre projet, effacez-le ou sauvegardez-le (onglet Road Trips).</b>` },
             { cible: '#map', entete: false, menu: false, titre: '🙈 Afficher les points sur la carte',
               action: () => guideAfficherPointsCarnet(), rect: () => guideRectPointsCarnet(),
-              texte: `Voici les points du Carnet (le road trip en cours) affichés sur la carte : ils sont entourés ici. Dans chaque onglet (Carnet, Top 12, Base de Lieux), le bouton « 🙈 Afficher … sur la carte » place les repères de la liste sur la carte ; il devient « 👁️ Masquer … » pour les retirer. Chaque catégorie a sa couleur (🎨 Légende, en bas de la carte).` },
+              texte: `Voici les points du road trip chargé dans le Carnet, affichés sur la carte : ils sont entourés ici. Dans chaque onglet (Carnet, Top 12, Base de Lieux), le bouton « 🙈 Afficher … sur la carte » place les repères de la liste sur la carte ; il devient « 👁️ Masquer … » pour les retirer. Chaque catégorie a sa couleur (🎨 Légende, en bas de la carte).` },
+            { cible: '#map-legend', entete: false, menu: false, legende: true, titre: '🎨 La légende : couleurs et numéros',
+              action: () => { guideAfficherPointsCarnet(); guideOuvrirLegende(); },
+              texte: `La <b>légende 🎨</b> (en bas à gauche de la carte, dépliée ici) explique les <b>couleurs</b> des points : <b style="color:#e07a3e;">orange</b> = Top 12, <b style="color:#d90429;">rouge</b> = Carnet Virtuel, <b style="color:#2e7d6f;">vert</b> = Base de Lieux, <b style="color:#c9a000;">jaune</b> = Base de Lieux « RT » (lieux d'un road trip).<br>Le <b>numéro écrit dans chaque repère</b> est celui du lieu dans sa liste : <b>1T, 2T… 12T</b> pour le Top 12, <b>1C, 2C…</b> pour le Carnet (dans l'ordre du carnet), et un simple <b>1, 2, 3…</b> pour la Base de Lieux. Le même numéro se retrouve dans la liste et sur la carte : c'est ainsi qu'on repère un lieu.` },
+            { cible: '#map', entete: false, menu: false, cluster: true, titre: '🟢 Les nombres dans les ronds',
+              action: () => guideMontrerClusters(), rect: () => guideRectCluster(),
+              texte: GUIDE_TEXTE_CLUSTER },
             { cible: '#map', entete: false, menu: false, titre: "💬 La petite fenêtre d'un lieu",
               action: () => guideOuvrirPopupBarycentre(), rect: () => guideRectPopup(), garderPopup: true,
               texte: `Touchez un repère : une petite fenêtre s'ouvre. Ici, celle du <b>🏠 Barycentre du road trip</b>, ajouté automatiquement au Carnet dès 2 lieux inscrits, au point central de toutes vos étapes.<br>📖 <b>Inscrire</b> / ❤️ <b>Retirer</b> du Carnet · 🔗 <b>Partager</b> · 📍 <b>Lien direct</b> · ℹ️ <b>Détail</b> · ✏️ <b>Éditer</b> le nom, la description et la photo.` },
             { cible: '#details-panel', entete: false, menu: false, titre: 'ℹ️ La fenêtre « Détail »',
-              action: () => guideOuvrirDetailBarycentre(), garderDetails: true,
-              texte: `Le bouton ℹ️ ouvre cette fiche complète (⤢ pour l'agrandir) : photo (touchez-la pour l'agrandir), 📋 coordonnées GPS à copier, 🌡️ météo, 🔥 feu, 🎥 webcams, réseaux sociaux, description, 🚩 à visiter, 🥾 à faire, 🏨 hébergement. En bas : 🗺️ Itinéraire, 📖 Carnet, 📸 Photos, 📥 Carte IGN, 🔗 Partager, ✏️ Éditer ce lieu.<br>⏳ <b>Les blocs 🚩 à visiter, 🥾 à faire et 🏨 hébergement peuvent mettre quelques secondes à s'afficher</b> (chargement en ligne).` },
+              action: () => guideOuvrirDetailBarycentre(), rect: () => guideRectDetailsTexte(), garderDetails: true,
+              texte: `Le bouton ℹ️ ouvre la fiche complète du lieu (⤢ pour l'agrandir). <b>La partie centrale, entourée ici, est la plus importante : elle affiche le texte</b> du lieu (description, 🚩 à visiter, 🥾 à faire, 🏨 hébergement), parfois accompagné de <b>liens cliquables</b> (réseaux sociaux, 🎥 webcams, 🔥 feu, lieux à proximité). Faites-la défiler pour tout lire.<br>Autour : en haut la photo (touchez-la pour l'agrandir), 📋 les coordonnées GPS à copier et 🌡️ la météo ; en bas 🗺️ Itinéraire, 📖 Carnet, 📸 Photos, 📥 Carte IGN, 🔗 Partager, ✏️ Éditer ce lieu.<br>⏳ <b>Certains blocs peuvent mettre quelques secondes à s'afficher</b> (chargement en ligne).` },
             { cible: '.tabs-bar .tab-btn[data-tab="sous-menu-top12"]', menu: true, onglet: 'sous-menu-top12', titre: '⭐ Top 12',
               texte: `Les 12 lieux sélectionnés par l'administrateur (TP), modifiables par lui seul. Choisissez-en un dans la liste pour aller le voir, ou affichez les 12 repères d'un coup sur la carte avec le bouton prévu.` },
-            { cible: '.tabs-bar .tab-btn[data-tab="sous-menu-roadtrips"]', menu: true, onglet: 'sous-menu-roadtrips', titre: '💾 Road Trips',
-              texte: `Sauvegardez le contenu du Carnet sous forme de road trip (📍 les vôtres, 🌐 les road trips partagés), rechargez-en un dans le carnet, importez un fichier .json, partagez par lien, WhatsApp, e-mail ou PDF, ou modifiez-les avec ✏️. Pensez à choisir un dossier de sauvegarde. Ils restent consultables hors ligne.` },
             { cible: '.tabs-bar .tab-btn[data-tab="sous-menu-lieux"]', menu: true, onglet: 'sous-menu-lieux', titre: '📚 Base de Lieux',
               texte: `Les lieux enregistrés par l'administrateur (TP), modifiables par lui seul. Les lieux marqués « RT » appartiennent à un road trip.` },
             { cible: '#btn-guide-roadtrip', menu: false, titre: '🧭 Pour aller plus loin',
-              texte: `Le bouton vert 🧭 lance le guide pas à pas pour créer un road trip de A à Z, et le bouton ? ouvre l'aide générale.` },
+              texte: `Le bouton vert 🧭 lance le guide pas à pas pour créer un road trip de A à Z (il ne peut pas être lancé pendant cette présentation : terminez-la d'abord), et le bouton ? ouvre l'aide générale.` },
             { cible: '#chat-btn', entete: false, menu: false, titre: '💬 Le chat',
               texte: `Le bouton rond <b>💬</b>, en bas à droite de la carte, ouvre le <b>chat public</b> du site pour échanger avec les autres visiteurs (conseils de baignade, bons plans…).<br>✅ <b>Aucun compte requis</b> : il suffit de saisir un nom ou pseudo, puis votre message (200 caractères maximum, les liens ne sont pas cliquables).<br>👀 Les messages sont <b>publics</b> et hébergés par Cbox : ne donnez aucune information personnelle. Le chat est modéré et nécessite une connexion Internet.` },
             { cible: '#btn-nettoyer-carte', entete: false, menu: false, titre: '🧹 Nettoyer la carte',
@@ -9805,6 +9925,59 @@ if (btnToggleLieux) {
             const x0 = Math.min(...xs) - pad, y0 = Math.min(...ys) - pad;
             return { left: off.left + x0, top: off.top + y0, width: Math.max(...xs) - Math.min(...xs) + 2 * pad, height: Math.max(...ys) - Math.min(...ys) + 2 * pad };
         }
+        // Légende dépliée pour l'étape « légende » (et repliée ensuite, comme à l'origine).
+        let guideLegendeOuverte = false;
+        function guideOuvrirLegende() {
+            const lg = document.getElementById('map-legend'), tg = document.getElementById('map-legend-toggle');
+            if (lg && lg.classList.contains('collapsed')) {
+                lg.classList.remove('collapsed');
+                if (tg) tg.setAttribute('aria-expanded', 'true');
+                guideLegendeOuverte = true;
+            }
+            setTimeout(() => { if (guideMenuActif) positionnerGuideMenu(); }, 150);
+        }
+        function guideFermerLegende() {
+            if (!guideLegendeOuverte) return;
+            const lg = document.getElementById('map-legend'), tg = document.getElementById('map-legend-toggle');
+            if (lg && !lg.classList.contains('collapsed')) { lg.classList.add('collapsed'); if (tg) tg.setAttribute('aria-expanded', 'false'); }
+            guideLegendeOuverte = false;
+        }
+        // Ronds de regroupement (Leaflet.markercluster) : on dézoome jusqu'à ce qu'un rond apparaisse,
+        // puis on entoure le plus gros et on annonce le nombre de points qu'il regroupe.
+        function guideClusterPrincipal() {
+            const els = [...document.querySelectorAll('#map .marker-cluster')].filter(el => el.getBoundingClientRect().width > 0);
+            if (!els.length) return null;
+            const nb = el => parseInt((el.textContent || '').trim(), 10) || 0;
+            return els.reduce((a, b) => nb(b) > nb(a) ? b : a);
+        }
+        function guideMajTexteCluster() {
+            const el = guideClusterPrincipal();
+            const txt = document.getElementById('pres-texte');
+            if (!txt) return;
+            if (!el) { txt.innerHTML = GUIDE_TEXTE_CLUSTER; return; }
+            const n = parseInt((el.textContent || '').trim(), 10) || 0;
+            const couleur = el.classList.contains('marker-cluster-large') ? 'orange' : el.classList.contains('marker-cluster-medium') ? 'jaune' : 'vert';
+            txt.innerHTML = `Ici, le rond ${couleur} <b>« ${n} »</b> regroupe <b>${n} points</b> très proches : c'est le <b>nombre inscrit</b> dans le rond.<br><b>En zoomant</b> (molette, pincement, ou en cliquant sur le rond), il se sépare et ces <b>${n} points</b> s'affichent un à un, avec leur couleur et leur numéro. Les ronds jaunes et orange fonctionnent de la même façon pour de plus gros groupes. Essayez : la zone éclairée est cliquable.`;
+        }
+        function guideMontrerClusters() {
+            if (!map) return;
+            guideAfficherPointsCarnet();   // repart d'une vue centrée sur les points du Carnet
+            let essais = 0;
+            const pas = () => {
+                if (!guideMenuActif || !GUIDE_MENU_ETAPES[guideMenuIdx].cluster) return;
+                if (guideClusterPrincipal() || essais >= 8 || map.getZoom() <= 2) { guideMajTexteCluster(); positionnerGuideMenu(); return; }
+                essais++;
+                map.setZoom(map.getZoom() - 1, { animate: false });
+                setTimeout(pas, 200);
+            };
+            setTimeout(pas, 700);
+        }
+        function guideRectCluster() {
+            const el = guideClusterPrincipal();
+            if (!el) return null;
+            const r = el.getBoundingClientRect(), pad = 8;
+            return { left: r.left - pad, top: r.top - pad, width: r.width + 2 * pad, height: r.height + 2 * pad };
+        }
         function guideOuvrirPopupBarycentre() {
             const spot = guideSpotBarycentre();
             const m = spot && markers[spot.id];
@@ -9831,6 +10004,23 @@ if (btnToggleLieux) {
             afficherDetails(spot);
             guideOuvertDetails = true;
         }
+        function guideRectDetailsTexte() {
+            const el = document.querySelector('#details-panel .details-scroll-body');
+            if (!el) return null;
+            const r = el.getBoundingClientRect();
+            if (r.width <= 0 || r.height <= 0) return null;
+            return { left: r.left, top: r.top, width: r.width, height: r.height };
+        }
+        let guideAvertTimer = null;
+        function guideAvertir(msg) {
+            const a = document.getElementById('pres-avertissement');
+            if (!a) { alert(msg); return; }
+            a.textContent = msg;
+            a.classList.add('visible');
+            a.scrollIntoView({ block: 'nearest' });
+            clearTimeout(guideAvertTimer);
+            guideAvertTimer = setTimeout(() => a.classList.remove('visible'), 7000);
+        }
         function guideNettoyerEffets(garderPopup, garderDetails) {
             if (map && guideOuvertPopup && !garderPopup) { map.closePopup(); guideOuvertPopup = false; }
             if (guideOuvertDetails && !garderDetails) {
@@ -9841,6 +10031,8 @@ if (btnToggleLieux) {
         }
         function guideRestaurerEffets() {
             guideNettoyerEffets(false, false);
+            guideRestaurerRoadtrip();
+            guideFermerLegende();
             if (map && guideCarnetActive) { if (carnetVisibles) toggleCarnet(); guideCarnetActive = false; }
             const e = guideMenuEtatInitial;
             if (map && e && e.vue) map.setView(e.vue, e.zoom, { animate: false });
@@ -9853,6 +10045,87 @@ if (btnToggleLieux) {
             pp.style.bottom = haut ? 'auto' : '';
             pp.style.maxHeight = haut ? '34vh' : '';
         }
+
+        // --- Étapes « road trip » de la page Sud Bretagne ---
+        // La présentation est centrée sur le seul road trip « sudbretagne » (ROADTRIP_PAR_DEFAUT) :
+        // sa sélection dans la liste, sa protection, son chargement dans le Carnet. Aucun tirage au sort.
+        function guideSelectRt() { return document.getElementById('roadtrip-select'); }
+        function guideCleRtPage() {
+            const rts = getSavedRoadtrips();
+            return Object.keys(rts).find(n => rts[n] && rts[n].source === 'github' && estRoadtripVerrouille(n, rts[n])) || null;
+        }
+        function guideNbLieuxRtPage() {
+            const cle = guideCleRtPage();
+            const rt = cle ? getSavedRoadtrips()[cle] : null;
+            return rt ? (rt.savedSpotIds || []).length : 0;
+        }
+        function guideListeRoadtrips(deployer) {
+            const sel = guideSelectRt();
+            if (!sel) return;
+            if (deployer) sel.size = Math.max(2, Math.min(sel.options.length, 7));
+            else sel.removeAttribute('size');
+        }
+        function guideListeCarnet(deployer) {
+            const sel = document.getElementById('notebook-select');
+            if (!sel) return;
+            if (deployer) sel.size = Math.max(2, Math.min(sel.options.length, 8));
+            else sel.removeAttribute('size');
+        }
+        function guideDeployerCarnet() {
+            const afficher = () => {
+                if (guideMenuActif && GUIDE_MENU_ETAPES[guideMenuIdx].listeCarnet) { guideListeCarnet(true); positionnerGuideMenu(); }
+            };
+            afficher();
+            // le chargement du road trip peut finir juste après : on redéploie la liste une fois remplie
+            [300, 900].forEach(d => setTimeout(afficher, d));
+        }
+        // Sélectionne « sudbretagne » dans la liste (sans le charger : c'est l'étape suivante qui le fait).
+        function guideSelectionnerRtPage() {
+            const sel = guideSelectRt(), cle = guideCleRtPage();
+            if (sel && cle) sel.value = cle;
+        }
+        function guidePreparerListeRoadtrips() {
+            const ouvrirSection = () => {
+                const c = document.getElementById('road-sec-chargement');
+                if (c && !c.classList.contains('ouverte')) toggleRoadSousSection('road-sec-chargement');
+                refreshRoadtripSelect();
+                guideSelectionnerRtPage();
+                if (guideMenuActif && GUIDE_MENU_ETAPES[guideMenuIdx].listeRt) {
+                    guideListeRoadtrips(true);
+                    const n = guideNbLieuxRtPage();
+                    if (n) document.getElementById('pres-texte').innerHTML =
+                        `Cette page est consacrée au road trip <b>« sudbretagne »</b> (🌐 partagé, <b>${n} lieux</b>) : il est <b>sélectionné</b> dans la liste des road trips, ici dépliée. Les autres parcours partagés et vos propres road trips (📍) figurent dans la même liste.`;
+                    positionnerGuideMenu();
+                }
+            };
+            ouvrirSection();
+            // Les road trips partagés se chargent en ligne : on rafraîchit la liste dès qu'ils sont là.
+            assurerRoadtripsGithubCharges().then(ouvrirSection).catch(() => {});
+        }
+        function guideAfficherSelectionRtPage() {
+            guideListeRoadtrips(false);
+            guideSelectionnerRtPage();
+        }
+        // Charge « sudbretagne » dans le Carnet, sauf s'il y est déjà (cas normal : chargé à l'ouverture de la page).
+        function guideChargerRtPage() {
+            guideListeRoadtrips(false);
+            const sel = guideSelectRt(), cle = guideCleRtPage();
+            if (!sel || !cle) return;
+            sel.value = cle;
+            const rt = getSavedRoadtrips()[cle];
+            const dejaCharge = (rt.savedSpotIds || []).every(id => savedSpotIds.includes(id))
+                && (rt.customSpots || []).every(s => customSpots.some(c => c.id === s.id));
+            if (!dejaCharge) sel.dispatchEvent(new Event('change'));   // déclenche le chargement automatique dans le Carnet
+            const n = (rt.savedSpotIds || []).length;
+            document.getElementById('pres-texte').innerHTML =
+                `Le road trip <b>« sudbretagne »</b> (${n} lieux) est <b>chargé automatiquement dans le Carnet</b> dès qu'il est sélectionné dans la liste, sans bouton « Charger » à presser : c'est ce qui se passe à l'ouverture de cette page. Choisir un autre road trip dans la liste remplacerait le contenu du Carnet.`;
+        }
+        function guideRestaurerRoadtrip() {
+            guideListeRoadtrips(false);
+            guideListeCarnet(false);
+        }
+
+
         let guideMenuActif = false;
         let guideMenuIdx = 0;
         let guideMenuEtatInitial = null;
@@ -9889,8 +10162,42 @@ if (btnToggleLieux) {
             afficherEtapeGuideMenu();
         }
 
+        // Sortie « en cours de route » (clic en dehors, bouton Fermer, touche Échap) : on propose de
+        // quitter, de revoir depuis le début ou de reprendre. À la dernière étape, on ferme directement.
+        function guideSortieOuverte() {
+            const s = document.getElementById('pres-sortie');
+            return !!(s && s.classList.contains('visible'));
+        }
+        function masquerSortieGuideMenu() {
+            const s = document.getElementById('pres-sortie');
+            if (s) s.classList.remove('visible');
+        }
+        function sortirGuideMenu() {
+            if (!guideMenuActif) return;
+            if (guideSortieOuverte()) { reprendreGuideMenu(); return; }
+            if (guideMenuIdx >= GUIDE_MENU_ETAPES.length - 1) { fermerGuideMenu(); return; }
+            document.getElementById('pres-sortie-etape').textContent =
+                `Vous en étiez à l'étape ${guideMenuIdx + 1} sur ${GUIDE_MENU_ETAPES.length}.`;
+            document.getElementById('pres-sortie').classList.add('visible');
+        }
+        function reprendreGuideMenu() {
+            masquerSortieGuideMenu();
+            if (guideMenuActif) positionnerGuideMenu();
+        }
+        function revoirGuideMenuDepuisDebut() {
+            masquerSortieGuideMenu();
+            if (!guideMenuActif) return;
+            guideMenuIdx = 0;
+            afficherEtapeGuideMenu();
+        }
+        function quitterGuideMenu() {
+            masquerSortieGuideMenu();
+            fermerGuideMenu();
+        }
+
         function fermerGuideMenu() {
             if (!guideMenuActif) return;
+            masquerSortieGuideMenu();
             guideMenuActif = false;
             guideRestaurerEffets();
             guidePlacerPanneau(null);
@@ -9923,12 +10230,16 @@ if (btnToggleLieux) {
                 const b = document.querySelector(`.tabs-bar .tab-btn[data-tab="${e.onglet}"]`);
                 if (b) activerOngletMenu(b);
             }
+            const av = document.getElementById('pres-avertissement'); if (av) av.classList.remove('visible');
             document.getElementById('pres-etape').textContent = `Étape ${guideMenuIdx + 1}/${GUIDE_MENU_ETAPES.length}`;
             document.getElementById('pres-titre').textContent = e.titre;
             document.getElementById('pres-texte').innerHTML = e.texte;
             document.getElementById('pres-prec').disabled = (guideMenuIdx === 0);
             document.getElementById('pres-suiv').textContent = (guideMenuIdx === GUIDE_MENU_ETAPES.length - 1) ? 'Terminer ✓' : 'Suivant ▶';
             guideNettoyerEffets(!!e.garderPopup, !!e.garderDetails);
+            if (!e.listeRt) guideListeRoadtrips(false);
+            if (!e.listeCarnet) guideListeCarnet(false);
+            if (!e.legende) guideFermerLegende();
             const jeton = ++guideMenuJeton;
             if (e.action) { try { e.action(); } catch (err) { console.warn('Guide : action impossible', err); } }
             positionnerGuideMenu();
@@ -9954,10 +10265,79 @@ if (btnToggleLieux) {
             sp.style.top = (r.top - m) + 'px';
             sp.style.width = (r.width + 2 * m) + 'px';
             sp.style.height = (r.height + 2 * m) + 'px';
+            guidePlacerBlocs(r, m);
         }
 
+        // Les 4 bandes entourent la zone éclairée (qui reste libre pour cliquer, ouvrir un menu,
+        // suivre un lien, faire défiler…). Sans cible visible, elles couvrent tout l'écran.
+        function guidePlacerBlocs(r, m) {
+            const W = innerWidth, H = innerHeight;
+            const vide = !(r.width > 0 || r.height > 0);
+            const x0 = vide ? 0 : Math.max(0, r.left - m), y0 = vide ? 0 : Math.max(0, r.top - m);
+            const x1 = vide ? W : Math.min(W, r.left + r.width + m), y1 = vide ? H : Math.min(H, r.top + r.height + m);
+            const set = (id, l, t2, w, h) => {
+                const el = document.getElementById(id);
+                if (!el) return;
+                el.style.left = l + 'px'; el.style.top = t2 + 'px';
+                el.style.width = Math.max(0, w) + 'px'; el.style.height = Math.max(0, h) + 'px';
+            };
+            if (vide) { set('pres-bloc-h', 0, 0, W, H); set('pres-bloc-b', 0, 0, 0, 0); set('pres-bloc-g', 0, 0, 0, 0); set('pres-bloc-d', 0, 0, 0, 0); return; }
+            set('pres-bloc-h', 0, 0, W, y0);
+            set('pres-bloc-b', 0, y1, W, H - y1);
+            set('pres-bloc-g', 0, y0, x0, y1 - y0);
+            set('pres-bloc-d', x1, y0, W - x1, y1 - y0);
+        }
+
+        // Retour à la présentation après une action dans la zone éclairée : la zone suit sa cible
+        // (qui peut bouger : menu ouvert, liste défilée, carte déplacée…) ; si la cible a disparu
+        // (menu refermé par l'action, par exemple), l'état de l'étape est rétabli.
+        let guideResyncTimers = [];
+        function guideResynchroniser() {
+            if (!guideMenuActif || guideSortieOuverte()) return;
+            const e = GUIDE_MENU_ETAPES[guideMenuIdx];
+            if (!e.rect) {
+                const c = document.querySelector(e.cible);
+                const rc = c ? c.getBoundingClientRect() : null;
+                if (!rc || (rc.width <= 0 && rc.height <= 0)) {
+                    const menu = document.getElementById('search-dropdown-menu');
+                    afficherEnteteGuideMenu(e.entete !== false);
+                    if (menu) menu.classList.toggle('collapsed-menu', !e.menu);
+                    if (e.onglet) {
+                        const b = document.querySelector(`.tabs-bar .tab-btn[data-tab="${e.onglet}"]`);
+                        if (b) activerOngletMenu(b);
+                    }
+                    if (e.listeRt) guideListeRoadtrips(true);
+                    if (e.listeCarnet) guideListeCarnet(true);
+                }
+            }
+            positionnerGuideMenu();
+        }
+        function guidePlanifierResync(ev) {
+            if (!guideMenuActif) return;
+            const t2 = ev && ev.target;
+            if (t2 && t2.closest && t2.closest('#pres-panel, #pres-sortie')) return;
+            guideResyncTimers.forEach(clearTimeout);
+            guideResyncTimers = [120, 500, 1200].map(d => setTimeout(guideResynchroniser, d));
+        }
+        ['click', 'change', 'input', 'pointerup', 'transitionend'].forEach(n => document.addEventListener(n, guidePlanifierResync, true));
+        document.addEventListener('scroll', guidePlanifierResync, true);
+
+        // Un lien suivi depuis la zone éclairée s'ouvre dans un nouvel onglet : la présentation n'est pas perdue.
+        document.addEventListener('click', (ev) => {
+            if (!guideMenuActif) return;
+            const a = ev.target.closest && ev.target.closest('a[href]');
+            if (!a || a.closest('#pres-panel, #pres-sortie')) return;
+            const cible = (a.getAttribute('target') || '').toLowerCase();
+            if (cible && cible !== '_self') return;
+            let u; try { u = new URL(a.href, location.href); } catch (err) { return; }
+            if (!/^https?:$/.test(u.protocol)) return;
+            if (u.origin === location.origin && u.pathname === location.pathname && u.search === location.search) return;
+            ev.preventDefault();
+            window.open(u.href, '_blank', 'noopener');
+        }, true);
+
         window.addEventListener('resize', positionnerGuideMenu);
-        document.addEventListener('keydown', (ev) => { if (ev.key === 'Escape') fermerGuideMenu(); });
+        document.addEventListener('keydown', (ev) => { if (ev.key === 'Escape') sortirGuideMenu(); });
 
         // PAS de lancement automatique sur ce site (il s'ouvre directement sur le road trip) : seule l'info-bulle
         // sur la loupe / l'ampoule est proposée à l'ouverture, sauf ouverture directe d'un road trip / d'un lieu
