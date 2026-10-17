@@ -1838,7 +1838,9 @@
         }
 
         /* --- Guide de présentation du menu 🔍 (lancé par le bouton 💡) : se ferme d'un clic en dehors de la fenêtre --- */
-        #pres-overlay { display: none; position: fixed; inset: 0; z-index: 5000; cursor: pointer; }
+        #pres-overlay { display: none; position: fixed; inset: 0; z-index: 5000; pointer-events: none; }
+        /* 4 bandes autour de la zone éclairée : un clic dessus quitte la présentation ; la zone éclairée, elle, reste cliquable */
+        .pres-bloc { position: fixed; left: 0; top: 0; width: 0; height: 0; pointer-events: auto; cursor: pointer; }
         #pres-overlay.visible { display: block; }
         #pres-spot {
             position: fixed; border-radius: 10px; border: 3px solid #4caf50;
@@ -1861,6 +1863,9 @@
         #pres-prec { background: #eee; color: #333; }
         #pres-prec:disabled { opacity: .4; cursor: default; }
         #pres-suiv { background: #2e7d32; color: white; }
+        #pres-avertissement { display: none; margin-top: 10px; padding: 8px 10px; border-radius: 8px; background: #fff3e0;
+            border: 1px solid #ffb74d; color: #7a4500; font-size: .8rem; line-height: 1.35; }
+        #pres-avertissement.visible { display: block; }
         #pres-panel .pres-hint { margin-top: 10px; font-size: .72rem; color: #999; text-align: center; }
         @media (max-width: 480px) { #pres-panel { bottom: 8px; padding: 14px; } }
         /* Choix proposé quand on sort de la présentation en cours de route */
@@ -2887,7 +2892,7 @@
             <!-- Guide de présentation du menu 🔍.
                  Un clic sur le voile (donc en dehors de la fenêtre #pres-panel) le ferme. Lancé par le bouton 💡. -->
             <div id="bulle-fonctionnalites" style="display:none;" onclick="demarrerGuideMenu()" role="tooltip">💡 Fonctionnalités du menu 🔍<br><small>Cliquez sur l'ampoule pour (re)voir la présentation</small></div>
-            <div id="pres-overlay" onclick="sortirGuideMenu()"><div id="pres-spot"></div></div>
+            <div id="pres-overlay"><div class="pres-bloc" id="pres-bloc-h" onclick="sortirGuideMenu()"></div><div class="pres-bloc" id="pres-bloc-b" onclick="sortirGuideMenu()"></div><div class="pres-bloc" id="pres-bloc-g" onclick="sortirGuideMenu()"></div><div class="pres-bloc" id="pres-bloc-d" onclick="sortirGuideMenu()"></div><div id="pres-spot"></div></div>
             <div id="pres-panel" style="display:none;" role="dialog" aria-label="Présentation du menu de recherche">
                 <div class="pres-etape" id="pres-etape"></div>
                 <h4 id="pres-titre"></h4>
@@ -2899,7 +2904,8 @@
                         <button type="button" id="pres-suiv" onclick="naviguerGuideMenu(1)">Suivant ▶</button>
                     </span>
                 </div>
-                <div class="pres-hint">Cliquez en dehors de cette fenêtre pour la quitter (vous pourrez aussi la reprendre ou la revoir depuis le début).</div>
+                <div id="pres-avertissement" role="alert"></div>
+                <div class="pres-hint">👆 Vous pouvez cliquer dans la zone éclairée pour essayer (menu, lien, ascenseur…) : la présentation reste là. Cliquez en dehors pour la quitter, la reprendre ou la revoir depuis le début.</div>
             </div>
             <div id="pres-sortie" onclick="if(event.target===this) reprendreGuideMenu();" role="dialog" aria-label="Quitter la présentation ?">
                 <div id="pres-sortie-carte">
@@ -9209,6 +9215,11 @@ if (btnToggleLieux) {
         }
 
         function demarrerGuideRoadtrip() {
+            // Impossible de lancer ce guide pendant la présentation du menu (les deux se superposeraient).
+            if (typeof guideMenuActif !== 'undefined' && guideMenuActif) {
+                guideAvertir('🧭 Le guide de création de road trip ne peut pas être lancé pendant la présentation. Terminez-la (ou quittez-la), puis cliquez sur le bouton 🧭.');
+                return;
+            }
             guideRoadtripActif = true;
             guideRoadtripEtapeIndex = 0;
             guideRoadtripModeLecture = false;
@@ -9792,7 +9803,7 @@ if (btnToggleLieux) {
             { cible: '.tabs-bar .tab-btn[data-tab="sous-menu-lieux"]', menu: true, onglet: 'sous-menu-lieux', titre: '📚 Base de Lieux',
               texte: `Les lieux enregistrés par l'administrateur (TP), modifiables par lui seul. Les lieux marqués « RT » appartiennent à un road trip.` },
             { cible: '#btn-guide-roadtrip', menu: false, titre: '🧭 Pour aller plus loin',
-              texte: `Le bouton vert 🧭 lance le guide pas à pas pour créer un road trip de A à Z, et le bouton ? ouvre l'aide générale.` },
+              texte: `Le bouton vert 🧭 lance le guide pas à pas pour créer un road trip de A à Z (il ne peut pas être lancé pendant cette présentation : terminez-la d'abord), et le bouton ? ouvre l'aide générale.` },
             { cible: '#chat-btn', entete: false, menu: false, titre: '💬 Le chat',
               texte: `Le bouton rond <b>💬</b>, en bas à droite de la carte, ouvre le <b>chat public</b> du site pour échanger avec les autres visiteurs (conseils de baignade, bons plans…).<br>✅ <b>Aucun compte requis</b> : il suffit de saisir un nom ou pseudo, puis votre message (200 caractères maximum, les liens ne sont pas cliquables).<br>👀 Les messages sont <b>publics</b> et hébergés par Cbox : ne donnez aucune information personnelle. Le chat est modéré et nécessite une connexion Internet.` },
             { cible: '#btn-nettoyer-carte', entete: false, menu: false, titre: '🧹 Nettoyer la carte',
@@ -9852,10 +9863,19 @@ if (btnToggleLieux) {
         function guideRectDetailsTexte() {
             const el = document.querySelector('#details-panel .details-scroll-body');
             if (!el) return null;
-            el.scrollTop = 0;
             const r = el.getBoundingClientRect();
             if (r.width <= 0 || r.height <= 0) return null;
             return { left: r.left, top: r.top, width: r.width, height: r.height };
+        }
+        let guideAvertTimer = null;
+        function guideAvertir(msg) {
+            const a = document.getElementById('pres-avertissement');
+            if (!a) { alert(msg); return; }
+            a.textContent = msg;
+            a.classList.add('visible');
+            a.scrollIntoView({ block: 'nearest' });
+            clearTimeout(guideAvertTimer);
+            guideAvertTimer = setTimeout(() => a.classList.remove('visible'), 7000);
         }
         function guideNettoyerEffets(garderPopup, garderDetails) {
             if (map && guideOuvertPopup && !garderPopup) { map.closePopup(); guideOuvertPopup = false; }
@@ -9884,7 +9904,23 @@ if (btnToggleLieux) {
         // --- Étapes « road trips » de la version BD « Où » ---
         // Affiche la liste complète des road trips (liste déroulée), en tire un au hasard parmi les
         // road trips partagés (🌐, chargés sans confirmation), puis le charge dans le Carnet.
-        let guideRtChoisi = null, guideRtPrecedent = null;
+        let guideRtChoisi = null, guideRtPrecedent = null, guideRtManuel = false;
+        function guideNbLieuxRt(nom) {
+            const rt = getSavedRoadtrips()[nom];
+            return rt ? (rt.savedSpotIds || []).length : 0;
+        }
+        function guideTexteChoixManuel() {
+            const n = guideNbLieuxRt(guideRtChoisi);
+            return `✋ Vous avez choisi vous-même le road trip <b>« ${guideRtChoisi} »</b> (${n} lieu${n > 1 ? 'x' : ''}) : <b>votre choix prime sur le tirage au sort</b> et sera celui chargé dans le Carnet.`;
+        }
+        // Un choix fait à la main dans la liste (clic réel, pas le chargement lancé par la présentation) prime sur le tirage au sort.
+        document.addEventListener('change', (ev) => {
+            if (!guideMenuActif || !ev.isTrusted || !ev.target || ev.target.id !== 'roadtrip-select' || !ev.target.value) return;
+            if (guideRtPrecedent === null) guideRtPrecedent = '';
+            guideRtChoisi = ev.target.value;
+            guideRtManuel = true;
+            if (GUIDE_MENU_ETAPES[guideMenuIdx].listeRt) document.getElementById('pres-texte').innerHTML = guideTexteChoixManuel();
+        }, true);
         function guideSelectRt() { return document.getElementById('roadtrip-select'); }
         function guideRtPartages() {
             const rts = getSavedRoadtrips();
@@ -9926,14 +9962,15 @@ if (btnToggleLieux) {
             if (!sel) return;
             const noms = guideRtPartages();
             const txt = document.getElementById('pres-texte');
-            if (!noms.length) {
+            if (!noms.length && !guideRtManuel) {
                 txt.innerHTML = `Un road trip est tiré au sort parmi les parcours partagés. <i>(Les road trips partagés ne sont pas encore chargés : vérifiez votre connexion.)</i>`;
                 return;
             }
             if (guideRtPrecedent === null) guideRtPrecedent = sel.value || '';
-            if (!guideRtChoisi || !noms.includes(guideRtChoisi)) guideRtChoisi = noms[Math.floor(Math.random() * noms.length)];
+            if (!guideRtChoisi || (!guideRtManuel && !noms.includes(guideRtChoisi))) { guideRtChoisi = noms[Math.floor(Math.random() * noms.length)]; guideRtManuel = false; }
             guideListeRoadtrips(true);
             sel.value = guideRtChoisi;
+            if (guideRtManuel) { txt.innerHTML = guideTexteChoixManuel(); return; }
             const rt = getSavedRoadtrips()[guideRtChoisi];
             const n = (rt.savedSpotIds || []).length;
             txt.innerHTML = `🎲 Le sort désigne le road trip <b>« ${guideRtChoisi} »</b> (${n} lieu${n > 1 ? 'x' : ''}), choisi au hasard parmi les parcours partagés.`;
@@ -9944,7 +9981,7 @@ if (btnToggleLieux) {
             if (!sel || !guideRtChoisi) return;
             guideListeRoadtrips(false);
             sel.value = guideRtChoisi;
-            sel.dispatchEvent(new Event('change'));   // déclenche le chargement automatique dans le Carnet
+            if (!guideRtManuel) sel.dispatchEvent(new Event('change'));   // tirage au sort : déclenche le chargement automatique (un choix manuel est déjà chargé)
             const rt = getSavedRoadtrips()[guideRtChoisi];
             const n = rt ? (rt.savedSpotIds || []).length : 0;
             document.getElementById('pres-texte').innerHTML =
@@ -9954,7 +9991,7 @@ if (btnToggleLieux) {
             // Le road trip tiré au sort reste chargé dans le Carnet à la fermeture de la présentation.
             guideListeRoadtrips(false);
             guideListeCarnet(false);
-            guideRtChoisi = null; guideRtPrecedent = null;
+            guideRtChoisi = null; guideRtPrecedent = null; guideRtManuel = false;
         }
 
         let guideMenuActif = false;
@@ -10018,7 +10055,7 @@ if (btnToggleLieux) {
         function revoirGuideMenuDepuisDebut() {
             masquerSortieGuideMenu();
             if (!guideMenuActif) return;
-            guideRtChoisi = null;   // nouveau tirage au sort à l'étape 5
+            guideRtChoisi = null; guideRtManuel = false;   // nouveau tirage au sort à l'étape 5
             guideMenuIdx = 0;
             afficherEtapeGuideMenu();
         }
@@ -10062,6 +10099,7 @@ if (btnToggleLieux) {
                 const b = document.querySelector(`.tabs-bar .tab-btn[data-tab="${e.onglet}"]`);
                 if (b) activerOngletMenu(b);
             }
+            const av = document.getElementById('pres-avertissement'); if (av) av.classList.remove('visible');
             document.getElementById('pres-etape').textContent = `Étape ${guideMenuIdx + 1}/${GUIDE_MENU_ETAPES.length}`;
             document.getElementById('pres-titre').textContent = e.titre;
             document.getElementById('pres-texte').innerHTML = e.texte;
@@ -10095,7 +10133,76 @@ if (btnToggleLieux) {
             sp.style.top = (r.top - m) + 'px';
             sp.style.width = (r.width + 2 * m) + 'px';
             sp.style.height = (r.height + 2 * m) + 'px';
+            guidePlacerBlocs(r, m);
         }
+
+        // Les 4 bandes entourent la zone éclairée (qui reste libre pour cliquer, ouvrir un menu,
+        // suivre un lien, faire défiler…). Sans cible visible, elles couvrent tout l'écran.
+        function guidePlacerBlocs(r, m) {
+            const W = innerWidth, H = innerHeight;
+            const vide = !(r.width > 0 || r.height > 0);
+            const x0 = vide ? 0 : Math.max(0, r.left - m), y0 = vide ? 0 : Math.max(0, r.top - m);
+            const x1 = vide ? W : Math.min(W, r.left + r.width + m), y1 = vide ? H : Math.min(H, r.top + r.height + m);
+            const set = (id, l, t2, w, h) => {
+                const el = document.getElementById(id);
+                if (!el) return;
+                el.style.left = l + 'px'; el.style.top = t2 + 'px';
+                el.style.width = Math.max(0, w) + 'px'; el.style.height = Math.max(0, h) + 'px';
+            };
+            if (vide) { set('pres-bloc-h', 0, 0, W, H); set('pres-bloc-b', 0, 0, 0, 0); set('pres-bloc-g', 0, 0, 0, 0); set('pres-bloc-d', 0, 0, 0, 0); return; }
+            set('pres-bloc-h', 0, 0, W, y0);
+            set('pres-bloc-b', 0, y1, W, H - y1);
+            set('pres-bloc-g', 0, y0, x0, y1 - y0);
+            set('pres-bloc-d', x1, y0, W - x1, y1 - y0);
+        }
+
+        // Retour à la présentation après une action dans la zone éclairée : la zone suit sa cible
+        // (qui peut bouger : menu ouvert, liste défilée, carte déplacée…) ; si la cible a disparu
+        // (menu refermé par l'action, par exemple), l'état de l'étape est rétabli.
+        let guideResyncTimers = [];
+        function guideResynchroniser() {
+            if (!guideMenuActif || guideSortieOuverte()) return;
+            const e = GUIDE_MENU_ETAPES[guideMenuIdx];
+            if (!e.rect) {
+                const c = document.querySelector(e.cible);
+                const rc = c ? c.getBoundingClientRect() : null;
+                if (!rc || (rc.width <= 0 && rc.height <= 0)) {
+                    const menu = document.getElementById('search-dropdown-menu');
+                    afficherEnteteGuideMenu(e.entete !== false);
+                    if (menu) menu.classList.toggle('collapsed-menu', !e.menu);
+                    if (e.onglet) {
+                        const b = document.querySelector(`.tabs-bar .tab-btn[data-tab="${e.onglet}"]`);
+                        if (b) activerOngletMenu(b);
+                    }
+                    if (e.listeRt) guideListeRoadtrips(true);
+                    if (e.listeCarnet) guideListeCarnet(true);
+                }
+            }
+            positionnerGuideMenu();
+        }
+        function guidePlanifierResync(ev) {
+            if (!guideMenuActif) return;
+            const t2 = ev && ev.target;
+            if (t2 && t2.closest && t2.closest('#pres-panel, #pres-sortie')) return;
+            guideResyncTimers.forEach(clearTimeout);
+            guideResyncTimers = [120, 500, 1200].map(d => setTimeout(guideResynchroniser, d));
+        }
+        ['click', 'change', 'input', 'pointerup', 'transitionend'].forEach(n => document.addEventListener(n, guidePlanifierResync, true));
+        document.addEventListener('scroll', guidePlanifierResync, true);
+
+        // Un lien suivi depuis la zone éclairée s'ouvre dans un nouvel onglet : la présentation n'est pas perdue.
+        document.addEventListener('click', (ev) => {
+            if (!guideMenuActif) return;
+            const a = ev.target.closest && ev.target.closest('a[href]');
+            if (!a || a.closest('#pres-panel, #pres-sortie')) return;
+            const cible = (a.getAttribute('target') || '').toLowerCase();
+            if (cible && cible !== '_self') return;
+            let u; try { u = new URL(a.href, location.href); } catch (err) { return; }
+            if (!/^https?:$/.test(u.protocol)) return;
+            if (u.origin === location.origin && u.pathname === location.pathname && u.search === location.search) return;
+            ev.preventDefault();
+            window.open(u.href, '_blank', 'noopener');
+        }, true);
 
         window.addEventListener('resize', positionnerGuideMenu);
         document.addEventListener('keydown', (ev) => { if (ev.key === 'Escape') sortirGuideMenu(); });
