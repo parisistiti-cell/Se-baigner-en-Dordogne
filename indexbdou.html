@@ -3423,32 +3423,61 @@
         // --- Lien de recherche : ?recherche=Brantôme -----------------------------------------
         // Utilisé par la BD « lieux » : le bouton Carte demande un lieu puis ouvre cette page avec
         // ?recherche=<texte>. On exécute la même recherche que la barre de recherche (lieux déjà
-        // connus d'abord, puis OpenStreetMap/Photon), on centre la carte sur le meilleur résultat
-        // et on ouvre sa fiche. Si rien n'est trouvé, le texte est mis dans la barre de recherche
-        // pour que la personne choisisse elle-même. (Le paramètre ?lieu=... reste, lui, réservé à
-        // l'identifiant d'un lieu précis, cf. ouvrirLieuDepuisLien.)
+        // connus d'abord, puis OpenStreetMap/Photon).
+        //  - Lieu trouvé : le repère est posé, la carte centrée et le petit menu (popup) ouvert ;
+        //    la présentation du menu 🔍 N'est PAS lancée.
+        //  - Lieu introuvable : un message l'indique, puis la présentation est lancée normalement.
+        // (Le paramètre ?lieu=... reste, lui, réservé à l'identifiant d'un lieu précis, cf.
+        // ouvrirLieuDepuisLien.)
+        function afficherMessageLieuIntrouvable(texte) {
+            if (!document.body) return;
+            let el = document.getElementById('msg-lieu-introuvable');
+            if (!el) {
+                el = document.createElement('div');
+                el.id = 'msg-lieu-introuvable';
+                el.setAttribute('role', 'alert');
+                el.style.cssText = 'position:fixed;top:14px;left:50%;transform:translateX(-50%);max-width:min(92vw,460px);' +
+                    'background:#7a1f1f;color:#fff;font-weight:bold;font-size:0.92rem;text-align:center;padding:12px 18px;' +
+                    'border-radius:10px;box-shadow:0 4px 14px rgba(0,0,0,0.35);z-index:6000;cursor:pointer;';
+                el.addEventListener('click', () => { el.style.display = 'none'; });
+                document.body.appendChild(el);
+            }
+            el.textContent = texte;
+            el.style.display = 'block';
+            clearTimeout(el._timeoutId);
+            el._timeoutId = setTimeout(() => { el.style.display = 'none'; }, 9000);
+        }
+
+        function appliquerSuiteRechercheLien() {
+            if (!guideInitialPret || rechercheLienResultat === null) return;
+            if (rechercheLienResultat) afficherBulleFonctionnalites(12000);
+            else if (!guideRoadtripActif) demarrerGuideMenu();
+        }
+
+        function terminerRechercheLien(trouve, message) {
+            if (rechercheLienResultat !== null) return;
+            rechercheLienResultat = trouve;
+            if (!trouve) afficherMessageLieuIntrouvable(message);
+            appliquerSuiteRechercheLien();
+        }
+
         async function ouvrirRechercheDepuisLien() {
-            const params = new URLSearchParams(window.location.search);
-            const texte = (params.get('recherche') || '').trim();
+            const texte = rechercheLieuDemandee;
             if (!texte) return;
 
             window.history.replaceState({}, '', window.location.origin + window.location.pathname + window.location.hash);
 
-            const pret = await attendreCarte();
-            if (!pret) { console.warn('Recherche depuis le lien : carte non initialisée.'); return; }
+            const introuvable = '🔎 Lieu « ' + texte + ' » introuvable sur la carte. Voici la présentation du site.';
 
-            const laisserChoisir = () => {
-                const champ = document.getElementById('search-input');
-                if (!champ) return;
-                champ.value = texte;
-                champ.dispatchEvent(new Event('input', { bubbles: true }));
-            };
+            const pret = await attendreCarte();
+            if (!pret) { terminerRechercheLien(false, introuvable); return; }
 
             // 1. Coordonnées GPS saisies
             const coords = parseCoordonnees(texte);
             if (coords) {
                 map.setView([coords.lat, coords.lng], 15);
                 afficherLieuClique(coords);
+                terminerRechercheLien(true);
                 return;
             }
 
@@ -3458,16 +3487,20 @@
             if (local) {
                 if (!markers[local.id]) createMarker(local);
                 triggerSelection(local);
+                terminerRechercheLien(true);
                 return;
             }
 
             // 3. Recherche publique (OpenStreetMap via Photon), comme la barre de recherche
             try {
-                const rep = await fetch(`https://photon.komoot.io/api/?q=${encodeURIComponent(texte)}&lang=fr&limit=1&bbox=-25.0,34.0,45.0,72.0`);
+                const ctrl = (typeof AbortController !== 'undefined') ? new AbortController() : null;
+                const minuteur = setTimeout(() => { if (ctrl) ctrl.abort(); }, 8000);
+                const rep = await fetch(`https://photon.komoot.io/api/?q=${encodeURIComponent(texte)}&lang=fr&limit=1&bbox=-25.0,34.0,45.0,72.0`, ctrl ? { signal: ctrl.signal } : undefined);
+                clearTimeout(minuteur);
                 if (!rep.ok) throw new Error('HTTP ' + rep.status);
                 const data = await rep.json();
                 const feat = data && data.features && data.features[0];
-                if (!feat) { laisserChoisir(); return; }
+                if (!feat) { terminerRechercheLien(false, introuvable); return; }
                 const props = feat.properties || {};
                 const nom = props.name || props.street || texte;
                 const contexte = [props.postcode, props.city].filter(Boolean).join(' ');
@@ -3483,9 +3516,10 @@
                 allSpots.push(spot);
                 createMarker(spot);
                 triggerSelection(spot);
+                terminerRechercheLien(true);
             } catch (e) {
                 console.warn('Recherche depuis le lien : service de recherche indisponible.', e);
-                laisserChoisir();
+                terminerRechercheLien(false, '🔎 Recherche de « ' + texte + ' » impossible pour le moment. Voici la présentation du site.');
             }
         }
 
@@ -8431,7 +8465,12 @@ if (btnToggleLieux) {
         // carnet, ferme la fiche du lieu ouverte et recadre la carte sur tout le road trip —
         // s'exécutait juste après l'ouverture du lien et faisait disparaître le lieu aussitôt
         // affiché.
-        const lienLieuDirectDemande = !!(new URLSearchParams(window.location.search).get('lieu') || new URLSearchParams(window.location.search).get('recherche'));
+        const rechercheLieuDemandee = (new URLSearchParams(window.location.search).get('recherche') || '').trim();
+        const lienLieuDirectDemande = !!(new URLSearchParams(window.location.search).get('lieu') || rechercheLieuDemandee);
+        // Résultat de la recherche venue de la BD (?recherche=) : null = en cours, true = lieu trouvé,
+        // false = introuvable. La présentation du menu 🔍 n'est lancée que dans ce dernier cas.
+        let rechercheLienResultat = null;
+        let guideInitialPret = false;
 
         // ==========================================
         // INITIALISATION À CHAQUE CONSULTATION DU SITE
@@ -10396,6 +10435,14 @@ if (btnToggleLieux) {
                 // les paramètres de suivi (fbclid, utm_*, gclid...) ne doivent pas le bloquer.
                 const _p = new URLSearchParams(window.location.search);
                 const lienDirect = _p.has('lieu') || _p.has('rt') || _p.has('carnet');
+                // Lien venant de la BD (?recherche=) : la présentation dépend du résultat de la recherche.
+                if (rechercheLieuDemandee) {
+                    guideInitialPret = true;
+                    appliquerSuiteRechercheLien();
+                    // Sécurité : si la recherche n'a rien donné après un long délai, on la considère introuvable.
+                    setTimeout(() => terminerRechercheLien(false, '🔎 Lieu « ' + rechercheLieuDemandee + ' » introuvable sur la carte. Voici la présentation du site.'), 15000);
+                    return;
+                }
                 if (!lienDirect && !guideRoadtripActif) demarrerGuideMenu();
                 else afficherBulleFonctionnalites(12000);
             }, 1200);
