@@ -3363,6 +3363,116 @@
             return promesseRoadtripsGithub;
         }
 
+        // --- Lien de recherche : ?recherche=Brantôme -----------------------------------------
+        // Utilisé par la BD « lieux » : le bouton Carte demande un lieu puis ouvre cette page avec
+        // ?recherche=<texte>. On exécute la même recherche que la barre de recherche (lieux déjà
+        // connus d'abord, puis OpenStreetMap/Photon).
+        //  - Lieu trouvé : le repère est posé, la carte centrée et le petit menu (popup) ouvert ;
+        //    la présentation du menu 🔍 N'est PAS lancée.
+        //  - Lieu introuvable : un message l'indique, puis la présentation est lancée normalement.
+        // Sur cette carte (page dédiée au road trip par défaut), le road trip s'ouvre d'abord comme
+        // d'habitude ; la recherche n'est exécutée qu'ensuite, pour que le lieu demandé reste affiché.
+        // (Le paramètre ?lieu=... reste, lui, réservé à l'identifiant d'un lieu précis, cf.
+        // ouvrirLieuDepuisLien.)
+        function afficherMessageLieuIntrouvable(texte) {
+            if (!document.body) return;
+            let el = document.getElementById('msg-lieu-introuvable');
+            if (!el) {
+                el = document.createElement('div');
+                el.id = 'msg-lieu-introuvable';
+                el.setAttribute('role', 'alert');
+                el.style.cssText = 'position:fixed;top:14px;left:50%;transform:translateX(-50%);max-width:min(92vw,460px);' +
+                    'background:#7a1f1f;color:#fff;font-weight:bold;font-size:0.92rem;text-align:center;padding:12px 18px;' +
+                    'border-radius:10px;box-shadow:0 4px 14px rgba(0,0,0,0.35);z-index:6000;cursor:pointer;';
+                el.addEventListener('click', () => { el.style.display = 'none'; });
+                document.body.appendChild(el);
+            }
+            el.textContent = texte;
+            el.style.display = 'block';
+            clearTimeout(el._timeoutId);
+            el._timeoutId = setTimeout(() => { el.style.display = 'none'; }, 9000);
+        }
+
+        function terminerRechercheLien(trouve, message) {
+            if (trouve) return; // lieu affiché : pas de présentation automatique
+            afficherMessageLieuIntrouvable(message);
+            const lancer = () => { if (!guideRoadtripActif) demarrerGuideMenu(); };
+            if (document.readyState === 'complete') setTimeout(lancer, 600);
+            else window.addEventListener('load', () => setTimeout(lancer, 1500), { once: true });
+        }
+
+        async function ouvrirRechercheDepuisLien() {
+            const texte = rechercheLieuDemandee;
+            if (!texte) return;
+
+            window.history.replaceState({}, '', window.location.origin + window.location.pathname + window.location.hash);
+
+            const introuvable = '🔎 Lieu « ' + texte + ' » introuvable sur la carte. Voici la présentation du site.';
+
+            const pret = await attendreCarte();
+            if (!pret) { terminerRechercheLien(false, introuvable); return; }
+
+            // Laisse d'abord le road trip par défaut s'afficher (points + fiche du barycentre, qui
+            // s'ouvre ~0,7 s après), sinon il recouvrirait le lieu demandé.
+            try {
+                await Promise.race([promesseRoadtripOuvert.catch(() => {}), new Promise(r => setTimeout(r, 10000))]);
+            } catch (e) {}
+            await new Promise(r => setTimeout(r, 1500));
+            const panneauDetails = document.getElementById('details-panel');
+            if (panneauDetails && panneauDetails.style.display !== 'none' && typeof closeDetails === 'function') closeDetails();
+            if (map) map.closePopup();
+
+            // 1. Coordonnées GPS saisies
+            const coords = parseCoordonnees(texte);
+            if (coords) {
+                map.setView([coords.lat, coords.lng], 15);
+                afficherLieuClique(coords);
+                terminerRechercheLien(true);
+                return;
+            }
+
+            // 2. Lieu déjà connu (Top 12, Carnet, Base de Lieux)
+            const q = texte.toLowerCase();
+            const local = allSpots.find(sp => sp.title && sp.title.toLowerCase().includes(q));
+            if (local) {
+                if (!markers[local.id]) createMarker(local);
+                triggerSelection(local);
+                terminerRechercheLien(true);
+                return;
+            }
+
+            // 3. Recherche publique (OpenStreetMap via Photon), comme la barre de recherche
+            try {
+                const ctrl = (typeof AbortController !== 'undefined') ? new AbortController() : null;
+                const minuteur = setTimeout(() => { if (ctrl) ctrl.abort(); }, 8000);
+                const rep = await fetch(`https://photon.komoot.io/api/?q=${encodeURIComponent(texte)}&lang=fr&limit=1&bbox=-25.0,34.0,45.0,72.0`, ctrl ? { signal: ctrl.signal } : undefined);
+                clearTimeout(minuteur);
+                if (!rep.ok) throw new Error('HTTP ' + rep.status);
+                const data = await rep.json();
+                const feat = data && data.features && data.features[0];
+                if (!feat) { terminerRechercheLien(false, introuvable); return; }
+                const props = feat.properties || {};
+                const nom = props.name || props.street || texte;
+                const contexte = [props.postcode, props.city].filter(Boolean).join(' ');
+                const spot = {
+                    id: 'custom-' + Date.now(),
+                    title: nom + (contexte ? ` (${contexte})` : ''),
+                    lat: feat.geometry.coordinates[1],
+                    lng: feat.geometry.coordinates[0],
+                    desc: [`Catégorie : ${props.type || 'Lieu-dit'}`, 'Trouvé via OpenStreetMap.'],
+                    img: null,
+                    isCustom: true
+                };
+                allSpots.push(spot);
+                createMarker(spot);
+                triggerSelection(spot);
+                terminerRechercheLien(true);
+            } catch (e) {
+                console.warn('Recherche depuis le lien : service de recherche indisponible.', e);
+                terminerRechercheLien(false, '🔎 Recherche de « ' + texte + ' » impossible pour le moment. Voici la présentation du site.');
+            }
+        }
+
         async function ouvrirLieuDepuisLien() {
             const params = new URLSearchParams(window.location.search);
             const spotId = params.get('lieu');
@@ -4162,7 +4272,7 @@ if (btnToggleLieux) {
         // lieu ciblé par ?lieu=ID qu'une fois ce chargement terminé (ou en échec), pour que
         // les lieux de la Base admin soient aussi trouvables, pas seulement les lieux Top 12
         // et Carnet (déjà présents dans allSpots dès le départ).
-        chargerBaseLieux().then(ouvrirLieuDepuisLien).catch(ouvrirLieuDepuisLien);
+        chargerBaseLieux().then(ouvrirLieuDepuisLien).catch(ouvrirLieuDepuisLien).then(ouvrirRechercheDepuisLien).catch(function (e) { console.warn('Recherche depuis le lien :', e); });
         // -------------------------------------------------------------------
 
         const headerEl = document.querySelector('header');
@@ -8333,6 +8443,9 @@ if (btnToggleLieux) {
         // carnet, ferme la fiche du lieu ouverte et recadre la carte sur tout le road trip —
         // s'exécutait juste après l'ouverture du lien et faisait disparaître le lieu aussitôt
         // affiché.
+        // Lien venant de la BD (?recherche=Brantôme) : capturé ICI, avant que l'ouverture du road trip
+        // par défaut ne retire les paramètres de l'adresse (cf. ouvrirRechercheDepuisLien).
+        const rechercheLieuDemandee = (new URLSearchParams(window.location.search).get('recherche') || '').trim();
         const lienLieuDirectDemande = !!(new URLSearchParams(window.location.search).get('lieu'));
 
         // Même principe pour ?roadtrip=NOM[&barycentre=1] (lien depuis une BD / un site externe) :
