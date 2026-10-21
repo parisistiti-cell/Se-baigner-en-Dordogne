@@ -1838,6 +1838,8 @@
 
         /* --- Guide de présentation du menu 🔍 (lancé par le bouton 💡) : se ferme d'un clic en dehors de la fenêtre --- */
         #pres-overlay { display: none; position: fixed; inset: 0; z-index: 5000; pointer-events: none; }
+        /* Pendant la présentation, les boutons des petites fenêtres de lieux sont inactifs (ils ouvriraient des fenêtres impossibles à fermer) */
+        body.pres-active .leaflet-popup .popup-btn { opacity: .45; cursor: not-allowed; }
         /* 4 bandes autour de la zone éclairée : un clic dessus quitte la présentation ; la zone éclairée, elle, reste cliquable */
         .pres-bloc { position: fixed; left: 0; top: 0; width: 0; height: 0; pointer-events: auto; cursor: pointer; }
         #pres-overlay.visible { display: block; }
@@ -10270,6 +10272,7 @@ if (btnToggleLieux) {
             };
             guideMenuActif = true;
             guideMenuIdx = 0;
+            document.body.classList.add('pres-active');
             document.getElementById('pres-overlay').classList.add('visible');
             document.getElementById('pres-panel').style.display = 'block';
             afficherEtapeGuideMenu();
@@ -10312,6 +10315,7 @@ if (btnToggleLieux) {
             if (!guideMenuActif) return;
             masquerSortieGuideMenu();
             guideMenuActif = false;
+            document.body.classList.remove('pres-active');
             guideRestaurerEffets();
             guidePlacerPanneau(null);
             document.getElementById('pres-overlay').classList.remove('visible');
@@ -10447,6 +10451,18 @@ if (btnToggleLieux) {
             if (u.origin === location.origin && u.pathname === location.pathname && u.search === location.search) return;
             ev.preventDefault();
             window.open(u.href, '_blank', 'noopener');
+        }, true);
+
+        // Pendant la présentation (étape « La petite fenêtre d'un lieu » notamment), les boutons de la
+        // petite fenêtre (Inscrire/Retirer, Partager, Lien direct, Détail, Éditer…) sont bloqués : les
+        // fenêtres qu'ils ouvriraient resteraient ouvertes à l'étape suivante, sans moyen de les fermer.
+        document.addEventListener('click', (ev) => {
+            if (!guideMenuActif) return;
+            const btn = ev.target.closest && ev.target.closest('.leaflet-popup .popup-btn');
+            if (!btn) return;
+            ev.preventDefault();
+            ev.stopImmediatePropagation();
+            guideAvertir("Pendant la présentation, les boutons de la petite fenêtre sont désactivés. Terminez ou quittez la présentation pour les utiliser.");
         }, true);
 
         window.addEventListener('resize', positionnerGuideMenu);
