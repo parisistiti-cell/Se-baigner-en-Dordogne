@@ -2705,7 +2705,7 @@
                     <ul>
                         <li><b>Respect de la vie privée 🔒</b> : vos recherches et les nouveaux repères que vous placez restent strictement privés — rien n'est envoyé ni diffusé sur un serveur public.</li>
                         <li style="color:#b00020;"><b>Le Top 12, les road trips partagés (🌐) et la base des lieux sont publics</b>, et modifiables par le seul administrateur du site (TP).</li>
-                        <li><b>Chat 💬</b> : le chat est hébergé par Cbox (service tiers) : aucun compte requis, seul un nom ou pseudo suffit. Les messages y sont publics et visibles de tous : ne communiquez aucune information personnelle.</li>
+                        <li><b>Chat 💬</b> : le chat est hébergé par Cbox (service tiers) : aucun compte requis, seul un nom ou pseudo suffit. Les messages y sont publics et visibles de tous : ne communiquez aucune information personnelle. Le chat ne se charge qu'après votre accord (bouton « Accepter et charger le chat ») : Cbox peut alors déposer des cookies et reçoit votre adresse IP.</li>
                         <li><b>Stockage local</b> : vos données personnelles (carnet, road trips personnels 📍, recherches récentes...) restent mémorisées uniquement sur votre appareil (stockage local du navigateur utilisé pour consulter le site) — jamais transmises ailleurs, et non partagées entre plusieurs appareils ou navigateurs.</li>
                         <li><b>Prévention 🌿</b> : un bandeau rappelle la sécurité et le respect des réglementations liées à la baignade.</li>
                         <li style="color:green;"><b>Site libre</b> : le code peut être repris et adapté à toute autre recherche de lieux (coins à champignons, road trip, etc.).</li>
@@ -10478,7 +10478,7 @@ if (btnToggleLieux) {
             { cible: '#btn-guide-roadtrip', menu: false, titre: '🧭 Pour aller plus loin',
               texte: `Le bouton vert 🧭 lance le guide pas à pas pour créer un road trip de A à Z (il ne peut pas être lancé pendant cette présentation : terminez-la d'abord), et le bouton ? ouvre l'aide générale.` },
             { cible: '#chat-btn', entete: false, menu: false, titre: '💬 Le chat',
-              texte: `Le bouton rond <b>💬</b>, en bas à droite de la carte, ouvre le <b>chat public</b> du site pour échanger avec les autres visiteurs (conseils de baignade, bons plans…).<br>✅ <b>Aucun compte requis</b> : il suffit de saisir un nom ou pseudo, puis votre message (200 caractères maximum, les liens ne sont pas cliquables).<br>👀 Les messages sont <b>publics</b> et hébergés par Cbox : ne donnez aucune information personnelle. Le chat est modéré et nécessite une connexion Internet.` },
+              texte: `Le bouton rond <b>💬</b>, en bas à droite de la carte, ouvre le <b>chat public</b> du site pour échanger avec les autres visiteurs (conseils de baignade, bons plans…).<br>✅ <b>Aucun compte requis</b> : il suffit de saisir un nom ou pseudo, puis votre message (200 caractères maximum, les liens ne sont pas cliquables).<br>👀 Les messages sont <b>publics</b> et hébergés par Cbox : ne donnez aucune information personnelle. Le chat est modéré et nécessite une connexion Internet.<br>🔒 Le chat ne se charge qu'<b>après votre accord</b> (bouton « Accepter et charger le chat ») : Cbox peut alors déposer des cookies et reçoit votre adresse IP.` },
             { cible: '#btn-nettoyer-carte', entete: false, menu: false, titre: '🧹 Nettoyer la carte',
               texte: `Le balai, sur le côté droit de la carte, retire d'un coup tous les repères affichés (sans rien supprimer de vos listes ni de vos réglages) : réaffichez ensuite une catégorie avec 🙈 et elle revient.<br><b style=\"color:#b00020;\">🔒 Toutes vos modifications (carnet, lieux édités, road trips…) restent sur votre appareil : elles ne sont jamais publiées.</b> Bonne exploration !` }
         ];
@@ -11031,7 +11031,7 @@ if (btnToggleLieux) {
                 <h3>💬 Discussion</h3>
                 <button id="chat-close" type="button" aria-label="Fermer le chat">×</button>
             </div>
-            <p class="chat-note">Chat public hébergé par Cbox : aucun compte requis, seul un nom ou pseudo suffit. Les messages sont visibles de tous, ne communiquez aucune information personnelle. Connexion Internet requise.</p>
+            <p class="chat-note">Chat public hébergé par Cbox (service tiers). Il ne se charge qu'après votre accord : en l'acceptant, Cbox peut déposer des cookies et reçoit votre adresse IP. Aucun compte requis, seul un nom ou pseudo suffit. Les messages sont visibles de tous, ne communiquez aucune information personnelle. Connexion Internet requise.</p>
             <div id="chat-container"></div>
         </div>
     </div>
@@ -11041,22 +11041,33 @@ if (btnToggleLieux) {
             var CHAT_URL = 'https://www5.cbox.ws/box/?boxid=967777&boxtag=Yceynw';
             var modal = document.getElementById('chat-modal');
             var loaded = false;
-            function ouvrir() {
-                modal.classList.add('visible');
+            var ok = false;
+            try { ok = sessionStorage.getItem('chat-ok') === '1'; } catch (e) {}
+            var cont = document.getElementById('chat-container');
+            function charger() {
                 if (loaded) return;
-                if (!navigator.onLine) {
-                    document.getElementById('chat-container').textContent = '📡 Le chat nécessite une connexion Internet.';
-                    return;
-                }
+                if (!navigator.onLine) { cont.textContent = '📡 Le chat nécessite une connexion Internet.'; return; }
                 loaded = true;
                 var f = document.createElement('iframe');
                 f.src = CHAT_URL;
-                f.setAttribute('allowtransparency', 'yes');
-                f.setAttribute('allow', 'autoplay');
-                f.setAttribute('frameborder', '0');
-                f.setAttribute('scrolling', 'auto');
-                f.setAttribute('title', 'Chat Cbox');
-                document.getElementById('chat-container').appendChild(f);
+                f.title = 'Chat Cbox';
+                f.setAttribute('referrerpolicy', 'no-referrer');
+                cont.textContent = '';
+                cont.appendChild(f);
+            }
+            function accepter() { ok = true; try { sessionStorage.setItem('chat-ok', '1'); } catch (e) {} charger(); }
+            function ouvrir() {
+                modal.classList.add('visible');
+                var cb = document.getElementById('chat-close'); if (cb) cb.focus();
+                if (loaded) return;
+                if (ok) { charger(); return; }
+                if (cont.firstChild) return;
+                var b = document.createElement('button');
+                b.type = 'button'; b.id = 'chat-accept';
+                b.textContent = 'Accepter et charger le chat';
+                b.style.cssText = 'padding:10px 16px;border:0;border-radius:6px;cursor:pointer;font:inherit;background:#0b3954;color:#fff;';
+                b.addEventListener('click', accepter);
+                cont.appendChild(b);
             }
             function fermer() { modal.classList.remove('visible'); }
             document.getElementById('chat-btn').addEventListener('click', ouvrir);
